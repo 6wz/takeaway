@@ -1,0 +1,8 @@
+﻿1：登陆stripe账号，密码，然后进入网址
+https://dashboard.stripe.com/phone-verification
+协助用户验证手机号码。
+
+2：stripe 中key的配置
+framework\library\stripe\stripe.class.php 中参数$sk和$pk修改为相应的支付参数
+
+3：导入数据表 ims_tiny_wmall_stripe.sql
