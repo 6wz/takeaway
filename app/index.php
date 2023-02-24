@@ -39,6 +39,21 @@ $template = $templates[$templateid];
 $_W['template'] = !empty($template) ? $template['name'] : 'default';
 $_W['styles'] = array();
 
+//设置语言
+if(!isset($_COOKIE['language'])){
+    setcookie('language' , 'zh-cn') ;
+    $_W['language'] = 'zh-cn' ;
+}else{
+    $_W['language']  = $_COOKIE['language'] ;
+}
+//设置货币单位
+if(!isset($_COOKIE['currency'])){
+    setcookie('currency' , 'RMB') ;
+    $_W['currency'] = 'RMB' ;
+}else{
+    $_W['currency']  = $_COOKIE['currency'] ;
+}
+
 if(!empty($template) && !empty($style)) {
 	$sql = "SELECT `variable`, `content` FROM " . tablename('site_styles_vars') . " WHERE `uniacid`=:uniacid AND `styleid`=:styleid";
 	$params = array();

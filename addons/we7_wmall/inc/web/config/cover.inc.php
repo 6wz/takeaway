@@ -11,7 +11,7 @@ global $_GPC;
 mload()->model("cover");
 $op = ((trim($_GPC['op']) ? trim($_GPC['op']) : 'index'));
 $routers = array(
-	'index'    => array('title' => '平台入口', 'url' => ivurl('pages/home/index', array(), true), 'do' => 'index'),
+	'index'    => array('title' => '平台入口', 'url' => imurl('wmall/home/index', array(), true), 'do' => 'wmall'),
 	'manage'   => array('title' => '商家管理入口', 'do' => 'manage', 'url' => imurl('manage/home/index', array(), true)),
 	'settle'   => array('title' => '商家入驻入口', 'do' => 'settle', 'url' => ivurl('pages/store/settle', array(), true)),
 	'delivery' => array('title' => '配送员入口', 'do' => 'delivery', 'url' => imurl('delivery/home/index', array(), true))
