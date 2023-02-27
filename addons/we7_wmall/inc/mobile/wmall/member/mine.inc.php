@@ -10,7 +10,7 @@ if( check_plugin_perm("spread") )
     pload()->model("spread");
     $spread = member_spread_bind();
 }
-$_W["page"]["title"] = "会员中心";
+$_W["page"]["title"] = language("会员中心");
 $user = $_W["member"];
 $user["nickname"] = $_W["member"]["nickname"];
 $user["avatar"] = $_W["member"]["avatar"];
@@ -23,15 +23,15 @@ $redpacket_nums = intval(pdo_fetchcolumn("select count(*) from " . tablename("ti
 $deliveryCard_status = check_plugin_perm("deliveryCard") && get_plugin_config("deliveryCard.card_apply_status");
 $redpacket_status = check_plugin_perm("shareRedpacket") || check_plugin_perm("freeLunch") || check_plugin_perm("superRedpacket");
 $slides = sys_fetch_slide("member");
-$urls = array( "coupon" => array( "title" => "我的代金券", "url" => imurl("wmall/member/coupon"), "css" => "", "icon" => "mypage_token.png" ), "address" => array( "title" => "我的地址", "url" => imurl("wmall/member/address"), "css" => "", "icon" => "mypage_location.png" ), "favorite" => array( "title" => "我的收藏", "url" => imurl("wmall/member/favorite"), "css" => "", "icon" => "mypage_star.png" ), "comment" => array( "title" => "我的评价", "url" => imurl("wmall/member/comment"), "css" => "", "icon" => "mypage_comment.png" ), "recharge" => array( "title" => "余额充值", "url" => imurl("wmall/member/recharge"), "css" => "", "icon" => "mypage_credit.png" ), "help" => array( "title" => "常见问题", "url" => imurl("wmall/home/help"), "css" => "", "icon" => "mypage_problem.png" ) );
+$urls = array( "coupon" => array( "title" => language("我的代金券"), "url" => imurl("wmall/member/coupon"), "css" => "", "icon" => "mypage_token.png" ), "address" => array( "title" => language("我的地址"), "url" => imurl("wmall/member/address"), "css" => "", "icon" => "mypage_location.png" ), "favorite" => array( "title" => language("我的收藏"), "url" => imurl("wmall/member/favorite"), "css" => "", "icon" => "mypage_star.png" ), "comment" => array( "title" => "我的评价", "url" => imurl("wmall/member/comment"), "css" => "", "icon" => "mypage_comment.png" ), "recharge" => array( "title" => language("余额充值"), "url" => imurl("wmall/member/recharge"), "css" => "", "icon" => "mypage_credit.png" ), "help" => array( "title" => language("常见问题"), "url" => imurl("wmall/home/help"), "css" => "", "icon" => "mypage_problem.png" ) );
 if( !empty($redpacket_status) )
 {
-    $urls["redpacket"] = array( "title" => "我的红包", "url" => imurl("wmall/member/redPacket"), "css" => "", "icon" => "mypage_token.png" );
+    $urls["redpacket"] = array( "title" => language("我的红包"), "url" => imurl("wmall/member/redPacket"), "css" => "", "icon" => "mypage_token.png" );
 }
 
 if( !empty($deliveryCard_status) )
 {
-    $urls["deliveryCard"] = array( "title" => "配送会员卡", "url" => imurl("deliveryCard/index"), "css" => "", "icon" => "mypage_vip.png" );
+    $urls["deliveryCard"] = array( "title" => language("配送会员卡"), "url" => imurl("deliveryCard/index"), "css" => "", "icon" => "mypage_vip.png" );
 }
 
 if( check_plugin_perm("shareRedpacket") )
@@ -39,14 +39,14 @@ if( check_plugin_perm("shareRedpacket") )
     $status = pdo_fetch("select id from " . tablename("tiny_wmall_shareredpacket") . " where uniacid = :uniacid and status = 1 and endtime > :time", array( ":uniacid" => $_W["uniacid"], ":time" => TIMESTAMP ));
     if( !empty($status) )
     {
-        $urls["shareRedpacket"] = array( "title" => "分享有礼", "url" => imurl("shareRedpacket/index"), "css" => "", "icon" => "mypage_share.png" );
+        $urls["shareRedpacket"] = array( "title" => language("分享有礼"), "url" => imurl("shareRedpacket/index"), "css" => "", "icon" => "mypage_share.png" );
     }
 
 }
 
 if( check_plugin_perm("ordergrant") && get_plugin_config("ordergrant.status") )
 {
-    $urls["ordergrant"] = array( "title" => "下单有礼", "url" => imurl("ordergrant/index"), "css" => "active", "icon" => "mypage_share.png" );
+    $urls["ordergrant"] = array( "title" => language("下单有礼"), "url" => imurl("ordergrant/index"), "css" => "active", "icon" => "mypage_share.png" );
 }
 
 if( check_plugin_perm("spread") )

@@ -1,15 +1,15 @@
-<?php 
+<?php
 defined("IN_IA") or exit( "Access Denied" );
 global $_W;
 global $_GPC;
 icheckauth();
-$_W["page"]["title"] = "我的收藏";
+$_W["page"]["title"] = language("我的收藏");
 $stores = pdo_fetchall("select a.id as aid, b.* from " . tablename("tiny_wmall_store_favorite") . " as a left join " . tablename("tiny_wmall_store") . " as b on a.sid = b.id where a.uniacid = :uniacid and a.uid = :uid order by a.id desc", array( ":uniacid" => $_W["uniacid"], ":uid" => $_W["member"]["uid"] ), "aid");
 $min = 0;
-if( !empty($stores) ) 
+if( !empty($stores) )
 {
     $store_label = category_store_label();
-    foreach( $stores as &$da ) 
+    foreach( $stores as &$da )
     {
         $da["business_hours"] = (array) iunserializer($da["business_hours"]);
         $da["is_in_business_hours"] = store_is_in_business_hours($da["business_hours"]);
@@ -18,23 +18,23 @@ if( !empty($stores) )
         $da["activity"]["num"] += (0 < $da["delivery_free_price"] ? 1 : 0);
         $da["score_cn"] = round($da["score"] / 5, 2) * 100;
         $da["url"] = store_forward_url($da["id"], $da["forward_mode"], $da["forward_url"]);
-        if( 0 < $da["label"] ) 
+        if( 0 < $da["label"] )
         {
             $da["label_color"] = $store_label[$da["label"]]["color"];
             $da["label_cn"] = $store_label[$da["label"]]["title"];
         }
 
-        if( $da["delivery_fee_mode"] == 2 ) 
+        if( $da["delivery_fee_mode"] == 2 )
         {
             $da["delivery_price"] = iunserializer($da["delivery_price"]);
             $da["delivery_price"] = $da["delivery_price"]["start_fee"];
         }
         else
         {
-            if( $da["delivery_fee_mode"] == 3 ) 
+            if( $da["delivery_fee_mode"] == 3 )
             {
                 $da["delivery_areas"] = iunserializer($da["delivery_areas"]);
-                if( !is_array($da["delivery_areas"]) ) 
+                if( !is_array($da["delivery_areas"]) )
                 {
                     $da["delivery_areas"] = array(  );
                 }

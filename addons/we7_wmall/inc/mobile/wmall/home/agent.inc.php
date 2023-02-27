@@ -1,21 +1,21 @@
-<?php 
+<?php
 defined("IN_IA") or exit( "Access Denied" );
 global $_W;
 global $_GPC;
 $ta = (trim($_GPC["ta"]) ? trim($_GPC["ta"]) : "index");
-if( $ta == "index" ) 
+if( $ta == "index" )
 {
-    $_W["page"]["title"] = "选择收货地址";
+    $_W["page"]["title"] = language("选择收货地址");
     icheckauth(false);
     $initials = pdo_fetchall("select distinct(initial) from " . tablename("tiny_wmall_agent") . " where uniacid = :uniacid and status = 1 order by initial", array( ":uniacid" => $_W["uniacid"] ));
     $agents = pdo_fetchall("select id,title,area,initial from " . tablename("tiny_wmall_agent") . " where uniacid = :uniacid and status = 1 order by displayorder desc", array( ":uniacid" => $_W["uniacid"] ));
-    if( !empty($initials) ) 
+    if( !empty($initials) )
     {
-        foreach( $initials as &$row ) 
+        foreach( $initials as &$row )
         {
-            foreach( $agents as $val ) 
+            foreach( $agents as $val )
             {
-                if( $row["initial"] == $val["initial"] ) 
+                if( $row["initial"] == $val["initial"] )
                 {
                     $row["agent"][] = $val;
                 }
@@ -25,7 +25,7 @@ if( $ta == "index" )
     }
 
     $agent = $agents[0];
-    if( !empty($_W["agent"]) ) 
+    if( !empty($_W["agent"]) )
     {
         $agent = $_W["agent"];
     }
@@ -33,7 +33,7 @@ if( $ta == "index" )
     $addresss = member_fetchall_address();
 }
 
-if( $ta == "suggestion" ) 
+if( $ta == "suggestion" )
 {
     load()->func("communication");
     $key = trim($_GPC["key"]);
@@ -42,20 +42,20 @@ if( $ta == "suggestion" )
     $query = array( "keywords" => $key, "city" => trim($_GPC["city"]), "output" => "json", "key" => "37bb6a3b1656ba7d7dc8946e7e26f39b", "citylimit" => "true" );
     $query = http_build_query($query);
     $result = ihttp_get("http://restapi.amap.com/v3/assistant/inputtips?" . $query);
-    if( is_error($result) ) 
+    if( is_error($result) )
     {
-        imessage(error(-1, "访问出错"), "", "ajax");
+        imessage(error(-1, language("访问出错")), "", "ajax");
     }
 
     $result = @json_decode($result["content"], true);
-    if( !empty($result["tips"]) ) 
+    if( !empty($result["tips"]) )
     {
-        foreach( $result["tips"] as $key => &$val ) 
+        foreach( $result["tips"] as $key => &$val )
         {
             $val["distance"] = 10000000;
             $val["distance_available"] = 0;
             $val["address_available"] = 1;
-            if( is_array($val["location"]) ) 
+            if( is_array($val["location"]) )
             {
                 unset($val[$key]);
             }
@@ -67,7 +67,7 @@ if( $ta == "suggestion" )
                 $val["distance"] = round($val["distance"] / 1000, 2);
             }
 
-            if( !is_array($val["address"]) ) 
+            if( !is_array($val["address"]) )
             {
                 $val["address"] = $val["district"] . $val["address"];
             }

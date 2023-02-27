@@ -1879,9 +1879,9 @@ function getcash_channels($type = "", $key = "all")
 
 }
 
-function language($key = '' , $params = []){
+function language($key = '' , $params = [] , $force_language=''){
     global $_W;
-    $language = $_W['language'] ;
+    $language = empty($force_language) ? $_W['language'] :  $force_language;
     $filename = IA_ROOT . "/addons/we7_wmall/language/" . $language . ".php";
     if(!is_file($filename)){
         return $key ;

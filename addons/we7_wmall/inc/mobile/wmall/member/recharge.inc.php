@@ -1,43 +1,43 @@
-<?php 
+<?php
 defined("IN_IA") or exit( "Access Denied" );
 global $_W;
 global $_GPC;
 icheckauth();
 $ta = (trim($_GPC["ta"]) ? trim($_GPC["ta"]) : "index");
-if( $ta == "index" ) 
+if( $ta == "index" )
 {
-    $_W["page"]["title"] = "账户充值";
+    $_W["page"]["title"] = language("账户充值");
     $config_recharge = $_W["we7_wmall"]["config"]["recharge"];
-    if( $config_recharge["status"] != 1 ) 
+    if( $config_recharge["status"] != 1 )
     {
-        imessage("平台暂未开启充值功能", imurl("wmall/member/mine"), "info");
+        imessage(language("平台暂未开启充值功能"), imurl("wmall/member/mine"), "info");
     }
 
     $recharges = $config_recharge["items"];
 }
 
-if( $ta == "submit" ) 
+if( $ta == "submit" )
 {
     $config_recharge = $_W["we7_wmall"]["config"]["recharge"];
-    if( $config_recharge["status"] != 1 ) 
+    if( $config_recharge["status"] != 1 )
     {
-        imessage(error(-1, "平台暂未开启充值功能"), "", "ajax");
+        imessage(error(-1, language("平台暂未开启充值功能")), "", "ajax");
     }
 
     $price = floatval($_GPC["price"]);
-    if( !$price || $price < 0 ) 
+    if( !$price || $price < 0 )
     {
-        imessage(error(-1, "充值金额必须大于0"), "", "ajax");
+        imessage(error(-1, language("充值金额必须大于0")), "", "ajax");
     }
 
     $tag = array( "credit2" => $price );
-    if( !empty($config_recharge["items"]) ) 
+    if( !empty($config_recharge["items"]) )
     {
-        foreach( $config_recharge["items"] as $item ) 
+        foreach( $config_recharge["items"] as $item )
         {
-            if( $item["charge"] == $price ) 
+            if( $item["charge"] == $price )
             {
-                if( !empty($item["back"]) && !empty($item["type"]) ) 
+                if( !empty($item["back"]) && !empty($item["type"]) )
                 {
                     $tag["grant"] = array( "type" => $item["type"], "back" => $item["back"] );
                 }
