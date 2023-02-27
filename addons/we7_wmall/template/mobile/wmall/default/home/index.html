@@ -8,8 +8,8 @@
 
 		<div class="search">
 			<div  style="position:absolute; cursor:pointer ; right:.5rem;top:.5rem;font-size: 0.5rem">
-				<a style="padding:0.1rem" onclick="changeLanguage()">切换中文</a>
-				<a style="padding:0.1rem"  onclick="changeCurrency()"> 切换人民币</a>
+				<a style="padding:0.1rem ;color: white" onclick="changeLanguage()">{if ($_W['language'] == 'zh-cn')}ภาษาไทย{else}中文{/if}</a>
+				<a style="padding:0.1rem ;color: white"  onclick="changeCurrency()">{if ($_W['currency'] == 'RMB')}บาท {else}人民币{/if}</a>
 			</div>
 			<span class="search-inner">
 				<i class="icon icon-lbs-fill"></i>
@@ -23,7 +23,7 @@
 
 
 			<a class="search-block" href="{php echo imurl('wmall/home/hunt');}">
-				<i class="icon icon-search"></i>输入商家、商品名称
+				<i class="icon icon-search"></i>{php echo language('输入商家、商品名称');}
 			</a>
 
 		</div>
@@ -477,11 +477,21 @@ require(['tiny'], function(tiny){
 });
 
 function changeLanguage(){
-	alert('22') ;
+	$.post("{php echo imurl('wmall/internation/language')}", {}, function(data) {
+		var result = $.parseJSON(data);
+		if(result.message.errno == 0) {
+			location.reload();
+		}
+	});
 }
 
 function changeCurrency(){
-	alert('33') ;
+	$.post("{php echo imurl('wmall/internation/currency')}", {'ta':'switch'}, function(data) {
+		var result = $.parseJSON(data);
+		if(result.message.errno == 0) {
+			location.reload();
+		}
+	});
 }
 
 </script>
