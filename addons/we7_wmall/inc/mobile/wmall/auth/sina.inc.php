@@ -17,7 +17,7 @@ if ($ta == 'index') {
 		echo Ashow;
 	}
 	 else {
-		echo "文件不存在";
+		echo language("文件不存在");
 	}
 
 	exit();

@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined("IN_IA") or exit( "Access Denied" );
 global $_W;
 global $_GPC;
@@ -6,7 +6,7 @@ mload()->model("plugin");
 pload()->model("majiaApp");
 $forward = trim($_GPC["forward"]);
 $token = trim($_GPC["token"]);
-if( empty($token) ) 
+if( empty($token) )
 {
     include(itemplate("auth/majia"));
     exit();
@@ -15,14 +15,14 @@ if( empty($token) )
 isetcookie("__majia_token", $token, 1800);
 $_GPC["__majia_token"] = $token;
 $userinfo = get_user_info();
-if( is_error($userinfo) ) 
+if( is_error($userinfo) )
 {
     imessage($userinfo["message"], "", "info");
 }
 
 $uid = intval($userinfo["user_id"]);
 $member = pdo_get("tiny_wmall_members", array( "uniacid" => $_W["uniacid"], "uid_majia" => $uid ));
-if( empty($member) ) 
+if( empty($member) )
 {
     $member = array( "uniacid" => $_W["uniacid"], "openid" => "", "uid" => date("His") . random(3, true), "uid_majia" => $uid, "mobile" => trim($userinfo["phone"]), "nickname" => trim($userinfo["name"]), "realname" => trim($userinfo["name"]), "sex" => ($userinfo["sex"] == 1 ? "男" : "女"), "avatar" => trim($userinfo["head"]), "is_sys" => 2, "status" => 1, "token" => random(32), "addtime" => TIMESTAMP, "salt" => random(6, true), "register_type" => "app" );
     $member["password"] = md5(md5($member["salt"] . trim($deviceid)) . $member["salt"]);
@@ -38,7 +38,7 @@ $cookie = array( "uid" => $member["uid"], "hash" => $member["password"] );
 $cookie = base64_encode(json_encode($cookie));
 $key = "we7_wmall_member_session_" . $_W["uniacid"];
 isetcookie($key, $cookie, 3600);
-if( empty($forward) ) 
+if( empty($forward) )
 {
     $forward = imurl("wmall/home/index");
 }
@@ -47,9 +47,9 @@ else
     $forward = $_W["siteroot"] . "app/index.php?" . base64_decode($_GPC["forward"]);
 }
 
-if( $_W["ispost"] ) 
+if( $_W["ispost"] )
 {
-    imessage(error(0, "成功"), $forward, "ajax");
+    imessage(error(0, language("成功")), $forward, "ajax");
 }
 
 header("location:" . $forward);

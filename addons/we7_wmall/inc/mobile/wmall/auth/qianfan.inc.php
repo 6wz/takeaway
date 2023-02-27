@@ -1,19 +1,19 @@
-<?php 
+<?php
 defined("IN_IA") or exit( "Access Denied" );
 global $_W;
 global $_GPC;
 $forward = trim($_GPC["forward"]);
-if( $_W["ispost"] ) 
+if( $_W["ispost"] )
 {
     $uid = intval($_GPC["uid"]);
     $deviceid = trim($_GPC["deviceid"]);
-    if( empty($uid) || empty($deviceid) ) 
+    if( empty($uid) || empty($deviceid) )
     {
-        imessage(error(-1, "登录失败"), "", "ajax");
+        imessage(error(-1, language("登录失败")), "", "ajax");
     }
 
     $member = pdo_get("tiny_wmall_members", array( "uniacid" => $_W["uniacid"], "uid_qianfan" => $uid ));
-    if( empty($member) ) 
+    if( empty($member) )
     {
         $member = array( "uniacid" => $_W["uniacid"], "openid" => "", "uid" => date("His") . random(3, true), "uid_qianfan" => $uid, "mobile" => trim($_GPC["phone"]), "nickname" => trim($_GPC["username"]), "realname" => trim($_GPC["username"]), "sex" => "", "avatar" => trim($_GPC["face"]), "is_sys" => 2, "status" => 1, "token" => random(32), "addtime" => TIMESTAMP, "salt" => random(6, true), "register_type" => "app" );
         $member["password"] = md5(md5($member["salt"] . trim($deviceid)) . $member["salt"]);
@@ -29,7 +29,7 @@ if( $_W["ispost"] )
     $cookie = base64_encode(json_encode($cookie));
     $key = "we7_wmall_member_session_" . $_W["uniacid"];
     isetcookie($key, $cookie, 3600);
-    if( empty($forward) ) 
+    if( empty($forward) )
     {
         $forward = imurl("wmall/home/index");
     }
@@ -38,7 +38,7 @@ if( $_W["ispost"] )
         $forward = $_W["siteroot"] . "app/index.php?" . base64_decode($_GPC["forward"]);
     }
 
-    imessage(error(0, "成功"), $forward, "ajax");
+    imessage(error(0, language("成功")), $forward, "ajax");
 }
 
 include(itemplate("auth/qianfan"));
