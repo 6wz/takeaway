@@ -1,0 +1,4 @@
+data/tpl
+.env
+.env.backup
+.idea
