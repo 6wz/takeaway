@@ -5,16 +5,27 @@
 	<span id="spread_code" class="hide">{$_GPC['code']}</span>
 	{php get_mall_menu();}
 	<div class="content">
+
 		<div class="search">
+			<div  style="position:absolute; cursor:pointer ; right:.5rem;top:.5rem;font-size: 0.5rem">
+				<a style="padding:0.1rem" onclick="changeLanguage()">切换中文</a>
+				<a style="padding:0.1rem"  onclick="changeCurrency()"> 切换人民币</a>
+			</div>
 			<span class="search-inner">
 				<i class="icon icon-lbs-fill"></i>
 				<a id="position" class="external" href="{php echo imurl('wmall/home/location');}">{if !empty($_GPC['address'])}{$_GPC['address']}{else}{$_GPC['__address']}{/if}</a>
 				<i class="icon icon-arrow-down-fill"></i>
 			</span>
-			<div id="tp-weather-widget" style="position:absolute;right:.5rem;top:.2rem;pointer-events: none;"></div>
+
+			<div id="tp-weather-widget" style="position:absolute;right:.5rem;top:.2rem;pointer-events: none;">
+
+			</div>
+
+
 			<a class="search-block" href="{php echo imurl('wmall/home/hunt');}">
 				<i class="icon icon-search"></i>输入商家、商品名称
 			</a>
+
 		</div>
 		<div id="fixed-searchbar-container"></div>
 		<div id="home-container">
@@ -464,16 +475,25 @@ require(['tiny'], function(tiny){
 		getStoreList();
 	{/if}
 });
+
+function changeLanguage(){
+	alert('22') ;
+}
+
+function changeCurrency(){
+	alert('33') ;
+}
+
 </script>
 {if !empty($config['seniverse'])}
 	{$config['seniverse']}
 {else}
-	<script>(function(T,h,i,n,k,P,a,g,e){g=function(){P=h.createElement(i);a=h.getElementsByTagName(i)[0];P.src=k;P.charset="utf-8";P.async=1;a.parentNode.insertBefore(P,a)};T["ThinkPageWeatherWidgetObject"]=n;T[n]||(T[n]=function(){(T[n].q=T[n].q||[]).push(arguments)});T[n].l=+new Date();if(T.attachEvent){T.attachEvent("onload",g)}else{T.addEventListener("load",g,false)}}(window,document,"script","tpwidget","//widget.seniverse.com/widget/chameleon.js"))</script>
+	<!--<script>(function(T,h,i,n,k,P,a,g,e){g=function(){P=h.createElement(i);a=h.getElementsByTagName(i)[0];P.src=k;P.charset="utf-8";P.async=1;a.parentNode.insertBefore(P,a)};T["ThinkPageWeatherWidgetObject"]=n;T[n]||(T[n]=function(){(T[n].q=T[n].q||[]).push(arguments)});T[n].l=+new Date();if(T.attachEvent){T.attachEvent("onload",g)}else{T.addEventListener("load",g,false)}}(window,document,"script","tpwidget","//widget.seniverse.com/widget/chameleon.js"))</script>
 	<script>
 		tpwidget("init", {
 			"flavor": "slim",
 			"location": "WX4FBXXFKE4F",
-			"geolocation": "enabled",
+			"geolocation": "enable",
 			"language": "zh-chs",
 			"unit": "c",
 			"theme": "chameleon",
@@ -485,7 +505,7 @@ require(['tiny'], function(tiny){
 			"hash": "165ced0b9eb27b0b5cf87185cc28a3ec"
 		});
 		tpwidget("show");
-	</script>
+	</script>-->
 {/if}
 {if !empty($config['meiqia'])}
 	{$config['meiqia']}
