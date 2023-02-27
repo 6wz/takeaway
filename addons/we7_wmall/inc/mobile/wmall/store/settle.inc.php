@@ -2,7 +2,7 @@
 defined("IN_IA") or exit( "Access Denied" );
 global $_W;
 global $_GPC;
-$_W["page"]["title"] = "商户入驻";
+$_W["page"]["title"] = language("商户入驻");
 icheckauth();
 $fans = mc_oauth_userinfo();
 $ta = (trim($_GPC["ta"]) ? trim($_GPC["ta"]) : "account");
@@ -10,13 +10,13 @@ $config_store = $_W["we7_wmall"]["config"]["store"];
 $config_store["settle"]["agreement"] = get_config_text("agreement_settle");
 if( $config_store["settle"]["status"] != 1 ) 
 {
-    imessage("暂时不支持商户入驻", referer(), "info");
+    imessage(language("暂时不支持商户入驻"), referer(), "info");
 }
 
 $perm = check_max_store_perm();
 if( empty($perm) ) 
 {
-    imessage("门店入驻量已超过上限,请联系公众号管理员", referer(), "info");
+    imessage(language("门店入驻量已超过上限,请联系公众号管理员"), referer(), "info");
 }
 
 $config_store["settle"]["qualification_verify_status"] = intval($config_store["settle"]["qualification_verify_status"]);
@@ -34,7 +34,7 @@ if( $ta == "account" )
         $mobile = trim($_GPC["mobile"]);
         if( !is_validMobile($mobile) ) 
         {
-            imessage(error(-1, "手机号格式错误"), "", "ajax");
+            imessage(error(-1, language("手机号格式错误")), "", "ajax");
         }
 
         if( $config_store["settle"]["mobile_verify_status"] == 1 ) 
@@ -43,7 +43,7 @@ if( $ta == "account" )
             $status = icheck_verifycode($mobile, $code);
             if( !$status ) 
             {
-                imessage(error(-1, "验证码错误"), "", "ajax");
+                imessage(error(-1, language("验证码错误")), "", "ajax");
             }
 
         }
@@ -51,26 +51,26 @@ if( $ta == "account" )
         $is_exist = pdo_fetchcolumn("select id from " . tablename("tiny_wmall_clerk") . " where uniacid = :uniacid and mobile = :mobile", array( ":uniacid" => $_W["uniacid"], ":mobile" => $mobile ));
         if( !empty($is_exist) ) 
         {
-            imessage(error(-1, "该手机号已绑定其他店员, 请更换手机号"), "", "ajax");
+            imessage(error(-1, language("该手机号已绑定其他店员, 请更换手机号")), "", "ajax");
         }
 
-        $openid = (trim($_GPC["openid"]) ? trim($_GPC["openid"]) : imessage(error(-1, "微信信息不完善"), "", "ajax"));
+        $openid = (trim($_GPC["openid"]) ? trim($_GPC["openid"]) : imessage(error(-1, language("微信信息不完善")), "", "ajax"));
         $is_exist = pdo_fetchcolumn("select id from " . tablename("tiny_wmall_clerk") . " where uniacid = :uniacid and openid = :openid", array( ":uniacid" => $_W["uniacid"], ":openid" => $openid ));
         if( !empty($is_exist) ) 
         {
-            imessage(error(-1, "该微信信息已绑定其他店员, 请更换微信信息"), "", "ajax");
+            imessage(error(-1, language("该微信信息已绑定其他店员, 请更换微信信息")), "", "ajax");
         }
 
-        $password = (trim($_GPC["password"]) ? trim($_GPC["password"]) : imessage(error(-1, "密码不能为空"), "", "ajax"));
+        $password = (trim($_GPC["password"]) ? trim($_GPC["password"]) : imessage(error(-1, language("密码不能为空")), "", "ajax"));
         $length = strlen($password);
         if( $length < 8 || 20 < $length ) 
         {
-            imessage(error(-1, "请输入8-20密码"), "", "ajax");
+            imessage(error(-1, "请输入8-20位密码"), "", "ajax");
         }
 
         if( !preg_match(IREGULAR_PASSWORD, $password) ) 
         {
-            imessage(error(-1, "密码必须由数字和字母组合"), "", "ajax");
+            imessage(error(-1, language("密码必须由数字和字母组合")), "", "ajax");
         }
 
         $data = array( "uniacid" => $_W["uniacid"], "agentid" => intval($_GPC["agentid"]), "mobile" => $mobile, "title" => trim($_GPC["title"]), "openid" => $openid, "nickname" => trim($_GPC["nickname"]), "avatar" => trim($_GPC["avatar"]), "salt" => random(6), "token" => random(32), "addtime" => TIMESTAMP );
@@ -106,25 +106,25 @@ if( $ta == "store" )
     {
         if( $store["status"] <= 1 ) 
         {
-            imessage("商户入驻申请成功,现在去管理", imurl("manage/home/index"), "success");
+            imessage(language("商户入驻申请成功,现在去管理"), imurl("manage/home/index"), "success");
         }
         else
         {
-            imessage("商户入驻申请正在审核中！", imurl("wmall/member/mine"), "info");
+            imessage(language("商户入驻申请正在审核中！"), imurl("wmall/member/mine"), "info");
         }
 
     }
 
     if( $_W["isajax"] ) 
     {
-        $title = (trim($_GPC["title"]) ? trim($_GPC["title"]) : imessage(error(-1, "商户名称不能为空"), "", "ajax"));
+        $title = (trim($_GPC["title"]) ? trim($_GPC["title"]) : imessage(error(-1, language("商户名称不能为空")), "", "ajax"));
         $qualifications = $_GPC["qualification"];
         if( $config_store["settle"]["qualification_verify_status"] == 1 && (empty($qualifications) || empty($qualifications[0])) ) 
         {
-            imessage(error(-1, "请上传营业执照照片"), "", "ajax");
+            imessage(error(-1, language("请上传营业执照照片")), "", "ajax");
         }
 
-        $data = array( "uniacid" => $_W["uniacid"], "agentid" => ($clerk["agentid"] ? $clerk["agentid"] : $_W["agentid"]), "title" => $title, "address" => trim($_GPC["address"]), "telephone" => trim($_GPC["telephone"]), "content" => trim($_GPC["content"]), "status" => $config_store["settle"]["audit_status"], "business_hours" => iserializer(array( array( "s" => "8:00", "e" => "20:00" ) )), "payment" => iserializer(array( "wechat" )), "remind_time_limit" => 10, "remind_reply" => iserializer(array( "快递员狂奔在路上,请耐心等待" )), "addtype" => 2, "addtime" => TIMESTAMP, "delivery_mode" => $config_store["delivery"]["delivery_mode"], "delivery_fee_mode" => 1, "delivery_price" => $config_store["delivery"]["delivery_fee"], "push_token" => random(32), "self_audit_comment" => intval($config_store["settle"]["self_audit_comment"]), "qualification" => iserializer(array( "business" => array( "thumb" => trim($qualifications[0]) ), "service" => array( "thumb" => trim($qualifications[1]) ), "more1" => array( "thumb" => trim($qualifications[2]) ) )) );
+        $data = array( "uniacid" => $_W["uniacid"], "agentid" => ($clerk["agentid"] ? $clerk["agentid"] : $_W["agentid"]), "title" => $title, "address" => trim($_GPC["address"]), "telephone" => trim($_GPC["telephone"]), "content" => trim($_GPC["content"]), "status" => $config_store["settle"]["audit_status"], "business_hours" => iserializer(array( array( "s" => "8:00", "e" => "20:00" ) )), "payment" => iserializer(array( "wechat" )), "remind_time_limit" => 10, "remind_reply" => iserializer(array( language("快递员狂奔在路上,请耐心等待") )), "addtype" => 2, "addtime" => TIMESTAMP, "delivery_mode" => $config_store["delivery"]["delivery_mode"], "delivery_fee_mode" => 1, "delivery_price" => $config_store["delivery"]["delivery_fee"], "push_token" => random(32), "self_audit_comment" => intval($config_store["settle"]["self_audit_comment"]), "qualification" => iserializer(array( "business" => array( "thumb" => trim($qualifications[0]) ), "service" => array( "thumb" => trim($qualifications[1]) ), "more1" => array( "thumb" => trim($qualifications[2]) ) )) );
         if( $config_store["delivery"]["delivery_fee_mode"] == 2 ) 
         {
             $data["delivery_fee_mode"] = 2;

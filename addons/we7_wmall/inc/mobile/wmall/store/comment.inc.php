@@ -2,13 +2,13 @@
 defined("IN_IA") or exit( "Access Denied" );
 global $_W;
 global $_GPC;
-$_W["page"]["title"] = "评价列表";
+$_W["page"]["title"] = language("评价列表");
 icheckauth(false);
 $sid = intval($_GPC["sid"]);
 $store = store_fetch($sid);
 if( empty($store) ) 
 {
-    imessage("门店不存在或已经删除", referer(), "error");
+    imessage(language("门店不存在或已经删除"), referer(), "error");
 }
 
 $is_favorite = pdo_get("tiny_wmall_store_favorite", array( "uniacid" => $_W["uniacid"], "uid" => $_W["member"]["uid"], "sid" => $sid ));

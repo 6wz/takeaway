@@ -7,7 +7,7 @@ $store = store_fetch($sid);
 $_W["page"]["title"] = $store["title"];
 if( empty($store) ) 
 {
-    imessage("门店不存在或已删除", "close", "info");
+    imessage(language("门店不存在或已删除"), "close", "info");
 }
 
 $activity = store_fetch_activity($sid);

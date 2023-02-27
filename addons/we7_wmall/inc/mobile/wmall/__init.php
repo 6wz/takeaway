@@ -11,10 +11,10 @@ if( $config_close["status"] == 2 && $_W["_controller"] != "common" )
         exit();
     }
 
-    $tips = (!empty($config_close["tips"]) ? $config_close["tips"] : "亲,平台休息中。。。");
+    $tips = (!empty($config_close["tips"]) ? $config_close["tips"] : (language("亲,平台休息中")."。。。"));
     imessage($tips, "close", "info");
 }
 
 $_W["role"] = "consumer";
-$_W["role_cn"] = "下单顾客";
+$_W["role_cn"] = language("下单顾客");
 

@@ -2,7 +2,7 @@
 defined("IN_IA") or exit( "Access Denied" );
 global $_W;
 global $_GPC;
-$_W["page"]["title"] = "商户详情";
+$_W["page"]["title"] = language("商户详情");
 icheckauth(false);
 $id = $sid = intval($_GPC["sid"]);
 $store = store_fetch($id);

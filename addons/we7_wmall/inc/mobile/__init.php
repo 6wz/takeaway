@@ -72,7 +72,7 @@ if( $_W["is_agent"] )
             {
                 if( $_W["isajax"] ) 
                 {
-                    imessage(error(-1000, "请先选择代理"), "", "ajax");
+                    imessage(error(-1000, language("请先选择代理")), "", "ajax");
                 }
 
                 header("location:" . imurl("errander/agent"));
@@ -91,7 +91,7 @@ $_W["we7_wmall"]["config"]["mall"]["address_type"] = 0;
 $_config_mall = $_W["we7_wmall"]["config"]["mall"];
 if( empty($_config_mall["delivery_title"]) ) 
 {
-    $_config_mall["delivery_title"] = "平台专送";
+    $_config_mall["delivery_title"] = language("平台专送");
 }
 
 $mobile_template = $_config_mall["template_mobile"];
@@ -107,9 +107,9 @@ define("WE7_WMALL_TPL_URL", WE7_WMALL_URL . "/template/mobile/wmall/" . $mobile_
 $_W["page"]["title"] = $_config_mall["title"];
 if( MODULE_FAMILY == "wxapp" && $_GPC["ctrl"] == "wmall" ) 
 {
-    imessage("您使用的是小程序版本,此功能为公众号版本特有,您没有使用该功能的权限");
+    imessage(language("您使用的是小程序版本,此功能为公众号版本特有,您没有使用该功能的权限"));
 }
 
 $_W["role"] = "consumer";
-$_W["role_cn"] = "下单顾客";
+$_W["role_cn"] = language("下单顾客");
 ?>

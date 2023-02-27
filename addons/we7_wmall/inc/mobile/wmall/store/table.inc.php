@@ -6,31 +6,31 @@ mload()->model("table");
 global $_W;
 global $_GPC;
 icheckauth();
-$_W["page"]["title"] = "商品列表";
+$_W["page"]["title"] = language("商品列表");
 $sid = intval($_GPC["sid"]);
 $store = store_fetch($sid);
 if( empty($store) ) 
 {
-    imessage("门店不存在或已经删除", referer(), "error");
+    imessage(language("门店不存在或已经删除"), referer(), "error");
 }
 
 if( $store["is_meal"] != 1 ) 
 {
-    imessage("店内点餐暂未开启", imurl("wmall/store/index"), "info");
+    imessage(language("店内点餐暂未开启"), imurl("wmall/store/index"), "info");
 }
 
 $table_id = intval($_GPC["table_id"]);
 $table = table_fetch($table_id);
 if( empty($table) ) 
 {
-    imessage("桌号不存在", imurl("wmall/store/index"), "error");
+    imessage(language("桌号不存在"), imurl("wmall/store/index"), "error");
 }
 
 $_share = array( "title" => $store["title"], "desc" => $store["content"], "imgUrl" => tomedia($store["logo"]) );
 $ta = (trim($_GPC["ta"]) ? trim($_GPC["ta"]) : "index");
 if( $ta == "index" ) 
 {
-    $title = "商品列表";
+    $title = language("商品列表");
     $activity = store_fetch_activity($sid);
     $is_favorite = pdo_get("tiny_wmall_store_favorite", array( "uniacid" => $_W["uniacid"], "uid" => $_W["member"]["uid"], "sid" => $sid ));
     $result = goods_avaliable_fetchall($sid, 0, true);
@@ -53,7 +53,7 @@ if( $ta == "index" )
 
 if( $ta == "post" ) 
 {
-    $_W["page"]["title"] = "提交订单";
+    $_W["page"]["title"] = language("提交订单");
     $cart = order_insert_member_cart($sid, true);
     if( is_error($cart) ) 
     {
@@ -70,22 +70,22 @@ if( $ta == "post" )
     $payments = get_available_payment("takeout", $sid, false, 3);
     if( empty($payments) ) 
     {
-        imessage("店铺没有设置有效的支付方式", referer(), "error");
+        imessage(language("店铺没有设置有效的支付方式"), referer(), "error");
     }
 
-    $coupon_text = "无可用代金券";
+    $coupon_text = language("无可用代金券");
     mload()->model("coupon");
     $coupons = coupon_available($sid, $cart["price"]);
     if( !empty($coupons) ) 
     {
-        $coupon_text = count($coupons) . "张可用代金券";
+        $coupon_text = language('{num}张可用代金券' , ['num'=>count($coupons) ]) ;
     }
 
     $recordid = intval($_GPC["recordid"]);
     $activityed = order_count_activity($sid, $cart, $recordid, 0, 0, 0, 3);
     if( !empty($activityed["list"]["token"]) ) 
     {
-        $coupon_text = (string) $activityed["list"]["token"]["value"] . "元券";
+        $coupon_text = language('{money}元券' ,['money'=>$activityed["list"]["token"]["value"]]) ;
         $conpon = $activityed["list"]["token"]["coupon"];
     }
 
@@ -109,7 +109,7 @@ if( $ta == "submit" )
 {
     if( !$_W["isajax"] ) 
     {
-        imessage(error(-1, "非法访问"), "", "ajax");
+        imessage(error(-1, language("非法访问")), "", "ajax");
     }
 
     $cart = order_fetch_member_cart($sid);

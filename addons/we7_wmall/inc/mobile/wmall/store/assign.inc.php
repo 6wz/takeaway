@@ -11,17 +11,17 @@ $sid = intval($_GPC["sid"]);
 $store = store_fetch($sid);
 if( empty($store) ) 
 {
-    imessage("门店不存在或已经删除", referer(), "error");
+    imessage(language("门店不存在或已经删除"), referer(), "error");
 }
 
 if( !$store["is_assign"] ) 
 {
-    imessage("商家已经关闭排号功能", imurl("store", array( "sid" => $sid )), "info");
+    imessage(language("商家已经关闭排号功能"), imurl("store", array( "sid" => $sid )), "info");
 }
 
 if( $ta == "index" ) 
 {
-    $_W["page"]["title"] = "取号";
+    $_W["page"]["title"] = language("取号");
     if( $_GPC["f"] == "dish" ) 
     {
         $cart = set_order_cart($sid);
@@ -40,7 +40,7 @@ if( $ta == "index" )
 
 if( $ta == "post" ) 
 {
-    $_W["page"]["title"] = "我要排号";
+    $_W["page"]["title"] = language("我要排号");
     $data = pdo_fetchall("select * from " . tablename("tiny_wmall_assign_queue") . " where uniacid = :uniacid and sid = :sid and status = 1 order by guest_num asc", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid ), "id");
     $queue_ids = array(  );
     if( !empty($data) ) 
@@ -58,11 +58,11 @@ if( $ta == "post" )
 
     if( $_W["isajax"] ) 
     {
-        $guest_num = (intval($_GPC["guest_num"]) ? intval($_GPC["guest_num"]) : imessage(error(-1, "客人数量错误"), "", "ajax"));
-        $mobile = (trim($_GPC["mobile"]) ? trim($_GPC["mobile"]) : imessage(error(-1, "手机号错误"), "", "ajax"));
+        $guest_num = (intval($_GPC["guest_num"]) ? intval($_GPC["guest_num"]) : imessage(error(-1, language("客人数量错误")), "", "ajax"));
+        $mobile = (trim($_GPC["mobile"]) ? trim($_GPC["mobile"]) : imessage(error(-1, language("手机号错误")), "", "ajax"));
         if( $store["assign_mode"] == 2 ) 
         {
-            $queue_id = (intval($_GPC["queue_id"]) ? intval($_GPC["queue_id"]) : imessage(error(-1, "队列错误"), "", "ajax"));
+            $queue_id = (intval($_GPC["queue_id"]) ? intval($_GPC["queue_id"]) : imessage(error(-1, language("队列错误")), "", "ajax"));
         }
         else
         {
@@ -83,7 +83,7 @@ if( $ta == "post" )
 
         if( !in_array($queue_id, $queue_ids) ) 
         {
-            imessage(error(-1, "不合法的队列"), "", "ajax");
+            imessage(error(-1, language("不合法的队列")), "", "ajax");
         }
 
         $queue = $data[$queue_id];
@@ -105,7 +105,7 @@ if( $ta == "post" )
 
     if( empty($queue_ids) ) 
     {
-        imessage("门店未添加排号队列,无法取号", referer(), "info");
+        imessage(language("门店未添加排号队列,无法取号"), referer(), "info");
     }
 
     include(itemplate("store/assign"));
@@ -144,7 +144,7 @@ if( $ta == "cancel" && $_W["isajax"] )
     $board = assign_board_fetch($id);
     if( empty($board) ) 
     {
-        exit( "排队不存在" );
+        exit( language("排队不存在") );
     }
 
     pdo_update("tiny_wmall_assign_board", array( "status" => 4 ), array( "uniacid" => $_W["uniacid"], "sid" => $sid, "id" => $id ));
@@ -155,7 +155,7 @@ if( $ta == "cancel" && $_W["isajax"] )
 
 if( $ta == "goods" ) 
 {
-    $_W["page"]["title"] = "商品列表";
+    $_W["page"]["title"] = language("商品列表");
     $activity = store_fetch_activity($sid);
     $is_favorite = pdo_get("tiny_wmall_store_favorite", array( "uniacid" => $_W["uniacid"], "uid" => $_W["member"]["uid"], "sid" => $sid ));
     $result = goods_avaliable_fetchall($sid, 0, true);

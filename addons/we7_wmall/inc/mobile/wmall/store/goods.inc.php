@@ -10,7 +10,7 @@ store_business_hours_init($sid);
 $store = store_fetch($sid);
 if( empty($store) ) 
 {
-    imessage("门店不存在或已经删除", referer(), "error");
+    imessage(language("门店不存在或已经删除"), referer(), "error");
 }
 
 $_W["page"]["title"] = "商品列表";
@@ -39,7 +39,7 @@ $price = store_order_condition($store);
 $store["send_price"] = $price["send_price"];
 if( $ta == "index" ) 
 {
-    $title = (string) $store["title"] . "-商品列表";
+    $title = (string) $store["title"] . "-".language('商品列表');
     $activity = store_fetch_activity($sid);
     $is_favorite = pdo_get("tiny_wmall_store_favorite", array( "uniacid" => $_W["uniacid"], "uid" => $_W["member"]["uid"], "sid" => $sid ));
     $result = goods_avaliable_fetchall($sid);
@@ -88,7 +88,7 @@ if( $ta == "index" )
 
 if( $ta == "index1" ) 
 {
-    $title = (string) $store["title"] . "-商品列表";
+    $title = (string) $store["title"] . "-".language('商品列表');
     $activity = store_fetch_activity($sid);
     $is_favorite = pdo_get("tiny_wmall_store_favorite", array( "uniacid" => $_W["uniacid"], "uid" => $_W["member"]["uid"], "sid" => $sid ));
     $result = goods_avaliable_fetchall($sid);
@@ -137,7 +137,7 @@ if( $ta == "index1" )
 
 if( $ta == "market" ) 
 {
-    $title = "商品列表";
+    $title = language("商品列表");
     $activity = store_fetch_activity($sid);
     $is_favorite = pdo_get("tiny_wmall_store_favorite", array( "uniacid" => $_W["uniacid"], "uid" => $_W["member"]["uid"], "sid" => $sid ));
     $result = goods_avaliable_fetchall($sid);
@@ -215,14 +215,14 @@ if( $ta == "detail" )
 {
     if( !$_W["isajax"] ) 
     {
-        message(error(-1, "非法访问"), "", "ajax");
+        message(error(-1, language("非法访问")), "", "ajax");
     }
 
     $id = intval($_GPC["id"]);
     $goods = goods_fetch($id);
     if( is_error($goods) ) 
     {
-        message(error(-1, "商品不存在或已删除"), "", "ajax");
+        message(error(-1, language("商品不存在或已删除")), "", "ajax");
     }
 
     $goods["is_sail_now"] = (goods_is_available($goods) ? 1 : 0);
@@ -242,7 +242,7 @@ if( $ta == "cart_truncate" )
 {
     if( !$_W["isajax"] ) 
     {
-        message(error(-1, "非法访问"), "", "ajax");
+        message(error(-1, language("非法访问")), "", "ajax");
     }
 
     $data = pdo_delete("tiny_wmall_order_cart", array( "uniacid" => $_W["uniacid"], "sid" => $sid, "uid" => $_W["member"]["uid"] ));
@@ -259,13 +259,13 @@ if( $ta == "search" )
 {
     if( !$_W["isajax"] ) 
     {
-        message(error(-1, "非法访问"), "", "ajax");
+        message(error(-1, language("非法访问")), "", "ajax");
     }
 
     $key = trim($_GPC["key"]);
     if( empty($key) ) 
     {
-        message(error(-1, "关键词不能为空"), "", "ajax");
+        message(error(-1, language("关键词不能为空")), "", "ajax");
     }
 
     $goods = pdo_fetchall("select * from " . tablename("tiny_wmall_goods") . " where uniacid = :uniacid and sid = :sid and status = 1 and title like :title", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid, ":title" => "%" . $key . "%" ));

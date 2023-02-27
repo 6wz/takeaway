@@ -10,19 +10,19 @@ $sid = intval($_GPC["sid"]);
 $store = store_fetch($sid);
 if( empty($store) ) 
 {
-    imessage("门店不存在或已经删除", referer(), "error");
+    imessage(language("门店不存在或已经删除"), referer(), "error");
 }
 
 if( $store["is_reserve"] != 1 ) 
 {
-    imessage("预定功能暂未开启", imurl("wmall/store/index", array( "sid" => $sid )), "info");
+    imessage(language("预定功能暂未开启"), imurl("wmall/store/index", array( "sid" => $sid )), "info");
 }
 
 $_share = array( "title" => $store["title"], "desc" => $store["content"], "imgUrl" => tomedia($store["logo"]) );
 $ta = (trim($_GPC["ta"]) ? trim($_GPC["ta"]) : "index");
 if( $ta == "index" ) 
 {
-    $_W["page"]["title"] = "预定";
+    $_W["page"]["title"] = language("预定");
     $categorys = pdo_fetchall("select * from " . tablename("tiny_wmall_tables_category") . " where uniacid = :uniacid and sid = :sid", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid ));
     $data = pdo_fetchall("select * from " . tablename("tiny_wmall_reserve") . " where uniacid = :uniacid and sid = :sid order by id asc", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid ));
     if( !empty($data) ) 
@@ -39,14 +39,14 @@ if( $ta == "index" )
 
 if( $ta == "post" ) 
 {
-    $_W["page"]["title"] = "确认预定";
+    $_W["page"]["title"] = language("确认预定");
     $date = trim($_GPC["date"]);
     $time = trim($_GPC["time"]);
     $cid = intval($_GPC["cid"]);
     $category = pdo_get("tiny_wmall_tables_category", array( "uniacid" => $_W["uniacid"], "id" => $cid, "sid" => $sid ));
     if( empty($category) ) 
     {
-        imessage("桌台类型错误", imurl("wmall/store/index", array( "sid" => $sid )), "info");
+        imessage(language("桌台类型错误"), imurl("wmall/store/index", array( "sid" => $sid )), "info");
     }
 
     $reserve_type = trim($_GPC["reserve_type"]);
@@ -67,28 +67,28 @@ if( $ta == "post" )
 
     if( empty($cart) ) 
     {
-        imessage("商品信息错误", imurl("wmall/store/index", array( "sid" => $sid )), "info");
+        imessage(language("商品信息错误"), imurl("wmall/store/index", array( "sid" => $sid )), "info");
     }
 
     $pay_types = order_pay_types();
     if( empty($store["payment"]) ) 
     {
-        imessage("店铺没有设置有效的支付方式", referer(), "error");
+        imessage(language("店铺没有设置有效的支付方式"), referer(), "error");
     }
 
-    $coupon_text = "无可用代金券";
+    $coupon_text = language("无可用代金券");
     mload()->model("coupon");
     $coupons = coupon_available($sid, $cart["price"]);
     if( !empty($coupons) ) 
     {
-        $coupon_text = count($coupons) . "张可用代金券";
+        $coupon_text =  language('{num}张可用代金券' , ['num'=>count($coupons) ]);
     }
 
     $recordid = intval($_GPC["recordid"]);
     $activityed = order_count_activity($sid, $cart, $recordid, 0, 0, 0, 4);
     if( !empty($activityed["list"]["token"]) ) 
     {
-        $coupon_text = (string) $activityed["list"]["token"]["value"] . "元券";
+        $coupon_text = language('{money}元券' , ['money'=>$activityed["list"]["token"]["value"]]);
         $conpon = $activityed["list"]["token"]["coupon"];
     }
 
@@ -99,14 +99,14 @@ if( $ta == "post" )
 
 if( $ta == "goods" ) 
 {
-    $_W["page"]["title"] = "商品列表";
+    $_W["page"]["title"] = language("商品列表");
     $date = trim($_GPC["date"]);
     $time = trim($_GPC["time"]);
     $cid = intval($_GPC["cid"]);
     $category = pdo_get("tiny_wmall_tables_category", array( "uniacid" => $_W["uniacid"], "id" => $cid, "sid" => $sid ));
     if( empty($category) ) 
     {
-        imessage("桌台类型错误", imurl("wmall/store/index", array( "sid" => $sid )), "info");
+        imessage(language("桌台类型错误"), imurl("wmall/store/index", array( "sid" => $sid )), "info");
     }
 
     $activity = store_fetch_activity($sid);
@@ -133,7 +133,7 @@ if( $ta == "submit" )
 {
     if( !$_W["isajax"] ) 
     {
-        imessage(error(-1, "非法访问"), "", "ajax");
+        imessage(error(-1, language("非法访问")), "", "ajax");
     }
 
     $date = trim($_GPC["date"]);
@@ -142,7 +142,7 @@ if( $ta == "submit" )
     $category = pdo_get("tiny_wmall_tables_category", array( "uniacid" => $_W["uniacid"], "id" => $cid, "sid" => $sid ));
     if( empty($category) ) 
     {
-        imessage(error(-1, "桌台类型错误"), "", "ajax");
+        imessage(error(-1, language("桌台类型错误")), "", "ajax");
     }
 
     $reserve_type = trim($_GPC["reserve_type"]);
