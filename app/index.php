@@ -38,7 +38,6 @@ $template = $templates[$templateid];
 
 $_W['template'] = !empty($template) ? $template['name'] : 'default';
 $_W['styles'] = array();
-
 //设置语言
 if(!isset($_COOKIE['language'])){
     setcookie('language' , 'zh-cn') ;
