@@ -1881,17 +1881,21 @@ function getcash_channels($type = "", $key = "all")
 
 function language($key = '' , $params = [] , $force_language=''){
     global $_W;
+    //session_start() ;
     $language = empty($force_language) ? $_W['language'] :  $force_language;
     $filename = IA_ROOT . "/addons/we7_wmall/language/" . $language . ".php";
     if(!is_file($filename)){
         return $key ;
     }
-    include_once($filename) ;
+
+    include($filename) ;
+
     if(isset($languageArr[$key])){
         $str = $languageArr[$key]  ;
     }else{
         $str = $key ;
     }
+
     if(!empty($params)) {
         foreach ($params as $k=> $param) {
             if(strpos($str , '{'.$k.'}') !== false) {

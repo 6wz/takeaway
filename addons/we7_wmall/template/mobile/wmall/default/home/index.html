@@ -7,9 +7,14 @@
 	<div class="content">
 
 		<div class="search">
-			<div  style="position:absolute; cursor:pointer ; right:.5rem;top:.5rem;font-size: 0.5rem">
-				<a style="padding:0.1rem ;color: white" onclick="changeLanguage()">{if ($_W['language'] == 'zh-cn')}ภาษาไทย{else}中文{/if}</a>
-				<a style="padding:0.1rem ;color: white"  onclick="changeCurrency()">{if ($_W['currency'] == 'RMB')}บาท {else}人民币{/if}</a>
+			<div  style="position:absolute; cursor:pointer ; right:.5rem;top:.4rem;font-size: 0.7rem">
+				<a style="padding:0.1rem ;color: white" onclick="changeLanguage()">{if ($_W['language'] == 'zh-cn')}中文{else}ภาษาไทย{/if}</a>
+				<a style="padding:0.1rem ;color: white"  onclick="changeCurrency()">
+					{if ($_W['currency'] == 'RMB')}
+					{if ($_W['language'] == 'zh-cn')}人民币{else}เงินหยวน {/if}
+					{else}
+					{if ($_W['language'] == 'zh-cn')}泰铢{else}บาท{/if}
+					{/if}</a>
 			</div>
 			<span class="search-inner">
 				<i class="icon icon-lbs-fill"></i>
@@ -32,12 +37,12 @@
 			<div class="store-list" id="store-list">
 				<div class="common-no-con geolocationing">
 					<img src= "{WE7_WMALL_TPL_URL}static/img/store_no_con.png" alt="" />
-					<p>努力加载中...</p>
+					<p>{php echo language('努力加载中');}...</p>
 				</div>
 				<div class="common-no-con geolocationfail hide">
 					<img src= "{WE7_WMALL_TPL_URL}static/img/store_no_con.png" alt="" />
-					<p>获取定位失败!您可以选择手动搜索地址</p>
-					<a href="{php echo imurl('wmall/home/location')}" class="btn-location">手动搜索地址</a>
+					<p>{php echo language('获取定位失败!您可以选择手动搜索地址');}</p>
+					<a href="{php echo imurl('wmall/home/location')}" class="btn-location">{php echo language('手动搜索地址');}</a>
 				</div>
 			</div>
 		</div>
@@ -145,15 +150,15 @@
 	<{# if(_bargains && _bargains.length > 0) { }>
 		<div class="bargain-activity">
 			<div class="activity-header text-center">
-				天天特价
-				<a class="more" href="{php echo imurl('bargain/index')}">更多 <i class="icon icon-arrow-right"></i></a>
+				{php echo language('天天特价');}
+				<a class="more" href="{php echo imurl('bargain/index')}">{php echo language('更多');} <i class="icon icon-arrow-right"></i></a>
 			</div>
 			<div class="goods-list row">
 				<{# for(var i = 0, len = _bargains.length; i < len; i++) {}>
 					<div class="goods-item col-25">
 						<a href="{php echo imurl('wmall/store/goods');}&sid=<{_bargains[i].sid}>&goods_id=<{_bargains[i].goods_id}>">
 							<div class="goods-image">
-								<div class="label"><{_bargains[i].discount}>折</div>
+								<div class="label"><{_bargains[i].discount}>{php echo language('折');}</div>
 								<img src="{WE7_WMALL_TPL_URL}static/img/hm.gif" alt="" class="lazyload" data-original="<{tiny.tomedia(_bargains[i].thumb)}>">
 							</div>
 							<div class="goods-title"><{_bargains[i].title}></div>
@@ -171,8 +176,8 @@
 	<{# if(_recommends && _recommends.length > 0) { }>
 		<div class="selective">
 			<div class="selective-tab">
-				为您优选
-				<a class="more" href="{php echo imurl('wmall/channel/brand')}">更多<i class="icon icon-arrow-right"></i></a>
+				{php echo language('为您优选');}
+				<a class="more" href="{php echo imurl('wmall/channel/brand')}">{php echo language('更多');}<i class="icon icon-arrow-right"></i></a>
 			</div>
 			<div class="selective-info row">
 				<{# for(var i = 0, len = _recommends.length; i < len; i++) { }>
@@ -186,11 +191,11 @@
 		</div>
 	<{# } }>
 	<div class="buttons-tab select-tab">
-		<a href="javascript:;" class="button">商家分类 <span class="icon"></span></a>
+		<a href="javascript:;" class="button">{php echo language('商家分类');} <span class="icon"></span></a>
 		<div class="drop-menu-list">
 			<div class="list-block">
 				<ul>
-					<li><a class="list-button item-link border-1px-tb" href="">全部</a></li>
+					<li><a class="list-button item-link border-1px-tb" href="">{php echo language('全部');}</a></li>
 					<{# var _categorys = d.categorys}>
 					<{# if(_categorys) { }>
 						<{# for(var i = 0, len = _categorys.length; i < len; i++) { }>
@@ -200,11 +205,11 @@
 				</ul>
 			</div>
 		</div>
-		<a href="javascript:;" class="button">智能排序 <span class="icon"></span></a>
+		<a href="javascript:;" class="button">{php echo language('智能排序');} <span class="icon"></span></a>
 		<div class="drop-menu-list">
 			<div class="list-block">
 				<ul>
-					<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('order' => ''));}"><span class="icon"></span>全部</a></li>
+					<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('order' => ''));}"><span class="icon"></span>{php echo language('全部');}</a></li>
 					<{# var _orderbys = d.orderbys}>
 					<{# for(var i in _orderbys) { }>
 						<li><a class="list-button item-link border-1px-b"  href="{php echo imurl('wmall/home/search');}&order=<{_orderbys[i].key}>"><span class="<{_orderbys[i].css}>"></span><{_orderbys[i].title}></a></li>
@@ -212,11 +217,11 @@
 				</ul>
 			</div>
 		</div>
-		<a href="javascript:;" class="button">优惠活动 <span class="icon"></span></a>
+		<a href="javascript:;" class="button">{php echo language('优惠活动');} <span class="icon"></span></a>
 		<div class="drop-menu-list">
 			<div class="list-block">
 				<ul>
-					<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('dis' => ''));}"><span class="icon"></span>全部</a></li>
+					<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('dis' => ''));}"><span class="icon"></span>{php echo language('全部');}</a></li>
 					<{# var _discounts = d.discounts}>
 					<{# for(var i in _discounts) { }>
 						<li><a class="list-button item-link border-1px-b" href="{php echo imurl('wmall/home/search');}&dis=<{_discounts[i].key}>"><span class="<{_discounts[i].css}>"></span><{_discounts[i].title}></a></li>
@@ -230,8 +235,8 @@
 		<{# if(!_stores || _stores.length <= 0) { }>
 			<div class="common-no-con">
 				<img src= "{WE7_WMALL_TPL_URL}static/img/store_no_con.png" alt="" />
-				<p>附近没有发现门店,我们正在努力覆盖中</p>
-				<a href="{php echo imurl('wmall/home/location')}" class="btn-location">切换地址</a>
+				<p>{php echo language('附近没有发现门店,我们正在努力覆盖中');}</p>
+				<a href="{php echo imurl('wmall/home/location')}" class="btn-location">{php echo language('切换地址');}</a>
 			</div>
 		<{# } else { }>
 			<{# for(var i = 0, len = _stores.length; i < len; i++){ }>
@@ -245,7 +250,7 @@
 							<img src="{WE7_WMALL_TPL_URL}static/img/hm.gif" class="lazyload lazyload-store" data-original="<{tiny.tomedia(_stores[i].logo)}>">
 							<{# if(_stores[i].is_rest == 1){ }>
 							<div class="order-status">
-								<span>店铺休息中</span>
+								<span>{php echo language('店铺休息中');}</span>
 							</div>
 							<{# } }>
 						</div>
@@ -256,12 +261,12 @@
 								</div>
 								<div class="money-info text-right">
 									<{# if(_stores[i].token_status == '1'){ }>
-									<span>券</span>
+									<span>{php echo language('券');}</span>
 									<{# } }>
 									<{# if(_stores[i].invoice_status == '1'){ }>
-									<span>票</span>
+									<span>{php echo language('票');}</span>
 									<{# } }>
-									<span>付</span>
+									<span>{php echo language('付');}</span>
 								</div>
 							</div>
 							<div class="rel-info">
@@ -272,7 +277,7 @@
 												<span class="star-rank-active" style="width:<{_stores[i].score_cn}>%"></span>
 											</span>
 											<span class="sailed">
-												月售 <{_stores[i].sailed}>
+												{php echo language('月售');} <{_stores[i].sailed}>
 											</span>
 										</div>
 									</div>
@@ -281,7 +286,7 @@
 									<{# } }>
 								</div>
 								<div class="delivery-conditions">
-									起送<span class="color-danger">￥<{_stores[i].send_price}></span><span class="pipe">|</span>配送<span class="color-danger">￥<{_stores[i].delivery_price}></span><span class="pipe">|</span>约<span class="color-danger"><{_stores[i].delivery_time}>分钟</span>
+									{php echo language('起送');}<span class="color-danger">￥<{_stores[i].send_price}></span><span class="pipe">|</span>{php echo language('配送');}<span class="color-danger">￥<{_stores[i].delivery_price}></span><span class="pipe">|</span>{php echo language('约');}<span class="color-danger"><{_stores[i].delivery_time}>{php echo language('分钟');}</span>
 									<div class="distance <{#if(!_stores[i].distance) {}>hide<{# } }>" data-in-business-hours="<{# if(_stores[i].is_in_business_hours){ }>1<{# } else { }>100000000<{# } }>"><i class="icon icon-lbs"></i><{_stores[i].distance}>km</div>
 								</div>
 							</div>
@@ -311,14 +316,14 @@
 <script id="tpl-searchbar" type="text/html">
 	<div class="fiexd-searchbar">
 		<a class="search-block" href="{php echo imurl('wmall/home/hunt');}">
-			<i class="icon icon-search"></i>输入商家、商品名称
+			<i class="icon icon-search"></i>{php echo language('请输入商家、商品名称');}
 		</a>
 		<div class="buttons-tab select-tab fixed-select-tab" style="display: none;">
-			<a href="javascript:;" class="button">商家分类 <span class="icon"></span></a>
+			<a href="javascript:;" class="button">{php echo language('商家分类');} <span class="icon"></span></a>
 			<div class="drop-menu-list">
 				<div class="list-block">
 					<ul>
-						<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('cid' => 0));}">全部</a></li>
+						<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('cid' => 0));}">{php echo language('全部');}</a></li>
 						<{# var _categorys = d.categorys}>
 						<{# if(_categorys) { }>
 							<{# for(var i = 0, len = _categorys.length; i < len; i++) { }>
@@ -328,11 +333,11 @@
 					</ul>
 				</div>
 			</div>
-			<a href="javascript:;" class="button">智能排序 <span class="icon"></span></a>
+			<a href="javascript:;" class="button">{php echo language('智能排序');} <span class="icon"></span></a>
 			<div class="drop-menu-list">
 				<div class="list-block">
 					<ul>
-						<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('order' => ''));}"><span class="icon"></span>全部</a></li>
+						<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('order' => ''));}"><span class="icon"></span>{php echo language('全部');}</a></li>
 						<{# var _orderbys = d.orderbys}>
 						<{# for(var i in _orderbys) { }>
 							<li><a class="list-button item-link border-1px-b"  href="{php echo imurl('wmall/home/search');}&order=<{_orderbys[i].key}>"><span class="<{_orderbys[i].css}>"></span><{_orderbys[i].title}></a></li>
@@ -340,11 +345,11 @@
 					</ul>
 				</div>
 			</div>
-			<a href="javascript:;" class="button">优惠活动 <span class="icon"></span></a>
+			<a href="javascript:;" class="button">{php echo language('优惠活动');} <span class="icon"></span></a>
 			<div class="drop-menu-list">
 				<div class="list-block">
 					<ul>
-						<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('dis' => ''));}"><span class="icon"></span>全部</a></li>
+						<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('dis' => ''));}"><span class="icon"></span>{php echo language('全部');}</a></li>
 						<{# var _discounts = d.discounts}>
 						<{# for(var i in _discounts) { }>
 							<li><a class="list-button item-link border-1px-b" href="{php echo imurl('wmall/home/search');}&dis=<{_discounts[i].key}>"><span class="<{_discounts[i].css}>"></span><{_discounts[i].title}></a></li>
@@ -425,7 +430,7 @@ require(['tiny'], function(tiny){
 			var spread = result.message.message.spread;
 			var mall_title = result.message.message.config.title;
 			if(spread && spread.errno == 0) {
-				$.toptip(spread.message.nickname + '向您推荐了' + mall_title + ',快去下单吧!', 10000, 'success');
+				$.toptip(spread.message.nickname + "{php echo language('向您推荐了');}" + mall_title + "{php echo language(',快去下单吧!');}", 10000, 'success');
 			}
 			require(['laytpl', 'jquery.lazyload'], function(laytpl){
 				var tplHome = $('#tpl-home').html();
