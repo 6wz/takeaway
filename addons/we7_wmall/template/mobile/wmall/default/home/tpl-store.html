@@ -10,7 +10,7 @@
 					<img src="{WE7_WMALL_TPL_URL}static/img/hm.gif" class="lazyload lazyload-store" data-original="<{d[i].logo}>">
 					<{# if(d[i].is_rest == 1){ }>
 						<div class="order-status">
-							<span>店铺休息中</span>
+							<span>{php echo language('店铺休息中');}</span>
 						</div>
 					<{# } }>
 				</div>
@@ -21,12 +21,12 @@
 						</div>
 						<div class="money-info text-right">
 							<{# if(d[i].token_status == '1'){ }>
-								<span>券</span>
+								<span>{php echo language('券');}</span>
 							<{# } }>
 							<{# if(d[i].invoice_status == '1'){ }>
-								<span>票</span>
+								<span>{php echo language('票');}</span>
 							<{# } }>
-							<span>付</span>
+							<span>{php echo language('付');}</span>
 						</div>
 					</div>
 					<div class="rel-info">

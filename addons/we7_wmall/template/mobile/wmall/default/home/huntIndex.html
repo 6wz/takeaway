@@ -3,10 +3,10 @@
 	<div class="bar bar-header-secondary">
 		<div class="searchbar">
 			<a class="searchbar-arrow back"><i class="icon icon-arrow-left"></i></a>
-			<a class="searchbar-cancel">搜索</a>
+			<a class="searchbar-cancel">{php echo language('搜索');}</a>
 			<div class="search-input">
 				<label class="icon icon-search" for="search"></label>
-				<input type="search" id='search' name="search" placeholder='请输入商户或商品名称'/>
+				<input type="search" id='search' name="search" placeholder="{php echo language('请输入商家、商品名称');}"/>
 			</div>
 		</div>
 	</div>
@@ -14,7 +14,7 @@
 	<div class="content">
 		{if !empty($stores)}
 			<div class="search-tag">
-				<div class="search-tag-title">热门搜索</div>
+				<div class="search-tag-title">{php echo language('热门搜索');}</div>
 				{loop $stores $store}
 					<span class="search-history" data-value="{$store['title']}"><a href="javascript:;">{$store['title']}</a></span>
 				{/loop}
@@ -26,7 +26,7 @@
 					{loop $member['search_data'] $data}
 						<li class="search-history" data-value="{$data}"><a href="javascript:;"><i class="icon icon-time"></i> {$data}</a></li>
 					{/if}
-					<li class="last-item"><a href="javascript:;" id="truncate-search-data">清空历史记录</a></li>
+					<li class="last-item"><a href="javascript:;" id="truncate-search-data">{php echo language('清空历史记录');}</a></li>
 				</ul>
 			</div>
 		{/loop}

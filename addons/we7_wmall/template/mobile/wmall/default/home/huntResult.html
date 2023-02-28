@@ -3,10 +3,10 @@
 	<div class="bar bar-header-secondary">
 		<div class="searchbar">
 			<a class="searchbar-arrow back"><i class="icon icon-arrow-left"></i></a>
-			<a class="searchbar-cancel">搜索</a>
+			<a class="searchbar-cancel">{php echo language('搜索');}</a>
 			<div class="search-input">
 				<label class="icon icon-search" for="search"></label>
-				<input type="search" id='search' name="search" value="{$_GPC['key']}" placeholder='请输入商户或商品名称'/>
+				<input type="search" id='search' name="search" value="{$_GPC['key']}" placeholder="{php echo language('请输入商家、商品名称');}"/>
 			</div>
 		</div>
 	</div>
@@ -15,7 +15,7 @@
 		{if empty($stores)}
 			<div class="search-noany">
 				<span></span>
-				<p>抱歉，没有找到合适的商户</p>
+				<p>{php echo language('抱歉，没有找到合适的商户');}</p>
 			</div>
 		{else}
 			{loop $stores $store}
@@ -35,8 +35,8 @@
 									</div>
 									<div class="rel-info">
 										<div class="row delivery-conditions">
-											<div class="col-60">起送<span>￥{$store['send_price']}</span><span class="pipe">|</span>配送<span>￥{$store['delivery_price']}</span></div>
-											<div class="col-40 textright color-danger">{$store['delivery_time']}分钟</div>
+											<div class="col-60">{php echo language('起送');}<span>￥{$store['send_price']}</span><span class="pipe">|</span>{php echo language('配送');}<span>￥{$store['delivery_price']}</span></div>
+											<div class="col-40 textright color-danger">{$store['delivery_time']}{php echo language('分钟');}</div>
 										</div>
 										{if !empty($store['activity']['items']['discount'])}
 											<div class="discount">
@@ -63,7 +63,7 @@
 		{if !empty($recommend_stores)}
 		<div class="store-list search-mar-top">
 			<div class="search-r-like">
-				<span><i class="icon icon-dianzan"></i>为您推荐</span>
+				<span><i class="icon icon-dianzan"></i>{php echo language('为您推荐');}</span>
 			</div>
 			{loop $recommend_stores $store}
 				<div class="list-item">
@@ -79,14 +79,16 @@
 								</div>
 								<div class="rel-info">
 									<div class="row delivery-conditions">
-										<div class="col-60">起送<span>￥{$store['send_price']}</span><span class="pipe">|</span>配送<span>￥{$store['delivery_price']}</span></div>
-										<div class="col-40 textright color-danger">{$store['delivery_time']}分钟</div>
+										<div class="col-60">{php echo language('起送');}<span>￥{$store['send_price']}</span><span class="pipe">|</span>{php echo language('配送');}<span>￥{$store['delivery_price']}</span></div>
+										<div class="col-40 textright color-danger">{$store['delivery_time']}{php echo language('分钟');}</div>
 									</div>
 									{if !empty($store['activity']['discount_status'])}
 										<div class="jian">
-											在线支付
+											{php echo language('在线支付');}
 											{loop $store['activity']['discount_data'] $discount}
-											满{$discount['condition']}元减{$discount['back']}元
+
+											{php echo language('满{condition}减{discount}' , ['condition'=>$discount['condition'] , 'discount'=>$discount['back']]);}
+
 											{/loop}
 										</div>
 									{/if}

@@ -2,26 +2,26 @@
 <div class="page footmark">
 	<header class="bar bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">我的足迹</h1>
+		<h1 class="title">{php echo language('我的足迹');}</h1>
 		{if !empty($footmarks)}
-			<span class="pull-right footmark-edit">编辑</span>
+			<span class="pull-right footmark-edit">{php echo language('编辑');}</span>
 		{/if}
 	</header>
 	<nav class="bar hide">
 		<label class="label-checkbox item-content pull-left select-alle checkbox-all" data-bind=".store-list">
 			<input type="checkbox" name="my-radio">
 			<div class="item-media">
-				<i class="icon icon-form-checkbox"></i><span>全选</span>
+				<i class="icon icon-form-checkbox"></i><span>{php echo language('全选');}</span>
 			</div>
 		</label>
-		<div class="btn-del pull-right">删除</div>
+		<div class="btn-del pull-right">{php echo language('删除');}</div>
 	</nav>
 	<div class="content">
 		<div class="store-list store-empty lazyload-container list-block media-list" id="store-list">
 			{if empty($footmarks)}
 				<div class="common-no-con">
 					<img src= "{WE7_WMALL_TPL_URL}static/img/store_no_con.png" alt="" />
-					<p>您还没有浏览记录</p>
+					<p>{php echo language('您还没有浏览记录');}</p>
 				</div>
 			{else}
 				{loop $footmarks $footmark}
@@ -46,7 +46,7 @@
 												<img src="{WE7_WMALL_TPL_URL}static/img/hm.gif" class="lazyload lazyload-store" data-original="{$stores[$mark['sid']]['logo']}">
 												{if $stores[$mark['sid']]['is_rest'] == 1}
 													<div class="order-status">
-														<span>店铺休息中</span>
+														<span>{php echo language('店铺休息中');}</span>
 													</div>
 												{/if}
 											</div>
@@ -60,12 +60,12 @@
 													</div>
 													<div class="money-info text-right">
 														{if $stores[$mark['sid']]['token_status'] == 1}
-															<span>券</span>
+															<span>{php echo language('券');}</span>
 														{/if}
 														{if $stores[$mark['sid']]['invoice_status'] == 1}
-															<span>票</span>
+															<span>{php echo language('票');}</span>
 														{/if}
-														<span>付</span>
+														<span>{php echo language('付');}</span>
 													</div>
 												</div>
 												<div class="rel-info">
@@ -77,7 +77,8 @@
 																	<!--<span class="star-rank-value">{$stores[$mark['sid']]['score']}</span>-->
 																</span>
 																<span class="sailed">
-																	已售 {$stores[$mark['sid']]['sailed']} 份
+																	{php echo language('已售{num}份',['num'=>$stores[$mark['sid']]['sailed']]);}
+
 																</span>
 															</div>
 														</div>
@@ -86,7 +87,7 @@
 														{/if}
 													</div>
 													<div class="delivery-conditions">
-														起送<span class="color-danger">￥{$stores[$mark['sid']]['send_price']}</span><span class="pipe">|</span>配送<span class="color-danger">￥{$stores[$mark['sid']]['delivery_price']}</span><span class="pipe">|</span>约<span class="color-danger">{$stores[$mark['sid']]['delivery_time']}分钟</span>
+														{php echo language('起送');}<span class="color-danger">￥{$stores[$mark['sid']]['send_price']}</span><span class="pipe">|</span>{php echo language('配送');}<span class="color-danger">￥{$stores[$mark['sid']]['delivery_price']}</span><span class="pipe">|</span>{php echo language('约');}<span class="color-danger">{$stores[$mark['sid']]['delivery_time']}{php echo language('分钟');}</span>
 														<div class="distance {if empty($stores[$mark['sid']]['distance'])} hide {/if}" data-in-business-hours="{$stores[$mark['sid']]['is_in_business_hours']}"><i class="icon icon-lbs"></i>{$stores[$mark['sid']]['distance']}km</div>
 													</div>
 												</div>
@@ -98,7 +99,7 @@
 										{if $stores[$mark['sid']]['activity']['num'] > 0}
 											<div class="dashed-line"></div>
 											{if $stores[$mark['sid']]['activity']['num'] > 2}
-												<div class="activity-num">{$stores[$mark['sid']]['activity']['num']}个活动 <i class="icon icon-arrow-down"></i></div>
+												<div class="activity-num">{$stores[$mark['sid']]['activity']['num']}{php echo language('个活动');} <i class="icon icon-arrow-down"></i></div>
 											{/if}
 											{loop $stores[$mark['sid']]['activity']['items'] $item}
 												{php $num++}
@@ -108,7 +109,7 @@
 										{if $stores[$mark['sid']]['delivery_free_price'] > 0}
 											{php $num++}
 											<div class="activity-row free {if $num > 2}hide{/if}">
-												满{$stores[$mark['sid']]['delivery_free_price']}元免配送费
+												{php echo language('满{delivery_free_price}免配送费' ,['delivery_free_price'=>$mark['sid']]['delivery_free_price']]);}
 											</div>
 										{/if}
 
@@ -137,12 +138,12 @@ $(function() {
 
 	$(document).on('click', '.footmark-edit', function() {
 		if($(this).hasClass('active')) {
-			$(this).removeClass('active').html('编辑');
+			$(this).removeClass('active').html("{php echo language('编辑');}");
 			$('#store-list').find('.item-media ').hide();
 			$('nav.bar').removeClass('bar-tab').addClass('hide');
 			$('.checkbox-item').addClass('js-url');
 		} else {
-			$(this).addClass('active').html('完成');
+			$(this).addClass('active').html("{php echo language('完成');}");
 			$('#store-list').find('.item-media').show();
 			$('nav.bar').removeClass('hide').addClass('bar-tab');
 			$('.checkbox-item').removeClass('js-url');
@@ -160,9 +161,9 @@ $(function() {
 			}
 		});
 		if(length < 1) {
-			$.toast('请选择要删除的记录');
+			$.toast("{php echo language('请选择要删除的记录');}");
 		} else {
-			$.confirm('确定删除足迹吗?', function(){
+			$.confirm("{php echo language('确定删除足迹吗?');}", function(){
 				$.post("{php echo imurl('wmall/home/footmark/del')}", {ids : ids}, function(data) {
 					var result = $.parseJSON(data);
 					if(result.message.errno != 0) {

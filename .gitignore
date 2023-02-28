@@ -2,3 +2,4 @@ data/tpl
 .env
 .env.backup
 .idea
+data/config.php

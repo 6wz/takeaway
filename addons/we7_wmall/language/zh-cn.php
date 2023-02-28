@@ -14,6 +14,7 @@ $languageArr = [
     '{money}元券' => '{money}元券' ,
     '下单后{remind_time_start}分钟才可以催单' => '下单后{remind_time_start}分钟才可以催单' ,
     '距离上次催单不超过{remind_time_limit}分钟,不能催单' => '距离上次催单不超过{remind_time_limit}分钟,不能催单' ,
+    '已售{num}份' => '已售{num}份' ,
 ] ;
 
 
