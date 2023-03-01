@@ -3,8 +3,8 @@
 <div class="page address">
 	<header class="bar bar-nav common-bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">新增地址</h1>
-		<button class="button button-link button-nav pull-right" id="btnSubmit">保存</button>
+		<h1 class="title">{php echo language('新增地址');}</h1>
+		<button class="button button-link button-nav pull-right" id="btnSubmit">{php echo language('保存');}</button>
 	</header>
 	{php get_mall_menu();}
 	<div class="content">
@@ -15,13 +15,13 @@
 					<li class="item-addr">
 						<div class="item-content">
 							<div class="item-inner border-1px-b">
-								<div class="item-title label">小区/大厦/学校</div>
+								<div class="item-title label">{php echo language('小区/大厦/学校');}</div>
 								<div class="item-input">
 									<label></label>
 									<input type="hidden" name="lat" id="lat" value="{$address['location_x']}"/>
 									<input type="hidden" name="lng" id="lng" value="{$address['location_y']}"/>
 									<input type="hidden" name="address" id="address" value="{$address['address']}"/>
-									<a id="location" href="{php echo imurl('wmall/member/address/location', array('id' => $id, 'sid' => $_GPC['sid'], 'recordid' => $_GPC['recordid'], 'redirect_type' => $_GPC['redirect_type'], 'redirect_input' => $_GPC['redirect_input']));}">{if !empty($address['address'])}{$address['address']}{else}<span>点击添加地址(必填)</span>{/if} <i class="icon icon icon-arrow-right pull-right"></i></a>
+									<a id="location" href="{php echo imurl('wmall/member/address/location', array('id' => $id, 'sid' => $_GPC['sid'], 'recordid' => $_GPC['recordid'], 'redirect_type' => $_GPC['redirect_type'], 'redirect_input' => $_GPC['redirect_input']));}">{if !empty($address['address'])}{$address['address']}{else}<span>{php echo language('点击添加地址(必填)');}</span>{/if} <i class="icon icon icon-arrow-right pull-right"></i></a>
 								</div>
 							</div>
 						</div>
@@ -29,9 +29,9 @@
 					<li>
 						<div class="item-content">
 							<div class="item-inner border-1px-b">
-								<div class="item-title label">楼号-门牌号</div>
+								<div class="item-title label">{php echo language('楼号-门牌号');}</div>
 								<div class="item-input">
-									<input type="text" placeholder="详细地址,例：1号楼一单元102室" name="number" class="number" value="{$address['number']}">
+									<input type="text" placeholder="{php echo language('请输入详细收货地址');}" name="number" class="number" value="{$address['number']}">
 								</div>
 							</div>
 						</div>
@@ -40,9 +40,9 @@
 					<li class="item-addr">
 						<div class="item-content">
 							<div class="item-inner border-1px-b">
-								<div class="item-title label">收货地址</div>
+								<div class="item-title label">{php echo language('收货地址');}</div>
 								<div class="item-input" style="padding-left: 0">
-									<input type="text" placeholder="请输入详细收货地址" name="address" id="address" value="{$address['address']}"/>
+									<input type="text" placeholder="{php echo language('请输入详细收货地址');}" name="address" id="address" value="{$address['address']}"/>
 								</div>
 							</div>
 						</div>
@@ -51,22 +51,22 @@
 				<li class="item-li-one">
 					<div class="item-content">
 						<div class="item-inner">
-							<div class="item-title label">联系人</div>
+							<div class="item-title label">{php echo language('联系人');}</div>
 							<div class="item-input">
-								<div class="meitem-input border-1px-b"><input type="text" name="realname" class="realname" placeholder="您的姓名" value="{$address['realname']}"></div>
+								<div class="meitem-input border-1px-b"><input type="text" name="realname" class="realname" placeholder="{php echo language('您的姓名');}" value="{$address['realname']}"></div>
 								<div class="item-sex border-1px-b">
 									<label class="label-checkbox item-content">
-										<input type="radio" name="sex" value="先生" class="sex" {if $address['sex'] == '先生' || !$address['sex']}checked{/if}>
+										<input type="radio" name="sex" value="{php echo language('先生');}" class="sex" {if $address['sex'] == language('先生') || !$address['sex']}checked{/if}>
 										<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
 										<div class="item-inner">
-											<div class="item-title">先生</div>
+											<div class="item-title">{php echo language('先生');}</div>
 										</div>
 									</label>
 									<label class="label-checkbox item-content">
-										<input type="radio" name="sex" value="女士" class="sex" {if $address['sex'] == '女士'}checked{/if}>
+										<input type="radio" name="sex" value="{php echo language('女士');}" class="sex" {if $address['sex'] == language('女士')} checked{/if}>
 										<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
 										<div class="item-inner">
-											<div class="item-title">女士</div>
+											<div class="item-title">{php echo language('女士');}</div>
 										</div>
 									</label>
 								</div>
@@ -77,9 +77,9 @@
 				<li>
 					<div class="item-content">
 						<div class="item-inner border-1px-b">
-							<div class="item-title label">手机号</div>
+							<div class="item-title label">{php echo language('手机号');}</div>
 							<div class="item-input">
-								<input type="text" name="mobile" class="mobile" placeholder="配送人员联系您的电话" value="{$address['mobile']}">
+								<input type="text" name="mobile" class="mobile" placeholder="{php echo language('配送人员联系您的电话');}" value="{$address['mobile']}">
 							</div>
 						</div>
 					</div>
@@ -87,7 +87,7 @@
 			</ul>
 			{if !empty($address['id'])}
 				<div class="del-address border-1px-tb">
-					<a href="javascript:;" data-id="{$address['id']}" class="btnDel">删除该地址</a>
+					<a href="javascript:;" data-id="{$address['id']}" class="btnDel">{php echo language('删除该地址');}</a>
 				</div>
 			{/if}
 		</div>
@@ -116,29 +116,29 @@ $(function(){
 		}
 		var realname = $.trim($('.realname').val());
 		if(!realname) {
-			$.toast("联系人不能为空");
+			$.toast("{php echo language('联系人不能为空');}");
 			return false;
 		}
 		var mobile = $.trim($('.mobile').val());
 		var reg = /^[01][3456789][0-9]{9}$/;
 		if(!reg.test(mobile)) {
-			$.toast("手机号格式错误");
+			$.toast("{php echo language('手机号格式错误');}");
 			return false;
 		}
 		var sex = $.trim($('.sex:checked').val());
 		if(!sex) {
-			$.toast("请选择性别");
+			$.toast("{php echo language('请选择性别');}");
 			return false;
 		}
 		var address = $.trim($('#address').val());
 		if(!address) {
-			$.toast("地址不能为空");
+			$.toast("{php echo language('地址不能为空');}");
 			return false;
 		}
 		var lat = $('#lat').val();
 		var lng = $('#lng').val();
 		if((!lat || !lng) && auto_get_address == 1) {
-			$.toast("地址信息有误");
+			$.toast("{php echo language('地址信息有误');}");
 			return false;
 		}
 		var number = $('.number').val();
@@ -162,7 +162,7 @@ $(function(){
 				if(redirect_url != '') {
 					location.href = redirect_url + result.message.message;
 				} else {
-					$.toast('修改成功,跳转中...');
+					$.toast("{php echo language('修改成功,跳转中...');}");
 					location.href = "{php echo imurl('wmall/member/address/list')}";
 				}
 			}
@@ -173,13 +173,13 @@ $(function(){
 	$('.btnDel').click(function(){
 		var id = $(this).data('id');
 		if(!id) return false;
-		$.confirm('确定删除该地址吗?', function () {
+		$.confirm("{php echo language('确定删除该地址吗?');}", function () {
 			$.post("{php echo imurl('wmall/member/address/del', array('id' => $id))}", {id: id}, function(data) {
 				var result = $.parseJSON(data);
 				if(result.message.errno != 0) {
 					$.toast(result.message.message);
 				} else {
-					$.toast('删除成功', "{php echo imurl('wmall/member/address/list')}", 1000);
+					$.toast("{php echo language('删除成功');}", "{php echo imurl('wmall/member/address/list')}", 1000);
 				}
 				return false;
 			});
@@ -193,19 +193,19 @@ $(function(){
 <div class="page address-list">
 	<header class="bar bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">我的地址</h1>
+		<h1 class="title">{php echo language('我的地址');}</h1>
 	</header>
-	<a href="{php echo imurl('wmall/member/address/post', array('sid' => $_GPC['sid'], 'redirect_type' => $_GPC['redirect_type'], 'redirect_input' => $_GPC['redirect_input'], 'recordid' => $_GPC['recordid']));}" class="bar bar-tab text-center logout"><i class="icon icon-plus"></i>新增地址</a>
+	<a href="{php echo imurl('wmall/member/address/post', array('sid' => $_GPC['sid'], 'redirect_type' => $_GPC['redirect_type'], 'redirect_input' => $_GPC['redirect_input'], 'recordid' => $_GPC['recordid']));}" class="bar bar-tab text-center logout"><i class="icon icon-plus"></i>{php echo language('新增地址');}</a>
 	<div class="content">
 		{if empty($addresses)}
 			<div class="common-no-con">
 				<img src= "{WE7_WMALL_TPL_URL}static/img/address_no_con.png" alt="" />
-				<p>您还没有送货地址，快去添加吧！</p>
+				<p>{php echo language('您还没有送货地址，快去添加吧！');}</p>
 			</div>
 		{else}
 			{if $store['order_address_limit'] == 1}
 				<div class="list-block">
-					<div class="address-list-title">我的收货地址</div>
+					<div class="address-list-title">{php echo language('我的收货地址');}</div>
 					<ul class="border-1px-tb">
 						{loop $addresses $address}
 						<li class="item-content">
@@ -227,7 +227,7 @@ $(function(){
 			{else}
 				{if !empty($available)}
 					<div class="list-block">
-						<div class="address-list-title">可选收货地址</div>
+						<div class="address-list-title">{php echo language('可选收货地址');}</div>
 						<ul class="border-1px-tb">
 							{loop $available $address}
 							<li class="item-content">
@@ -249,7 +249,7 @@ $(function(){
 				{/if}
 				{if !empty($dis_available)}
 					<div class="list-block">
-						<div class="address-list-title">不在配送范围内或地址不完善</div>
+						<div class="address-list-title">{php echo language('不在配送范围内或地址不完善');}</div>
 						<ul class="disabled border-1px-tb">
 							{loop $dis_available $address}
 							<li class="item-content">
@@ -287,7 +287,7 @@ $(function(){
 			return false;
 		});
 		$('.addressNotChecked').click(function(){
-			$.toast('该地址不在商家配送范围内');
+			$.toast("{php echo language('该地址不在商家配送范围内');}");
 			return false;
 		});
 	}
@@ -301,7 +301,7 @@ $(function(){
 		<a class="pull-left" id="locate-back" href="javascript:;" data-href="{php echo imurl('wmall/member/address/post', array('id' => $_GPC['id']));}"><i class="icon icon-arrow-left"></i></a>
 		<div class="search-input">
 			<label class="icon locateicon" for="search"></label>
-			<input type="search" id='search' placeholder='请输入小区/大厦/学校等'/>
+			<input type="search" id='search' placeholder="{php echo language('请输入小区/大厦/学校等');}" />
 		</div>
 	</header>
 	<div class="content">
@@ -312,10 +312,10 @@ $(function(){
 			<input name="lng" id="lng" type="hidden"/>
 		</div>
 		<div class="buttons-tab select-tab border-1px-t">
-			<a href="javascript:;" class="button active" data-keywords=" ">全部</a>
-			<a href="javascript:;" class="button" data-keywords="小区">小区</a>
-			<a href="javascript:;" class="button" data-keywords="写字楼">写字楼</a>
-			<a href="javascript:;" class="button" data-keywords="学校">学校</a>
+			<a href="javascript:;" class="button active" data-keywords=" ">{php echo language('全部');}</a>
+			<a href="javascript:;" class="button" data-keywords="{php echo language('小区');}">{php echo language('小区');}</a>
+			<a href="javascript:;" class="button" data-keywords="{php echo language('写字楼');}">{php echo language('写字楼');}</a>
+			<a href="javascript:;" class="button" data-keywords="{php echo language('学校');}">{php echo language('学校');}</a>
 		</div>
 		<ul class="locate-ls border-1px-tb" id="locate-ls"></ul>
 		<ul class="search-list hide" id="search-list"></ul>
@@ -341,7 +341,7 @@ $(function(){
 				$('#lat').val(location.lat);
 				$('#lng').val(location.lng);
 			}, '', function(){
-				$.toast('请拖动地图搜索');
+				$.toast("{php echo language('请拖动地图搜索');}");
 			});
 		});
 
@@ -408,7 +408,7 @@ $(function(){
 					var lnglat = new AMap.LngLat("{$store['location_y']}", "{$store['location_x']}");
 					var dist = ((lnglat.distance([lng, lat])) / 1000).toFixed(2);
 					if(dist > serve_radius) {
-						$.toast('商户配送范围' + serve_radius + '公里, 当前地址不在商户配送范围内');
+						$.toast("{php echo language('当前地址不在商户配送范围内');}");
 						return false;
 					}
 				} else if(order_address_limit == 4) {
@@ -423,11 +423,11 @@ $(function(){
 						}
 					});
 					if(!in_radius) {
-						$.toast('您选择的地址超出了商家的配送范围了');
+						$.toast("{php echo language('您选择的地址超出了商家的配送范围了');}");
 						return false;
 					} else {
 						var area = delivery_areas[area_index];
-						$.toast('该区域的起送价:' + area.send_price + '元,配送费:' + area.delivery_price + '元');
+						$.toast("{php echo language('该区域的起送价');}"+":" + area.send_price + ','+ "{php echo language('配送费');}" +':' + area.delivery_price + '元');
 						wait = 1500;
 					}
 				}
@@ -450,7 +450,7 @@ $(function(){
 			}
 			getAdress(re, '#locate-ls');
 		} else {
-			alert('获取位置失败！');
+			alert("{php echo language('获取位置失败');}");
 		}
 	}
 
@@ -464,7 +464,7 @@ $(function(){
 		var addressHtml = '';
 		for(var i=0; i < re.length; i++){
 			addressHtml += '<li class="border-1px-b select-locate '+ (i == 0 ? 'locate-ls-active' : '') +'" data-lng="'+re[i]['lng']+'" data-lat="'+re[i]['lat']+'" data-name="'+re[i]['name']+'" data-address="'+re[i]['address']+'">';
-			addressHtml += '<div class="locate-ls-info">'+(i == 0 ? '[推荐位置]' : '')+'   '+re[i]['name']+' </span></div>';
+			addressHtml += '<div class="locate-ls-info">'+(i == 0 ? ('['+ "{php echo language('推荐位置');}" + ']') : '')+'   '+re[i]['name']+' </span></div>';
 			addressHtml += '<span> '+re[i]['address']+' </span>';
 			addressHtml += '</li>';
 		}

@@ -30,7 +30,6 @@
 			<a class="search-block" href="{php echo imurl('wmall/home/hunt');}">
 				<i class="icon icon-search"></i>{php echo language('请输入商家、商品名称');}
 			</a>
-
 		</div>
 		<div id="fixed-searchbar-container"></div>
 		<div id="home-container">
@@ -368,7 +367,6 @@ require(['tiny'], function(tiny){
 		$('.content').scrollTop() >= 100 ? $('.fiexd-searchbar').show() : $('.fiexd-searchbar').hide();
 		$('.content').scrollTop() >= 800 ? $('.fixed-select-tab').css('display', '-webkit-box') : $('.fixed-select-tab').css('display',' none');
 	});
-
 	$(document).on('click', '.activity-containter', function(){
 		if($(this).hasClass('active')) {
 			$(this).find('.activity-row').addClass('hide');

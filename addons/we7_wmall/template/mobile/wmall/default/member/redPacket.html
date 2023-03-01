@@ -3,14 +3,14 @@
 <div class="page redPacket-my">
 	<header class="bar bar-nav common-bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">我的红包</h1>
+		<h1 class="title">{php echo language('我的红包');}</h1>
 	</header>
 	{php get_mall_menu();}
 	<div class="content infinite-scroll js-infinite" data-href="{php echo imurl('wmall/member/redPacket/list', array('status' => $status));}" data-distance="50" data-min="{$min}" data-container=".redPacket-list" data-tpl="tpl-redPacket">
 		{if empty($redPackets)}
 			<div class="common-no-con">
 				<img src= "{WE7_WMALL_TPL_URL}static/img/coupon_no_con.png" alt="" />
-				<p>您没有红包记录</p>
+				<p>{php echo language('您没有红包记录');}</p>
 			</div>
 		{else}
 			<div class="redPacket-list content-padded">
@@ -26,12 +26,12 @@
 								</div>
 							</div>
 							<div class="redPacket-use-limit row">
-								<div class="col-60">限{$redPacket['starttime']}-{$redPacket['endtime']}使用</div>
+								<div class="col-60">{php echo language('仅限{time_cn}时段使用' , ['time_cn'=>($redPacket['starttime'].'-'.$redPacket['endtime'])]);}</div>
 								<div class="col-40 text-right">
 									{if $redPacket['condition'] > 0}
-									<p class="use-condition">满{$redPacket['condition']}元可用</p>
+									<p class="use-condition">{php echo language('满{price}元可用' ,['price'=>$redPacket['condition']] ; }</p>
 									{else}
-									<p class="use-condition">满任意金额元可用</p>
+									<p class="use-condition">{php echo language('满任意金额元可用');}</p>
 									{/if}
 								</div>
 							</div>
@@ -77,7 +77,7 @@
 					<{# if(d[i].condition > 0){ }>
 					<p class="use-condition">满<{d[i].condition}>元可用</p>
 					<{# } else { }>
-					<p class="use-condition">满任意金额元可用</p>
+					<p class="use-condition">{php echo language('满任意金额元可用');}</p>
 					<{# } }>
 				</div>
 			</div>

@@ -2,7 +2,7 @@
 <div class="page coupon" id="page-app-coupon">
 	<header class="bar bar-nav common-bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">我的代金券</h1>
+		<h1 class="title">{php echo language('我的代金券');}</h1>
 		<a class="pull-right" href="{php echo imurl('wmall/channel/coupon');}"><i class="icon icon-coupon"></i></a>
 	</header>
 	{php get_mall_menu();}
@@ -11,9 +11,9 @@
 			{if empty($coupons)}
 				<div class="common-no-con">
 					<img src= "{WE7_WMALL_TPL_URL}static/img/coupon_no_con.png" alt="" />
-					<p>您没有代金券</p>
+					<p>{php echo language('您没有代金券');}</p>
 					<div class="btn">
-						<a href="{php echo imurl('wmall/channel/coupon');}">去领券中心看看</a>
+						<a href="{php echo imurl('wmall/channel/coupon');}">{php echo language('去领券中心看看');}</a>
 					</div>
 				</div>
 			{else}
@@ -34,14 +34,14 @@
 										<div class="coupon-title">
 											{$coupon['title']}
 										</div>
-										<div class="use-time">有效期至:{$coupon['endtime']}</div>
+										<div class="use-time">{php echo language('有效期至');}:{$coupon['endtime']}</div>
 									</div>
 								</div>
 								<div class="right">
 									<div class="price">
 										<span>¥</span>{$coupon['discount']}
 									</div>
-									<div class="condition">满{$coupon['condition']}元可用</div>
+									<div class="condition">{php echo language('满{price}元可用' ,['price'=>$coupon['condition']]);} </div>
 								</div>
 							</div>
 						</a>
@@ -52,13 +52,13 @@
 					<div class="preloader"></div>
 				</div>
 				<div class="no-more">
-					<a href="{php echo imurl('wmall/member/coupon', array('status' => 2));}">查看已使用券</a><span>|</span><a href="{php echo imurl('wmall/member/coupon', array('status' => 3));}">查看无效券</a>
+					<a href="{php echo imurl('wmall/member/coupon', array('status' => 2));}">{php echo language('查看已使用券');}</a><span>|</span><a href="{php echo imurl('wmall/member/coupon', array('status' => 3));}">{php echo language('查看无效券');}</a>
 				</div>
 			{/if}
 		</div>
 		{if !empty($coupons)}
 			<div class="coupon-more">
-				<a href="{php echo imurl('wmall/channel/coupon');}">更多好券,去领券中心看看</a>
+				<a href="{php echo imurl('wmall/channel/coupon');}">{php echo language('更多好券,去领券中心看看');}</a>
 			</div>
 		{/if}
 	</div>
@@ -81,7 +81,7 @@
 						<div class="coupon-title">
 							<{d[i].title}>
 						</div>
-						<div class="use-time">有效期至:<{d[i].endtime}></div>
+						<div class="use-time">{php echo language('有效期至');}:<{d[i].endtime}></div>
 					</div>
 				</div>
 				<div class="right">

@@ -2,7 +2,7 @@
 <div class="page home" id="page-app-my-favotite">
 	<header class="bar bar-nav common-bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">我的收藏</h1>
+		<h1 class="title">{php echo language('我的收藏');}</h1>
 	</header>
 	{php get_mall_menu();}
 	<div class="content">
@@ -10,7 +10,7 @@
 		{if empty($stores)}
 			<div class="common-no-con">
 				<img src= "{WE7_WMALL_TPL_URL}static/img/store_no_con.png" alt="" />
-				<p>您还没有收藏过店铺呢！</p>
+				<p>{php echo language('您还没有收藏过店铺呢');}！</p>
 			</div>
 		{else}
 			{loop $stores $store}
@@ -20,7 +20,7 @@
 							<div class="store-img col-25">
 								<img src="{php echo tomedia($store['logo']);}" alt="{$store['title']}">
 								{if !$store['is_in_business_hours']}
-									<span>店铺休息中</span>
+									<span>{php echo language('店铺休息中');}</span>
 								{/if}
 							</div>
 							<div class="col-75">
@@ -33,12 +33,12 @@
 									</div>
 									<div class="col-40 money-info text-right">
 										{if $store['token_status'] == 1}
-											<span>券</span>
+											<span>{php echo language('券');}</span>
 										{/if}
 										{if $store['invoice_status'] == 1}
-											<span>票</span>
+											<span>{php echo language('票');}</span>
 										{/if}
-										<span>付</span>
+										<span>{php echo language('付');}</span>
 									</div>
 								</div>
 								<div class="rel-info">
@@ -49,7 +49,7 @@
 													<span class="star-rank-active" style="width:{$store['score_cn']}%"></span>
 													<!--<span class="star-rank-value">{$store['score']}</span>-->
 												</span>
-												<span class="sailed">已售 {$store['sailed']}</span>
+												<span class="sailed">{php echo language('已售');} {$store['sailed']}</span>
 											</div>
 										</div>
 										{if $store['delivery_mode'] == 2}
@@ -57,7 +57,7 @@
 										{/if}
 									</div>
 									<div class="delivery-conditions">
-										起送￥{$store['send_price']}<span class="pipe">|</span>配送￥{$store['delivery_price']}<span class="pipe">|</span>约{$store['delivery_time']}分钟
+										{php echo language('起送');}￥{$store['send_price']}<span class="pipe">|</span>{php echo language('配送');}￥{$store['delivery_price']}<span class="pipe">|</span>{php echo language('约');}{$store['delivery_time']}{php echo language('分钟');}
 									</div>
 								</div>
 							</div>
@@ -68,7 +68,7 @@
 							<div class="dashed-line"></div>
 						{/if}
 						{if $store['activity']['num'] > 2}
-							<div class="activity-num">{$store['activity']['num']}个活动 <i class="icon icon-arrow-down"></i></div>
+							<div class="activity-num">{$store['activity']['num']}{php echo language('个活动');} <i class="icon icon-arrow-down"></i></div>
 						{/if}
 						{loop $store['activity']['items'] $item}
 							{php $num++;}
@@ -79,7 +79,7 @@
 						{if $store['delivery_free_price'] > 0}
 							{php $num++;}
 							<div class="activity-row free {if $num > 2}hide{/if}">
-								满{$store['delivery_free_price']}元免配送费
+								{php echo language('满{delivery_free_price}免配送费'  , ['delivery_free_price']=>$store['delivery_free_price']);}
 							</div>
 						{/if}
 					</div>

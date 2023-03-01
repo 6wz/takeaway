@@ -30,40 +30,40 @@
 				<div class="table-cell">
 					<a href="{php echo imurl('wmall/member/coupon');}">
 						<div class="count">{$coupon_nums}</div>
-						<div class="">代金券</div>
+						<div class="">{php echo language('代金券');}</div>
 					</a>
 				</div>
 				{if !empty($redpacket_status)}
 					<div class="table-cell">
 						<a href="{php echo imurl('wmall/member/redPacket');}">
 							<div class="count">{$redpacket_nums}</div>
-							<div class="">红包</div>
+							<div class="">{php echo language('红包');}</div>
 						</a>
 					</div>
 				{else}
 					<div class="table-cell">
 						<a href="{php echo imurl('wmall/member/favorite');}">
 							<div class="count">{$favorite}</div>
-							<div class="">我的收藏</div>
+							<div class="">{php echo language('我的收藏');}</div>
 						</a>
 					</div>
 				{/if}
 				<div class="table-cell" style="display: none">
 					<a href="{php echo imurl('wmall/member/favorite');}">
 						<div class="count">{$favorite}</div>
-						<div class="">收藏店铺</div>
+						<div class="">{php echo language('收藏店铺');}</div>
 					</a>
 				</div>
 				<div class="table-cell">
 					<a href="{php echo imurl('wmall/member/recharge');}">
 						<div class="count">{php echo floatval($user['credit2'])}</div>
-						<div class="">余额</div>
+						<div class="">{php echo language('余额');}</div>
 					</a>
 				</div>
 				<div class="table-cell">
 					<a href="javascript:;">
 						<div class="count">{php echo floatval($user['credit1'])}</div>
-						<div class="">积分</div>
+						<div class="">{php echo language('积分');}</div>
 					</a>
 				</div>
 			</div>
@@ -86,11 +86,11 @@
 					<li class="item-content item-link">
 						<div class="item-media"><i class="icon icon-phone"></i></div>
 						<a href="{php echo imurl('wmall/member/profile/bind')}" class="item-inner">
-							<div class="item-title bind-mobile">绑定手机号</div>
+							<div class="item-title bind-mobile">{php echo language('绑定手机号');}</div>
 						</a>
 					</li>
 					<div class="notice">
-						如果您用手机号注册过会员或您想通过微信外购物请绑定您的手机号码
+						{php echo language('如果您用手机号注册过会员或您想通过微信外购物请绑定您的手机号码');}
 					</div>
 				</ul>
 			</div>
@@ -98,29 +98,29 @@
 		{if !is_h5app()}
 			<div class="grid-nav grid-money border-1px-tb">
 				<div class="grid-money-title border-1px-b">
-					商家管理
+					{php echo language('商家管理');}
 					{if $config_mall['version'] == 1 && $config_settle['status'] == 1}
-						<a href="{php echo imurl('wmall/store/settle');}">商家入驻,轻松提现</a> <i class="icon icon-arrow-right"></i>
+						<a href="{php echo imurl('wmall/store/settle');}">{php echo language('商家入驻,轻松提现');}</a> <i class="icon icon-arrow-right"></i>
 					{/if}
 				</div>
 				<div class="row no-gutter">
 					<div class="col-33">
 						<a href="{php echo imurl('manage/home/index');}" class="external">
 							<img src="{WE7_WMALL_TPL_URL}static/img/mypage_messages.png" alt="" />
-							<span>店员入口</span>
+							<span>{php echo language('店员入口');}</span>
 						</a>
 					</div>
 					<div class="col-33">
 						<a href="{php echo imurl('delivery/home/index');}">
 							<img src="{WE7_WMALL_TPL_URL}static/img/mypage_messages.png" alt="" />
-							<span>配送员入口</span>
+							<span>{php echo language('配送员入口');}</span>
 						</a>
 					</div>
 					{if $config_mall['version'] == 1 && $config_settle['status'] == 1}
 						<div class="col-33">
 							<a href="{php echo imurl('wmall/store/settle');}">
 								<img src="{WE7_WMALL_TPL_URL}static/img/mypage_settle.png" alt="" />
-								<span>商户入驻</span>
+								<span>{php echo language('商户入驻');}</span>
 							</a>
 						</div>
 					{/if}
@@ -144,14 +144,14 @@
 			{/loop}
 		</div>
 		<div class="service-tel">
-			<a href="tel:{$config_mall['mobile']}" class="color-danger border-1px-tb">客服热线: {$config_mall['mobile']}</a>
+			<a href="tel:{$config_mall['mobile']}" class="color-danger border-1px-tb">{php echo language('客服热线');}: {$config_mall['mobile']}</a>
 		</div>
 		{itemplate 'public/copyright'}
 	</div>
 </div>
 <script>
 {if !is_error($spread)}
-	$.toptip("{$spread['nickname']}向您推荐了{$config_mall['title']},快去下单吧!", 10000, 'success')
+	$.toptip("{php echo $spread['nickname'].language('向您推荐了').$config_mall['title'].language(',快去下单吧');}", 10000, 'success')
 {/if}
 </script>
 {itemplate 'public/footer'}

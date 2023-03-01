@@ -3,11 +3,11 @@
 {if $ta == 'info'}
 	<header class="bar bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">会员资料</h1>
+		<h1 class="title">{php echo language('会员资料');}</h1>
 	</header>
 	{if !is_weixin()}
-		<a class="bar bar-tab text-center logout js-post" href="{php echo imurl('wmall/auth/loginout');}" data-confirm="确定退出当前账号吗??">
-			退出当前账号
+		<a class="bar bar-tab text-center logout js-post" href="{php echo imurl('wmall/auth/loginout');}" data-confirm="{php echo language('确定退出当前账号吗');}??">
+			{php echo language('退出当前账号');}
 		</a>
 	{/if}
 	<div class="content member-info">
@@ -15,26 +15,26 @@
 			<ul>
 				<li class="item-content">
 					<a href="javascript:;" class="item-inner border-1px-b">
-						<div class="item-title">会员UID</div>
+						<div class="item-title">{php echo language('会员');}UID</div>
 						<div class="item-after">{$user['uid']}</div>
 					</a>
 				</li>
 				<li class="item-content item-link">
 					<a href="{php echo imurl('wmall/member/profile/bind')}" class="item-inner border-1px-b">
-						<div class="item-title">手机号</div>
-						<div class="item-after">{if !empty($user['mobile'])}{$user['mobile']}{else}绑定手机号{/if}</div>
+						<div class="item-title">{php echo language('手机号');}</div>
+						<div class="item-after">{if !empty($user['mobile'])}{$user['mobile']}{else}{php echo language('绑定手机号');}{/if}</div>
 					</a>
 				</li>
 				<li class="item-content item-link">
 					<a href="{php echo imurl('wmall/member/profile/edit', array('type' => 'username'))}" class="item-inner border-1px-b">
-						<div class="item-title">用户名</div>
+						<div class="item-title">{php echo language('用户名');}</div>
 						<div class="item-after">{$user['realname']}</div>
 					</a>
 				</li>
 				<li class="item-content item-link">
 					<a href="{php echo imurl('wmall/member/profile/edit', array('type' => 'account'))}" class="item-inner">
-						<div class="item-title">账号密码</div>
-						<div class="item-after">修改</div>
+						<div class="item-title">{php echo language('账号密码名');}</div>
+						<div class="item-after">{php echo language('修改');}</div>
 					</a>
 				</li>
 			</ul>
@@ -45,7 +45,7 @@
 {if $ta == 'edit'}
 	<header class="bar bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">修改{if $_GPC['type'] == 'username'}用户名{else}密码{/if}</h1>
+		<h1 class="title">{php echo language('修改');}{if $_GPC['type'] == 'username'}{php echo language('用户名');}{else}{php echo language('密码');}{/if}</h1>
 	</header>
 	<div class="content member-edit">
 		<div class="list-block">
@@ -55,7 +55,7 @@
 					<div class="item-content">
 						<div class="item-inner">
 							<div class="item-input">
-								<input type="text" name="realname" placeholder="请输入新的用户名" value="{$user['realname']}">
+								<input type="text" name="realname" placeholder="{php echo language('请输入新的用户名');}" value="{$user['realname']}">
 							</div>
 						</div>
 					</div>
@@ -65,7 +65,7 @@
 					<div class="item-content">
 						<div class="item-inner border-1px-b">
 							<div class="item-input">
-								<input type="password" name="password" placeholder="当前密码">
+								<input type="password" name="password" placeholder="{php echo language('当前密码');}">
 							</div>
 						</div>
 					</div>
@@ -74,7 +74,7 @@
 					<div class="item-content">
 						<div class="item-inner">
 							<div class="item-input border-1px-b">
-								<input type="password" name="newpassword" placeholder="新密码">
+								<input type="password" name="newpassword" placeholder="{php echo language('新密码');}">
 							</div>
 						</div>
 					</div>
@@ -83,7 +83,7 @@
 					<div class="item-content">
 						<div class="item-inner">
 							<div class="item-input">
-								<input type="password" name="repassword" placeholder="确认新密码">
+								<input type="password" name="repassword" placeholder="{php echo language('确认新密码');}">
 							</div>
 						</div>
 					</div>
@@ -92,7 +92,7 @@
 			</ul>
 		</div>
 		<div class="content-block">
-			<a href="javascript:;" class="button button-big button-fill button-danger" id="btnSubmit">确定</a>
+			<a href="javascript:;" class="button button-big button-fill button-danger" id="btnSubmit">{php echo language('确定');}</a>
 		</div>
 	</div>
 {/if}
@@ -100,7 +100,7 @@
 {if $ta == 'bind'}
 	<header class="bar bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">{if $user['mobile_audit'] == 1}更改{/if}绑定手机号</h1>
+		<h1 class="title">{if $user['mobile_audit'] == 1}{php echo language('更改');}{/if}{php echo language('绑定手机号');}</h1>
 	</header>
 	<div class="content">
 		<div class="list-block">
@@ -108,9 +108,9 @@
 				<li>
 					<div class="item-content">
 						<div class="item-inner border-1px-b">
-							<div class="item-title">手机号</div>
+							<div class="item-title">{php echo language('手机号');}</div>
 							<div class="item-input">
-								<input type="number" max="11" name="mobile" placeholder="请输入手机号" value="{$user['mobile']}">
+								<input type="number" max="11" name="mobile" placeholder="{php echo language('请输入手机号');}" value="{$user['mobile']}">
 							</div>
 						</div>
 					</div>
@@ -118,9 +118,9 @@
 				<li>
 					<div class="item-content">
 						<div class="item-inner border-1px-b">
-							<div class="item-title">图形验证码</div>
+							<div class="item-title">{php echo language('图形验证码');}</div>
 							<div class="item-input">
-								<input type="number" name="captcha" placeholder="请输入图形验证码">
+								<input type="number" name="captcha" placeholder="{php echo language('请输入图形验证码');}">
 							</div>
 							<img src="{php echo imurl('system/common/captcha');}" class="btn-captcha" data-href="{php echo imurl('system/common/captcha')}&captcha=" />
 						</div>
@@ -129,12 +129,12 @@
 				<li>
 					<div class="item-content">
 						<div class="item-inner border-1px-b">
-							<div class="item-title">手机验证码</div>
+							<div class="item-title">{php echo language('手机验证码');}</div>
 							<div class="item-input">
-								<input type="number" max="6" name="code" placeholder="请输入6位短信验证码">
+								<input type="number" max="6" name="code" placeholder="{php echo language('请输入6位短信验证码');}">
 							</div>
 							<a class="item-remark button-code" href="javascript:;">
-								获取验证码<i class="icon icon-arrow-right"></i>
+								{php echo language('请输入6获取验证码');}<i class="icon icon-arrow-right"></i>
 							</a>
 						</div>
 					</div>
@@ -142,9 +142,9 @@
 				<li>
 					<div class="item-content">
 						<div class="item-inner border-1px-b">
-							<div class="item-title">登录密码</div>
+							<div class="item-title">{php echo language('登录密码');}</div>
 							<div class="item-input">
-								<input type="password" name="password" placeholder="请输入您的登录密码" class="">
+								<input type="password" name="password" placeholder="{php echo language('请输入您的登录密码');}" class="">
 							</div>
 						</div>
 					</div>
@@ -152,9 +152,9 @@
 				<li>
 					<div class="item-content">
 						<div class="item-inner">
-							<div class="item-title">确认密码</div>
+							<div class="item-title">{php echo language('确认密码');}</div>
 							<div class="item-input">
-								<input type="password" name="repassword" placeholder="请输入确认登录密码" class="">
+								<input type="password" name="repassword" placeholder="{php echo language('请输入确认登录密码');}" class="">
 							</div>
 						</div>
 					</div>
@@ -162,7 +162,7 @@
 			</ul>
 		</div>
 		<div class="content-block">
-			<a href="javascript:;" class="button button-big button-fill button-danger button-bind">立即绑定</a>
+			<a href="javascript:;" class="button button-big button-fill button-danger button-bind">{php echo language('立即绑定');}</a>
 		</div>
 	</div>
 {/if}
@@ -175,39 +175,39 @@ require(['tiny'], function(tiny){
 		}
 		var mobile = $.trim($('input[name="mobile"]').val());
 		if(!mobile) {
-			$.toast('请输入手机号');
+			$.toast("{php echo language('请输入手机号');}");
 			return false;
 		}
 		var reg = /^[01][3456789][0-9]{9}/;
 		if(!reg.test(mobile)) {
-			$.toast('手机号格式错误');
+			$.toast("{php echo language('手机号格式错误');}");
 			return false;
 		}
 		var captcha = $.trim($('input[name="captcha"]').val());
 		if(!captcha) {
-			$.toast('请输入图形验证码');
+			$.toast("{php echo language('请输入图形验证码');}");
 			return false;
 		}
 		var $this = $(this);
 		$this.addClass("disabled");
 		var downcount = 60;
-		$this.html(downcount + "秒后重新获取");
+		$this.html(downcount + "{php echo language('秒后重新获取');}");
 		var timer = setInterval(function(){
 			downcount--;
 			if(downcount <= 0){
 				clearInterval(timer);
-				$this.html("获取验证码");
+				$this.html("{php echo language('请输入6获取验证码');}");
 				$this.removeClass("disabled");
 				downcount = 60;
 			} else {
-				$this.html(downcount + "秒后重新获取");
+				$this.html(downcount + "{php echo language('秒后重新获取');}");
 			}
 		}, 1000);
 		$.post(tiny.getUrl('system/common/code'), {mobile: mobile, captcha: captcha}, function(data){
 			if(data != 'success') {
 				$.toast(data);
 			} else {
-				$.toast('验证码发送成功, 请注意查收');
+				$.toast('{php echo language('验证码发送成功, 请注意查收');}');
 			}
 		});
 		return false;
@@ -216,42 +216,42 @@ require(['tiny'], function(tiny){
 	$('.button-bind').click(function(){
 		var mobile = $.trim($('input[name="mobile"]').val());
 		if(!mobile) {
-			$.toast('请输入手机号');
+			$.toast("{php echo language('请输入手机号');}");
 			return false;
 		}
 		var reg = /^[01][3456789][0-9]{9}/;
 		if(!reg.test(mobile)) {
-			$.toast('手机号格式错误');
+			$.toast("{php echo language('手机号格式错误');}");
 			return false;
 		}
 		var code = $.trim($('input[name="code"]').val());
 		if(!code) {
-			$.toast('请输入短信验证码');
+			$.toast("{php echo language('请输入短信验证码');}");
 			return false;
 		}
 		var password = $.trim($('input[name="password"]').val());
 		if(!password) {
-			$.toast('请输入密码');
+			$.toast("{php echo language('请输入密码');}");
 			return false;
 		} else {
 			var length = password.length;
 			if(length < 8 || length > 20) {
-				$.toast("请输入8-20位密码");
+				$.toast("{php echo language('请输入8-20位密码');}");
 				return false;
 			}
 			var reg = /[0-9]+[a-zA-Z]+[0-9a-zA-Z]*|[a-zA-Z]+[0-9]+[0-9a-zA-Z]*/;
 			if(!reg.test(password)) {
-				$.toast("密码必须由数字和字母组合");
+				$.toast("{php echo language('密码必须由数字和字母组合');}");
 				return false;
 			}
 		}
 		var repassword = $.trim($('input[name="repassword"]').val());
 		if(!repassword) {
-			$.toast('请重复输入密码');
+			$.toast("{php echo language('请重复输入密码');}");
 			return false;
 		}
 		if(password != repassword) {
-			$.toast('两次密码输入不一致');
+			$.toast("{php echo language('两次密码输入不一致');}");
 			return false;
 		}
 		$.post(tiny.getUrl('wmall/member/profile/bind'), {mobile: mobile, password: password, repassword: repassword, code: code}, function(result){
@@ -274,7 +274,7 @@ $(function(){
 		var repassword = $.trim($(":password[name='repassword']").val());
 		if(type == 'username') {
 			if(!realname) {
-				$.toast("用户名不能为空");
+				$.toast("{php echo language('用户名不能为空');}");
 				return false;
 			}
 			$.post("{php echo imurl('wmall/member/profile/edit', array('type' => $type))}", {'realname': realname}, function(result){
@@ -288,30 +288,30 @@ $(function(){
 			})
 		} else if(type == 'account') {
 			if(!password) {
-				$.toast("密码不能为空");
+				$.toast("{php echo language('密码不能为空');}");
 				return false;
 			}
 			if(!newpassword) {
-				$.toast('请输入密码');
+				$.toast("{php echo language('请输入密码');}");
 				return false;
 			} else {
 				var length = newpassword.length;
 				if(length < 8 || length > 20) {
-					$.toast("请输入8-20位密码");
+					$.toast("{php echo language('请输入8-20位密码');}");
 					return false;
 				}
 				var reg = /[0-9]+[a-zA-Z]+[0-9a-zA-Z]*|[a-zA-Z]+[0-9]+[0-9a-zA-Z]*/;
 				if(!reg.test(newpassword)) {
-					$.toast("密码必须由数字和字母组合");
+					$.toast("{php echo language('密码必须由数字和字母组合');}");
 					return false;
 				}
 			}
 			if(!repassword) {
-				$.toast("请确认密码");
+				$.toast("{php echo language('请确认密码');}");
 				return false;
 			}
 			if(repassword != newpassword) {
-				$.toast("两次输入的密码不一致");
+				$.toast("{php echo language('两次输入的密码不一致');}");
 				return false;
 			}
 			$.post("{php echo imurl('wmall/member/profile/edit', array('type' => $type))}", {'password': password, 'newpassword': newpassword, 'repassword': repassword}, function(result){

@@ -2,7 +2,7 @@
 <div class="page coupon-channel" id="page-coupon-channel">
 	<header class="bar bar-nav common-bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">领券专区</h1>
+		<h1 class="title">{php echo language('领券专区');}</h1>
 		<a class="pull-right" href="{php echo imurl('wmall/member/coupon');}"><i class="icon icon-coupon"></i></a>
 	</header>
 	{php get_mall_menu();}
@@ -11,9 +11,9 @@
 			{if empty($datas)}
 				<div class="common-no-con">
 					<img src= "{WE7_WMALL_TPL_URL}static/img/coupon_no_con.png" alt="" />
-					<p>没有可以领取的代金券</p>
+					<p>{php echo language('没有可以领取的代金券');}</p>
 					<div class="btn">
-						<a href="{php echo imurl('wmall/home/index');}">去首页看看</a>
+						<a href="{php echo imurl('wmall/home/index');}">{php echo language('去首页看看');}</a>
 					</div>
 				</div>
 			{else}
@@ -35,11 +35,11 @@
 					<div class="col-30 rob">
 						<div class="get {if $data['get_status'] == 1}hide{/if}">
 							<div class="has-get"></div>
-							<p class="receive"><a href="{php echo imurl('wmall/store/goods', array('sid' => $data['sid']));}" class="button button-warning"> 去使用 </a></p>
+							<p class="receive"><a href="{php echo imurl('wmall/store/goods', array('sid' => $data['sid']));}" class="button button-warning"> {php echo language('去使用');} </a></p>
 						</div>
 						<div class="can-receive {if $data['get_status'] == 0}hide{/if}">
 							<div class="myStat" data-dimension="70" data-info="{$data['percent']}%" data-width="5" data-border="outline" data-fontsize="14" data-type="half" data-percent="{$data['percent']}" data-fgcolor="#ff2d4b" data-bgcolor="#e3e3e4" data-fill="#fff"></div>
-							<p class="receive"><a href="javascript:;" class="button button-danger button-get-coupon" data-id="{$data['id']}" data-sid="{$data['sid']}">立即领取</a></p>
+							<p class="receive"><a href="javascript:;" class="button button-danger button-get-coupon" data-id="{$data['id']}" data-sid="{$data['sid']}">{php echo language('立即领取');}</a></p>
 						</div>
 					</div>
 				</div>
@@ -63,7 +63,7 @@
 		<div class="col-50">
 			<p class="store-title"><{d[i]['store_title']}></p>
 			<p class="price">
-				<span class="coupon-discount"><{d[i]['discount']}>元</span>
+				<span class="coupon-discount"><{d[i]['discount']}></span>
 				<span class="coupon-title"><{d[i]['title']}></span>
 			</p>
 			<p class="use-condition">满<{d[i]['couponInfo']}>元可用</p>
@@ -71,11 +71,11 @@
 		<div class="col-30 rob">
 			<div class="get <{# if (d[i]['get_status'] == 1) { }>hide<{# } }>">
 				<div class="has-get"></div>
-				<p class="receive"><a href="{php echo imurl('wmall/store/goods');}&sid=<{d[i]['sid']}>" class="button button-warning">去使用</a></p>
+				<p class="receive"><a href="{php echo imurl('wmall/store/goods');}&sid=<{d[i]['sid']}>" class="button button-warning">{php echo language('去使用');}</a></p>
 			</div>
 			<div class="can-receive <{# if (d[i]['get_status'] == 0) { }>hide<{# } }>">
 				<div class="myStat" data-dimension="70" data-type="half" data-info="<{d[i]['percent']}>%" data-percent="<{d[i]['percent']}>" data-width="5" data-fgcolor="#ff2d4b" data-bgcolor="#e3e3e4" data-fill="#fff"></div>
-				<p class="receive" ><a href="javascript:;" class="button button-danger button-get-coupon" data-id="<{d[i]['id']}>" data-sid="<{d[i]['sid']}>" >立即领取</a></p>
+				<p class="receive" ><a href="javascript:;" class="button button-danger button-get-coupon" data-id="<{d[i]['id']}>" data-sid="<{d[i]['sid']}>" >{php echo language('立即领取');}</a></p>
 			</div>
 		</div>
 	</div>

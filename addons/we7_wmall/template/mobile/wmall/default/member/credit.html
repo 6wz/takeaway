@@ -7,15 +7,15 @@
 	</header>
 	<div class="content infinite-scroll js-infinite" data-href="{php echo imurl('wmall/member/credit/credit', array('type' => $type, 'credit' => $credit))}" data-distance="50" data-min="{$min}" data-container=".list-block .list" data-tpl="tpl-credit2">
 		<div class="buttons-tab activity_status">
-			<a href="{php echo ifilter_url('type: 0');}" class="button {if $type == 0}active{/if}">全部</a>
-			<a href="{php echo ifilter_url('type: 1');}" class="button {if $type == 1}active{/if}">收入</a>
-			<a href="{php echo ifilter_url('type: 2');}" class="button {if $type == 2}active{/if}">支出</a>
+			<a href="{php echo ifilter_url('type: 0');}" class="button {if $type == 0}active{/if}">{php echo language('全部');}</a>
+			<a href="{php echo ifilter_url('type: 1');}" class="button {if $type == 1}active{/if}">{php echo language('收入');}</a>
+			<a href="{php echo ifilter_url('type: 2');}" class="button {if $type == 2}active{/if}">{php echo language('支出');}</a>
 		</div>
 		<div class="credit-list">
 			{if empty($records)}
 			<div class="common-no-con">
 				<div class="bg"></div>
-				<p>暂时没有明细哦～</p>
+				<p>{php echo language('暂时没有明细哦');}～</p>
 			</div>
 			{else}
 			<div class="list-block">
@@ -27,9 +27,9 @@
 								<div class="item-title">
 									<div class="item-title-top">
 										{if $item['num'] > 0}
-											收入
+											{php echo language('收入');}
 										{else}
-											支出
+											{php echo language('支出');}
 										{/if}
 									</div>
 									<div class="item-title-bottom">{$item['createtime']}</div>
@@ -64,9 +64,9 @@
 				<div class="item-title">
 					<div class="item-title-top">
 						<{# if(d[i].num > 0) {}>
-						收入
+						{php echo language('收入');}
 						<{# } else if(d[i].num < 0) {}>
-						支出
+						{php echo language('支出');}
 						<{# } }>
 					</div>
 					<div class="item-title-bottom"><{d[i].createtime}></div>
@@ -93,12 +93,12 @@
 	<div class="page page-credit-detial">
 		<header class="bar bar-nav common-bar-nav">
 			<a href="javascript:;" class="pull-left back"><i class="icon icon-arrow-left"></i></a>
-			<h1 class="title">余额明细</h1>
+			<h1 class="title">{php echo language('余额明细');}</h1>
 		</header>
 		<div class="content">
 			<div class="wui-form-preview">
 				<div class="wui-form-preview-hd">
-					<label class="wui-form-preview-label">金额</label>
+					<label class="wui-form-preview-label">{php echo language('金额');}</label>
 					<em class="wui-form-preview-value">
 						{if $detail['num'] > 0}
 							+{$detail['num']}
@@ -109,21 +109,21 @@
 				</div>
 				<div class="wui-form-preview-bd">
 					<div class="wui-form-preview-item">
-						<label class="wui-form-preview-label">类型</label>
+						<label class="wui-form-preview-label">{php echo language('类型');}</label>
 						<span class="wui-form-preview-value">
 							{if $detail['num'] > 0}
-							收入
+							{php echo language('收入');}
 							{else}
-							支出
+							{php echo language('支出');}
 							{/if}
 						</span>
 					</div>
 					<div class="wui-form-preview-item">
-						<label class="wui-form-preview-label">申请时间</label>
+						<label class="wui-form-preview-label">{php echo language('申请时间');}</label>
 						<span class="wui-form-preview-value">{php echo date('Y-m-d H:i', $detail['createtime'])}</span>
 					</div>
 					<div class="wui-form-preview-item">
-						<label class="wui-form-preview-label">详细信息</label>
+						<label class="wui-form-preview-label">{php echo language('详细信息');}</label>
 						<span class="wui-form-preview-value">{$detail['remark']}</span>
 					</div>
 				</div>
