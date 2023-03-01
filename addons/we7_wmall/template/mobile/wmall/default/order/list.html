@@ -2,7 +2,7 @@
 <div class="page order" id="page-app-order">
 	<header class="bar bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">我的订单</h1>
+		<h1 class="title">{php echo language('我的订单');}</h1>
 	</header>
 	{php get_mall_menu();}
 	<div class="content infinite-scroll js-infinite" data-href="{php echo imurl('wmall/order/index/more');}" data-distance="50" data-min="{$min}" data-container=".order-list" data-tpl="tpl-order">
@@ -10,9 +10,9 @@
 			{if empty($orders)}
 				<div class="common-no-con">
 					<img src= "{WE7_WMALL_TPL_URL}static/img/order_no_con.png" alt="" />
-					<p>您还没有订单，赶紧点一份！</p>
+					<p>{php echo language('您还没有订单，赶紧点一份！');}</p>
 					<div class="btn">
-						<a href="{php echo imurl('wmall/home/index');}">现在点一份</a>
+						<a href="{php echo imurl('wmall/home/index');}">{php echo language('现在点一份');}</a>
 					</div>
 				</div>
 			{else}
@@ -23,7 +23,7 @@
 								<a href="{php echo imurl('errander/order/list/');}" class="item-link item-content">
 									<div class="item-media"><img src="{WE7_WMALL_TPL_URL}static/img/suiyigou_icon.png" alt=""/></div>
 									<div class="item-inner">
-										<div class="item-title">万能跑腿订单</div>
+										<div class="item-title">{php echo language('万能跑腿订单');}</div>
 									</div>
 								</a>
 							</li>
@@ -45,7 +45,7 @@
 							</div>
 							<a class="goods-info row no-gutter external" href="{php echo imurl('wmall/order/index/detail', array('id' => $order['id']));}">
 								<div class="col-75">
-									<div class="goods-title">{$order['goods']['goods_title']}等<span>{$order['num']}</span>件商品</div>
+									<div class="goods-title">{php echo language('{title}等{num}件商品' ,  [ 'title'=>$order['goods']['goods_title'] ,'num'=> $order['num']   ])} </div>
 									<div class="date">{php echo date('Y-m-d H:i', $order['addtime']);}</div>
 								</div>
 								<div class="col-25 text-right">
@@ -60,12 +60,12 @@
 									</div>
 									<div class="order-status-detail">
 										<div class="arrow-left"></div>
-										<div class="clearfix">待支付<span class="pull-right date">{php echo date('H:i', $order['addtime']);}</span></div>
+										<div class="clearfix">{php echo language('待支付');}<span class="pull-right date">{php echo date('H:i', $order['addtime']);}</span></div>
 										<div class="tips">
 											{if $config_takeout['pay_time_limit'] > 0}
-												请在提交订单后{$config_takeout['pay_time_limit']}分钟内完成支付
+												{php echo language('请在提交订单后{time}分钟内完成支付' , ['time'=> $config_takeout['pay_time_limit']  ])}
 											{else}
-												请在提交订单后尽快完成支付
+												{php echo language('请在提交订单后尽快完成支付');}
 											{/if}
 										</div>
 									</div>
@@ -74,36 +74,36 @@
 						</div>
 						<div class="order-btn table border-1px-t">
 							{if !$order['is_pay'] && !in_array($order['status'], array(5, 6))}
-								<a href="{php echo imurl('system/paycenter/pay', array('id' => $order['id'], 'order_type' => 'takeout', 'type' => 1));}" class="table-cell border-1px-r">立即支付</a>
+								<a href="{php echo imurl('system/paycenter/pay', array('id' => $order['id'], 'order_type' => 'takeout', 'type' => 1));}" class="table-cell border-1px-r">{php echo language('立即支付');}</a>
 							{/if}
 							{if $order['status'] == 1}
-								<a href="{php echo imurl('wmall/order/index/cancel', array('id' => $order['id']));}" class="table-cell js-post" data-confirm="确定取消该订单吗">取消订单</a>
+								<a href="{php echo imurl('wmall/order/index/cancel', array('id' => $order['id']));}" class="table-cell js-post" data-confirm="{php echo language('确定取消该订单吗');}">{php echo language('取消订单');}</a>
 								{if $order['is_pay'] == 1}
-									<a href="{php echo imurl('wmall/order/index/remind', array('id' => $order['id']));}" class="table-cell border-1px-l js-post">催单</a>
+									<a href="{php echo imurl('wmall/order/index/remind', array('id' => $order['id']));}" class="table-cell border-1px-l js-post">{php echo language('催单');}</a>
 								{/if}
 							{elseif in_array($order['status'], array(2, 3, 4))}
 								{if $order['order_type'] == 1}
 									{if $order['status'] == 4}
-										<a href="{php echo imurl('wmall/order/index/end', array('id' => $order['id']));}" class="table-cell js-post" data-confirm="你确定收到该商家的外卖?">确认送达</a>
+										<a href="{php echo imurl('wmall/order/index/end', array('id' => $order['id']));}" class="table-cell js-post" data-confirm="{php echo language('你确定收到该商家的外卖?');}">{php echo language('确认送达');}</a>
 									{/if}
 								{elseif $order['order_type'] == 2}
-									<a href="{php echo imurl('wmall/order/index/end', array('id' => $order['id']));}" class="table-cell js-post" data-confirm="确认已到店自提?">我已提货</a>
+									<a href="{php echo imurl('wmall/order/index/end', array('id' => $order['id']));}" class="table-cell js-post" data-confirm="{php echo language('确认已到店自提?');}">{php echo language('我已提货');}</a>
 								{/if}
 								{if $order['is_pay'] == 1}
-									<a href="{php echo imurl('wmall/order/index/remind', array('id' => $order['id']));}" class="table-cell border-1px-l js-post">催单</a>
+									<a href="{php echo imurl('wmall/order/index/remind', array('id' => $order['id']));}" class="table-cell border-1px-l js-post">{php echo language('催单');}</a>
 								{/if}
 							{elseif in_array($order['status'], array(5))}
-								<a href="{php echo imurl('wmall/store/goods', array('f' => '1', 'id' => $order['id'], 'sid' => $order['sid']));}" class="table-cell border-1px-r" data-id="{$order['id']}">再来一单</a>
+								<a href="{php echo imurl('wmall/store/goods', array('f' => '1', 'id' => $order['id'], 'sid' => $order['sid']));}" class="table-cell border-1px-r" data-id="{$order['id']}">{php echo language('再来一单');}</a>
 								{if !$order['is_comment']}
 									<a href="{php echo imurl('wmall/order/comment', array('id' => $order['id']));}" class="table-cell">{$order['comment_cn']}</a>
 								{else}
-									<a href="{php echo imurl('wmall/member/comment');}" class="table-cell">查看评价</a>
+									<a href="{php echo imurl('wmall/member/comment');}" class="table-cell">{php echo language('查看评价');}</a>
 								{/if}
 							{elseif in_array($order['status'], array(6))}
-								<a href="{php echo imurl('wmall/store/goods', array('f' => '1', 'id' => $order['id'], 'sid' => $order['sid']));}" class="table-cell border-1px-r" data-id="{$order['id']}">再来一单</a>
+								<a href="{php echo imurl('wmall/store/goods', array('f' => '1', 'id' => $order['id'], 'sid' => $order['sid']));}" class="table-cell border-1px-r" data-id="{$order['id']}">{php echo language('再来一单');}</a>
 							{/if}
 							{if $order['is_refund'] == 1}
-								<a href="{php echo imurl('wmall/order/index/detail', array('id' => $order['id']));}" class="table-cell border-1px-l">查看退款</a>
+								<a href="{php echo imurl('wmall/order/index/detail', array('id' => $order['id']));}" class="table-cell border-1px-l">{php echo language('查看退款');}</a>
 							{/if}
 						</div>
 					</div>
@@ -147,7 +147,7 @@
 				</div>
 				<div class="order-status-detail">
 					<div class="arrow-left"></div>
-					<div class="clearfix">待支付<span class="pull-right date"><{d[i].time_cn}></span></div>
+					<div class="clearfix">{php echo language('待支付');}<span class="pull-right date"><{d[i].time_cn}></span></div>
 					<div class="tips">{if $config_takeout['pay_time_limit'] > 0}请在提交订单后{$config_takeout['pay_time_limit']}分钟内完成支付{else}请在提交订单后尽快付款{/if}</div>
 				</div>
 			</div>
@@ -155,36 +155,36 @@
 		</div>
 		<div class="order-btn table border-1px-t">
 			<{# if(!d[i].is_pay && d[i].status != 5 && d[i].status != 6){ }>
-				<a href="{php echo imurl('system/paycenter/pay', array('order_type' => 'takeout', 'type' => 1));}&id=<{d[i].id}>" class="table-cell border-1px-r">立即支付</a>
+				<a href="{php echo imurl('system/paycenter/pay', array('order_type' => 'takeout', 'type' => 1));}&id=<{d[i].id}>" class="table-cell border-1px-r">{php echo language('立即支付');}</a>
 			<{# } }>
 			<{# if(d[i].status == 1){ }>
-				<a href="{php echo imurl('wmall/order/index/cancel');}&id=<{d[i].id}>" class="table-cell js-post" data-confirm="确定取消该订单吗">取消订单</a>
+				<a href="{php echo imurl('wmall/order/index/cancel');}&id=<{d[i].id}>" class="table-cell js-post" data-confirm="{php echo language('确定取消该订单吗');}">{php echo language('取消订单');}</a>
 				<{# if(d[i].is_pay == 1){ }>
-					<a href="{php echo imurl('wmall/order/index/remind');}&id=<{d[i].id}>" class="table-cell border-1px-l js-post">催单</a>
+					<a href="{php echo imurl('wmall/order/index/remind');}&id=<{d[i].id}>" class="table-cell border-1px-l js-post">{php echo language('催单');}</a>
 				<{# } }>
 			<{# } else if(d[i].status >= 2 && d[i].status <= 4) { }>
 				<{# if(d[i].order_type == 1){ }>
 					<{# if(d[i].order_type == 4){ }>
-						<a href="{php echo imurl('wmall/order/index/end');}&id=<{d[i].id}>" class="table-cell js-post" data-confirm="你确定收到该商家的外卖?">确认送达</a>
+						<a href="{php echo imurl('wmall/order/index/end');}&id=<{d[i].id}>" class="table-cell js-post" data-confirm="{php echo language('你确定收到该商家的外卖?');}">{php echo language('确认送达');}</a>
 					<{# } }>
 				<{# } else if(d[i].order_type == 2) { }>
-					<a href="{php echo imurl('wmall/order/index/end');}&id=<{d[i].id}>" class="table-cell js-post" data-confirm="确认已到店自提?">我已提货</a>
+					<a href="{php echo imurl('wmall/order/index/end');}&id=<{d[i].id}>" class="table-cell js-post" data-confirm="{php echo language('确认已到店自提?');}">{php echo language('我已提货');}</a>
 				<{# } }>
 				<{# if(d[i].is_pay == 1){ }>
-					<a href="{php echo imurl('wmall/order/index/remind');}&id=<{d[i].id}>" class="table-cell border-1px-l js-post">催单</a>
+					<a href="{php echo imurl('wmall/order/index/remind');}&id=<{d[i].id}>" class="table-cell border-1px-l js-post">{php echo language('催单');}</a>
 				<{# } }>
 			<{# } else if(d[i].status == 5) { }>
-				<a href="{php echo imurl('wmall/store/goods', array('f' => '1'));}&id=<{d[i].id}>&sid=<{d[i].sid}>" class="table-cell border-1px-r" data-id="{$order['id']}">再来一单</a>
+				<a href="{php echo imurl('wmall/store/goods', array('f' => '1'));}&id=<{d[i].id}>&sid=<{d[i].sid}>" class="table-cell border-1px-r" data-id="{$order['id']}">{php echo language('再来一单');}</a>
 				<{# if(d[i].is_comment == 1){ }>
 					<a href="{php echo imurl('wmall/order/comment');}&id=<{d[i].id}>" class="table-cell"><{d[i].comment_cn}></a>
 				<{# } else { }>
-					<a href="{php echo imurl('wmall/member/comment');}" class="table-cell">查看评价</a>
+					<a href="{php echo imurl('wmall/member/comment');}" class="table-cell">{php echo language('查看评价');}</a>
 				<{# } }>
 			<{# } else if(d[i].status == 6) { }>
-				<a href="{php echo imurl('wmall/store/goods', array('f' => '1'));}&id=<{d[i].id}>&sid=<{d[i].sid}>" class="table-cell" data-id="{$order['id']}">再来一单</a>
+				<a href="{php echo imurl('wmall/store/goods', array('f' => '1'));}&id=<{d[i].id}>&sid=<{d[i].sid}>" class="table-cell" data-id="{$order['id']}">{php echo language('再来一单');}</a>
 			<{# } }>
 			<{# if(d[i].is_refund == 1){ }>
-				<a href="{php echo imurl('wmall/order/order', array('op' => 'detail'));}&id=<{d[i].id}>" class="table-cell border-1px-l">查看退款</a>
+				<a href="{php echo imurl('wmall/order/order', array('op' => 'detail'));}&id=<{d[i].id}>" class="table-cell border-1px-l">{php echo language('查看退款');}</a>
 			<{# } }>
 		</div>
 	</div>
