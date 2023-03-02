@@ -4,17 +4,25 @@ global $_W;
 global $_GPC;
 
 $ta = $_GPC['ta'] ;
-
 $oldLanguage = $_W['language'] ;
 
-if($ta == 'get') {
+if($ta == 'translation') {
+    $key = $_GPC['key'] ;
+    $params = $_GPC['params'] ;
+    if(empty($params)){
+        $params = [] ;
+    }else{
+        $params = json_decode(json_encode($params) , true) ;
+    }
     $filename = IA_ROOT . "/addons/we7_wmall/language/" . $oldLanguage . ".php";
     if(!is_file($filename)){
         $languageArr = [] ;
     }else{
         include($filename) ;
     }
-    imessage(error(0, $languageArr), "", "ajax");
+    $string = language($key , $params) ;
+    die(json_encode(error(0 , $string))) ;
+
 
 }else{
     if($oldLanguage == 'zh-cn') {

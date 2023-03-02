@@ -1,27 +1,27 @@
 define(['tiny'], function(tiny) {
     var language = {};
-    language.translation = function (key='' , params = {} , id='') {
-        $.get(tiny.getUrl('wmall/internation/language'), {"ta":"get"}, function(data){
-            var result = $.parseJSON(data);
-            languageData = result.message.message ;
-            if(typeof languageData[key] == 'undefined') {
-                string = key
-            }else{
-                string = languageData[key]
-            }
-            if(JSON.stringify (params) != "{}" ){
-               for (let k in params) {
-                   string = string.replace('{'+k+'}' , params[k])
-               }
-            }
-            if(id != ''){
-                $("#"+id) .html(string) ;
+    language.translation = function (key='' , params = {} ) {
+        var string = key ;
+        var  data = {} ;
+        data.ta = 'translation' ;
+        data.key  = key ;
+        data.params = params ;
+        $.ajax({
+            type: "get",
+            async:false,
+            url: tiny.getUrl('wmall/internation/language'),
+            contentType: "application/json;charset=utf-8",
+            data:data ,
+            dataType: "json",
+            success: function (data) {
+               string =    data.message
+            }, error: function (error) {
+                console.log(error);
             }
         });
+        return string;
+
     };
-    /*exports('translation' , function(tmp1 , tmp2){
-        return tmp1 + tmp2 ;
-    })*/
     return language ;
 });
 
