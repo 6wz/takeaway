@@ -3,18 +3,18 @@
 <div class="page wxarr">
 	<header class="bar bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">微信排号</h1>
+		<h1 class="title">{php echo language('微信排号');}</h1>
 	</header>
 	{php get_mall_menu();}
 	<div class="content">
 		<div class="arr-block">
 			<ul class="wxarr-tab">
 				<li>
-					<a href="javascript:;" onclick="location.reload(true);"><span class="wx-reset"></span>刷新状态</a>
+					<a href="javascript:;" onclick="location.reload(true);"><span class="wx-reset"></span>{php echo language('刷新状态');}</a>
 				</li>
 				<li>
-					<a href="{php echo imurl('wmall/store/assign/post', array('sid' => $sid));}" ><span class="wx-quhao"></span>我要取号</li>
-				</a>
+					<a href="{php echo imurl('wmall/store/assign/post', array('sid' => $sid));}" ><span class="wx-quhao"></span>{php echo language('我要取号');}</a>
+				</li>
 			</ul>
 		</div>
 		<div class="list-block">
@@ -36,14 +36,14 @@
 <div class="page arrpeople">
 	<header class="bar bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">我要排号</h1>
-		<button class="button button-link button-nav pull-right" id="form-submit">保存</button>
+		<h1 class="title">{php echo language('我要排号');}</h1>
+		<button class="button button-link button-nav pull-right" id="form-submit">{php echo language('保存');}</button>
 	</header>
 	{php get_mall_menu();}
 	<div class="content">
 		{if $store['assign_mode'] == 2}
 		<div class="arr-block" id="new-guest-queue-section">
-			<h5>选择队列</h5>
+			<h5>{php echo language('选择队列');}</h5>
 			<ul class="arr-ls">
 				{loop $data $da}
 					<li class="choose-queue-setting-label" data-id="{$da['id']}"><a href="javascript:;">{$da['title']}</a></li>
@@ -56,9 +56,9 @@
 				<li>
 					<div class="item-content">
 						<div class="item-inner">
-							<div class="item-title label">客人数量</div>
+							<div class="item-title label">{php echo language('客人数量');}</div>
 							<div class="item-input">
-								<input type="text" name="guest_num" value="2" id="guest_num" placeholder="填写人数">
+								<input type="text" name="guest_num" value="2" id="guest_num" placeholder="{php echo language('填写人数');}">
 							</div>
 						</div>
 					</div>
@@ -66,9 +66,9 @@
 				<li>
 					<div class="item-content">
 						<div class="item-inner">
-							<div class="item-title label">手机号</div>
+							<div class="item-title label">{php echo language('手机号');}</div>
 							<div class="item-input">
-								<input type="text" name="mobile" value="{$_W['member']['mobile']}" id="mobile" placeholder="填写手机号">
+								<input type="text" name="mobile" value="{$_W['member']['mobile']}" id="mobile" placeholder="{php echo language('填写手机号');}">
 							</div>
 						</div>
 					</div>
@@ -83,26 +83,28 @@
 <div class="page wxarr wx-wait">
 	<header class="bar bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">微信排号</h1>
+		<h1 class="title">{php echo language('微信排号');}</h1>
 	</header>
 	{php get_mall_menu();}
 	<div class="content">
 		<div class="wxwait-status">
-			<h5>还需等待 <span>{$count}</span> 桌，您的号码是</h5>
+			<h5>{php echo language('还需等待{count}桌，您的号码是',['count'=>$count   ] )}</h5>
 			<div class="wxwait-arr">{$mine['number']}</div>
-			<div class="wxwait-arr-cur">{$queue['title']}，已叫号至{$now_number}</div>
+			<div class="wxwait-arr-cur">{$queue['title']}，{php echo language('已叫号至');}{$now_number}</div>
 		</div>
 		<div class="arr-block">
 			<ul class="wxarr-tab">
 				<li>
-					<a href="javascript:;" onclick="location.reload(true);"><span class="wx-reset"></span>刷新状态</a>
+					<a href="javascript:;" onclick="location.reload(true);"><span class="wx-reset"></span>{php echo language('刷新状态');}</a>
 				</li>
 				<li>
-					<a href="javascript:;" class="cancel-board" data-id="{$mine['id']}"><span class="wx-cancel"></span>取消排号</li>
-				</a>
+					<a href="javascript:;" class="cancel-board" data-id="{$mine['id']}"><span class="wx-cancel"></span>{php echo language('取消排号');}</a>
+				</li>
+
 				<li>
-					<a href="{php echo imurl('wmall/store/assign/goods', array('sid' => $sid))}"><span class="wx-order"></span>预点菜</li>
-				</a>
+					<a href="{php echo imurl('wmall/store/assign/goods', array('sid' => $sid))}"><span class="wx-order"></span>{php echo language('预点菜');}</a>
+				</li>
+
 			</ul>
 		</div>
 		<div class="list-block">
@@ -114,7 +116,7 @@
 							<i class="icon icon-radio"></i>
 							{$da['title']}
 							{if !empty($wait[$da['id']]) && $wait[$da['id']]['num'] > 0}
-								<span>{$wait[$da['id']]['num']}人正在排队</span>
+								<span>{$wait[$da['id']]['num']}{php echo language('人正在排队');}</span>
 							{/if}
 						</div>
 					</div>
@@ -135,7 +137,7 @@
 
 	$('.cancel-board').click(function(){
 		var id = $(this).data('id');
-		$.confirm('确认取消排队?', function(){
+		$.confirm("{php echo language('确认取消排队?');}", function(){
 			$.post("{php echo imurl('wmall/store/assign/cancel', array('sid' => $sid));}", {id: id}, function(data){
 				location.href = "{php echo imurl('wmall/store/assign/index', array('sid' => $sid));}";
 				return false;
@@ -156,21 +158,21 @@
 		var queue_id = 0;
 		{if $store['assign_mode'] == 2}
 			if(!$('#new-guest-queue-section .choose-queue-setting-label.arr-ls-active').size()) {
-				$.toast('请选择排队队列');
+				$.toast("{php echo language('请选择排队队列');}");
 				return false;
 			}
 			queue_id = $('#new-guest-queue-section .choose-queue-setting-label.arr-ls-active').data('id');
 		{/if}
 		var guest_num = parseInt($.trim($('#guest_num').val()));
 		if(isNaN(guest_num) || !guest_num) {
-			$.toast('客人数量错误');
+			$.toast("{php echo language('客人数量错误');}");
 			return false;
 		}
 
 		var mobile = $.trim($('#mobile').val());
 		var reg = /^[01][3456789][0-9]{9}$/;
 		if(!mobile || !reg.test(mobile)) {
-			$.toast('手机号有误');
+			$.toast("{php echo language('手机号有误');}");
 			return false;
 		}
 		$(this).addClass('disabled');

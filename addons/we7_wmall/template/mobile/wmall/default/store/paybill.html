@@ -2,7 +2,7 @@
 <div class="page paybill">
 	<header class="bar bar-nav common-bar-nav">
 		<a href="javascript:;" class="pull-left back"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">{$store['title']}-买单</h1>
+		<h1 class="title">{$store['title']}-{php echo language('买单');}</h1>
 	</header>
 	<div class="content">
 		<div class="list-block">
@@ -10,9 +10,9 @@
 				<li>
 					<div class="item-content border">
 						<div class="item-inner">
-							<div class="item-title label">消费总额(元)</div>
+							<div class="item-title label">{php echo language('消费总额');}</div>
 							<div class="item-input">
-								<input type="text" class="align-right" name="total_fee" placeholder="询问服务员后输入" id="total_fee">
+								<input type="text" class="align-right" name="total_fee" placeholder="{php echo language('询问服务员后输入');}" id="total_fee">
 							</div>
 						</div>
 					</div>
@@ -20,15 +20,15 @@
 				<li>
 					<div class="check clearfix">
 						<span class="box"></span>
-						<span>输入不参与优惠金额(如酒水、套餐)</span>
+						<span>{php echo language('输入不参与优惠金额(如酒水、套餐)');}</span>
 					</div>
 				</li>
 				<li class="discount">
 					<div class="item-content border">
 						<div class="item-inner">
-							<div class="item-title label">不参与优惠金额</div>
+							<div class="item-title label">{php echo language('不参与优惠金额');}</div>
 							<div class="item-input">
-								<input type="text" class="align-right" placeholder="询问服务员后输入" name="no_discount_part" id="no_discount_part">
+								<input type="text" class="align-right" placeholder="{php echo language('询问服务员后输入');}" name="no_discount_part" id="no_discount_part">
 							</div>
 						</div>
 					</div>
@@ -41,12 +41,12 @@
 					<div class="item-content border-1px-t">
 						<div class="item-inner border-1px-b">
 							<div class="item-title label">
-								优惠券
-								<span class="coupon"><span></span>张可用</span>
+								{php echo language('优惠券');}
+								<span class="coupon"><span></span>{php echo language('张可用');}</span>
 							</div>
 							<div class="item-input align-right">
 								<a href="#" class="open-popup open-about" data-popup=".popup-about" id="coupon-select">
-									<span class="couponPrice"><span class="no-use">未使用</span><span class="coupon-text">元券</span></span>
+									<span class="couponPrice"><span class="no-use">{php echo language('未使用');}</span><span class="coupon-text"></span></span>
 									<i class="icon icon-right"></i>
 								</a>
 							</div>
@@ -56,10 +56,10 @@
 				<li>
 					<div class="item-content border-1px-b">
 						<div class="item-inner">
-							<div class="item-title label">实付金额</div>
+							<div class="item-title label">{php echo language('实付金额');}</div>
 							<div class="item-input align-right">
 								<span class="price">
-									¥<span id="price">0.00</span> 
+									¥<span id="price">0.00</span>
 								</span>
 							</div>
 						</div>
@@ -87,7 +87,7 @@
 			<ul>
 				<li>
 					<div class="confirm">
-						<a href="javascript:;">确认买单</a>
+						<a href="javascript:;">{php echo language('确认买单');}</a>
 					</div>
 				</li>
 			</ul>
@@ -100,10 +100,10 @@
 		<div class="content-block">
 			<header class="bar bar-nav common-bar-nav">
 				<a href="javascript:;" class="pull-left close-popup"><i class="icon icon-arrow-left"></i></a>
-				<h1 class="title">选择代金券</h1>
+				<h1 class="title">{php echo language('选择代金券');}</h1>
 			</header>
 			<div class="wui-loadmore-line wui-loadmore" style="margin-top: 1.4rem!important;">
-				<span class="wui-loadmore-tips">可用优惠券(<(message.length)>张)</span>
+				<span class="wui-loadmore-tips">{php echo language('可用优惠券');}(<(message.length)>)</span>
 			</div>
 			<div class="coupon-list" style="margin: 0!important;">
 				<(each message as item)>
@@ -119,7 +119,7 @@
 								<div class="coupon-title">
 									<(item.title)>
 								</div>
-								<div class="use-time">有效期至:<(item.endtime)></div>
+								<div class="use-time">{php echo language('有效期至');}:<(item.endtime)></div>
 							</div>
 						</div>
 						<div class="right">
@@ -133,7 +133,7 @@
 			</div>
 			<div class="block border-1px-t">
 				<a href="javascript:;" id="no-coupon">
-					不使用代金券
+					{php echo language('不使用代金券');}
 				</a>
 			</div>
 		</div>
@@ -144,7 +144,7 @@
 require(['tmodtpl'],function(tmodtpl){
 	var paybill = {
 		params: {
-			total_fee: 0, 
+			total_fee: 0,
 			no_discount_part: 0,
 			sum: 0,
 			final_fee: 0,
@@ -166,7 +166,7 @@ require(['tmodtpl'],function(tmodtpl){
 			$(this).removeClass('change');
 			$('.discount').fadeOut(400);
 		});
-		
+
 		$('#total_fee').on('input', function() {
 			paybill.calculate();
 		});
@@ -206,7 +206,7 @@ require(['tmodtpl'],function(tmodtpl){
 
 	paybill.calculate = function(is_select){
 		$('.confirm a').removeClass('submit');
-		$('.couponPrice .no-use').html('未使用');
+		$('.couponPrice .no-use').html("{php echo language('未使用');}");
 		$('.couponPrice').removeClass('red');
 		$('.couponPrice .coupon-text').hide();
 		$('.coupon').hide();
@@ -221,7 +221,7 @@ require(['tmodtpl'],function(tmodtpl){
 		paybill.params.legal = 0;
 		var total_fee = parseFloat($('#total_fee').val());
 		if(isNaN(total_fee)) {
-			$.toast('请输入有效的金额');
+			$.toast("{php echo language('请输入有效的金额');}");
 			return false;
 		}
 		paybill.params.total_fee = total_fee;
@@ -231,7 +231,7 @@ require(['tmodtpl'],function(tmodtpl){
 			no_discount_part = 0;
 		}
 		if(no_discount_part > total_fee) {
-			$.toast('不参与优惠金额不能大于消费总额');
+			$.toast("{php echo language('不参与优惠金额不能大于消费总额');}");
 			return false;
 		}
 		paybill.params.no_discount_part = no_discount_part;
@@ -267,7 +267,7 @@ require(['tmodtpl'],function(tmodtpl){
 		if(paybill.params.legal == 1) {
 			paybill.params.pay_type = $('.pay_type:checked').val();
 			if(!paybill.params.pay_type) {
-				$.toast('请选择支付方式');
+				$.toast("{php echo language('请选择支付方式');}");
 				return false;
 			}
 
@@ -277,10 +277,10 @@ require(['tmodtpl'],function(tmodtpl){
 					$.toast(result.message.message);
 					return false;
 				}
-				$.toast("下单成功", result.message.url, 'ajax');
+				$.toast("{php echo language('下单成功');}", result.message.url, 'ajax');
 			});
 		} else {
-			$.toast('请输入正确有效的金额');
+			$.toast("{php echo language('请输入正确有效的金额');}");
 			return false;
 		}
 	});

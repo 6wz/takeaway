@@ -12,9 +12,9 @@
 					<span class="star-rank-value">{$store['score']}</span>
 				</span>
 			</div>
-			<div class="sell-info">已售{$store['sailed']}份&nbsp;&nbsp;营业时间: {$store['business_hours_cn']}</div>
+			<div class="sell-info">{php echo language('已售{num}份' , ['num'=> $store['sailed'] ]);}&nbsp;&nbsp;{php echo language('营业时间');}: {$store['business_hours_cn']}</div>
 			{if !empty($activity['items']) || $store['delivery_free_price'] > 0}
-				<div class="evaluate">优惠活动</div>
+				<div class="evaluate">{php echo language('优惠活动');}</div>
 				{loop $activity['items'] $row}
 					<div class="{$row['type']} text-left">
 						{$row['title']}
@@ -22,16 +22,16 @@
 				{/loop}
 				{if $store['delivery_free_price'] > 0}
 					<div class="free text-left">
-						满{$store['delivery_free_price']}元免配送费
+						{php echo language('满{delivery_free_price}免配送费' , ['delivery_free_price'=>$store['delivery_free_price'] ]); }
 					</div>
 				{/if}
 			{/if}
-			<div class="announcement">商家公告</div>
+			<div class="announcement">{php echo language('商家公告');}</div>
 			<div class="announcement-con">
 				{if !empty($store['notice'])}
 					{$store['notice']}<br>
 				{/if}
-				本店欢迎您下单，用餐高峰请提前下单，谢谢！
+				{php echo language('本店欢迎您下单，用餐高峰请提前下单，谢谢！');}
 			</div>
 			<p><a href="#" class="close-popup"><span class="icon icon-close"></span></a></p>
 		</div>
@@ -43,10 +43,10 @@
 		<div class="bar bar-header-secondary">
 			<div class="searchbar">
 				<a class="searchbar-arrow close-popup" data-popup=".popup-search" ><i class="icon icon-arrow-left"></i></a>
-				<a class="searchbar-cancel">搜索</a>
+				<a class="searchbar-cancel">{php echo language('搜索');}</a>
 				<div class="search-input">
 					<label class="icon icon-search" for="search"></label>
-					<input type="search" id='search' name="key" value="{$_GPC['key']}" placeholder="搜索{$store['title']}的商品"/>
+					<input type="search" id='search' name="key" value="{$_GPC['key']}" placeholder="{php echo language('搜索{title}的商品',['title'=>$store['title']  ]);}"/>
 				</div>
 			</div>
 		</div>
@@ -54,7 +54,7 @@
 			<ul class="list-block media-list">
 				<div class="common-no-con hide">
 					<img src="{WE7_WMALL_TPL_URL}static/img/search_no_con.png" alt="">
-					<p>没有符合条件的搜索结果!</p>
+					<p>{php echo language('没有符合条件的搜索结果');}!</p>
 				</div>
 				<div class="search-result-container"></div>
 			</ul>
@@ -65,13 +65,13 @@
 <div class="modal modal-no-buttons modal-notice modal-store-notice">
 	<div class="modal-inner">
 		<div class="modal-title">
-			<div>温馨提示</div>
+			<div>{php echo language('温馨提示');}</div>
 		</div>
 		<div class="modal-text">
 			<div class="notice">
 				{$store['tips']}
 			</div>
-			<a href="javascript:;" onclick="$.closeModal('.modal-notice');" class="button button-big button-fill button-danger close-modal">开始购物</a>
+			<a href="javascript:;" onclick="$.closeModal('.modal-notice');" class="button button-big button-fill button-danger close-modal">{php echo language('开始购物');}</a>
 		</div>
 	</div>
 </div>
@@ -79,13 +79,13 @@
 <div class="modal modal-no-buttons modal-notice modal-store-business">
 	<div class="modal-inner">
 		<div class="modal-title">
-			<div>店铺休息中</div>
+			<div>{php echo language('店铺休息中');}</div>
 		</div>
 		<div class="modal-text">
 			<div class="notice">
-				店铺休息中，给各位带来不便敬请谅解
+				{php echo language('店铺休息中，给各位带来不便敬请谅解');}
 			</div>
-			<a href="javascript:;" onclick="$.closeModal('.modal-notice');" class="button button-big button-fill button-danger close-modal">我知道了</a>
+			<a href="javascript:;" onclick="$.closeModal('.modal-notice');" class="button button-big button-fill button-danger close-modal">{php echo language('我知道了');}</a>
 		</div>
 	</div>
 </div>
@@ -111,7 +111,7 @@
 			<div class="goods-name">
 				<{d.title}>
 			</div>
-			<div class="sell-info">已售<{d.sailed}>&nbsp;&nbsp;好评<{d.comment_good}></div>
+			<div class="sell-info">{php echo language('已售');}<{d.sailed}>&nbsp;&nbsp;{php echo language('好评');}<{d.comment_good}></div>
 			<{# if(d.is_options == 0 && d.is_attrs == 0){ }>
 				<div class="row no-gutter goods-num">
 					<div class="col-50 price">￥<span class="fee"><{d.price}></span></div>
@@ -128,24 +128,24 @@
 					<div class="col-50 price">￥<span class="fee"><{d.price}></span></div>
 					<div class="col-50 text-right operate-num {if !$store['is_in_business_hours']}hide{/if}">
 						<div class="operate-goods">
-							<span class="select-spec goods-option" data-id="<{d.id}>">可选规格</span>
+							<span class="select-spec goods-option" data-id="<{d.id}>">{php echo language('可选规格');}</span>
 						</div>
 
 					</div>
 				</div>
 			<{# } }>
-			<div class="goods-evaluate">商品评价</div>
+			<div class="goods-evaluate">{php echo language('商品评价');}</div>
 			<div class="praise text-center">好评率 <span class="rate"><{d.comment_good_percent}></span><span class="num">(共<{d.comment_total}>人评价)</span></div>
 			<div class="progress">
 				<div class="progress-bar">
 					<div class="progress-active" style="width:<{d.comment_good_percent}>;"></div>
 				</div>
 			</div>
-			<div class="goods-desc">商品描述</div>
+			<div class="goods-desc">{php echo language('商品描述');}</div>
 			<div class="goods-desc-con">
 				<{d.description}><br>
-				温馨提示: 图片仅供参考,请以实物为准;<br>
-				高峰时段及恶劣天气,请提前下单
+				{php echo language('温馨提示: 图片仅供参考,请以实物为准;');}<br>
+				{php echo language('高峰时段及恶劣天气,请提前下单');}
 			</div>
 		</div>
 	</div>
@@ -158,11 +158,11 @@
 				<{d.title}>
 				<a href="#" class="close-popup" data-popup=".popup-spec.goods-option"><span class="icon icon-close"></span></a>
 			</div>
-			<div class="sell-info">已售<{d.sailed}>&nbsp;&nbsp;好评<{d.comment_good}></div>
+			<div class="sell-info">{php echo language('已售');}<{d.sailed}>&nbsp;&nbsp;{php echo language('好评');}<{d.comment_good}></div>
 			<div class="select-requirement-container">
 				<{# if(d.is_options == 1){ }>
 					<dl class="standard-con container-option">
-						<dt>规格</dt>
+						<dt>{php echo language('规格');}</dt>
 						<{# for(var i = 0, len = d.options.length; i < len; i++){ }>
 							<dd data-price="<{d.options[i].price}>" data-goods-id="<{d.options[i].goods_id}>" data-option-id="<{d.options[i].id}>" data-option="1" class="goods-option-dd <{# if(i == 0){ }> selected<{# } }>" ><{d.options[i].name}></dd>
 						<{# } }>
@@ -198,7 +198,7 @@
 		<div class="shop-cart-list">
 			<div class="row no-gutter popup-shop-cart-header border-1px-b">
 				<div class="col-50"><span>{$store['title']}</span></div>
-				<div class="col-50 text-right shop-cart-truncate"><img src="{WE7_WMALL_TPL_URL}static/img/icon-trash.png" alt="" /><span class="color-gray">清空购物车</span></div>
+				<div class="col-50 text-right shop-cart-truncate"><img src="{WE7_WMALL_TPL_URL}static/img/icon-trash.png" alt="" /><span class="color-gray">{php echo language('清空购物车');}</span></div>
 			</div>
 			<{# for(var i in d){ }>
 				<{# for(var j in d[i]['options']){ }>
@@ -253,7 +253,7 @@
 					<div class="item-title"><{d[i].title}></div>
 				</div>
 				<div class="item-text">
-					<div class="sell-info">已售<{d[i].sailed}><{d[i].unitname}>&nbsp;&nbsp; 好评<{d[i].comment_good}></div>
+					<div class="sell-info">{php echo language('已售');}<{d[i].sailed}><{d[i].unitname}>&nbsp;&nbsp; {php echo language('好评');}<{d[i].comment_good}></div>
 					<div class="price">￥<span class="fee"><{d[i].price}></span></div>
 				</div>
 			</div>
@@ -269,11 +269,11 @@
 				</div>
 			<{# } else { }>
 				<div class="operate-goods">
-					<span class="select-spec goods-option" data-id="<{d[i].id}>">可选规格</span>
+					<span class="select-spec goods-option" data-id="<{d[i].id}>">{php echo language('可选规格');}</span>
 				</div>
 			<{# } }>
 		<{# } else { }>
-			<div class="goods-tips">店铺休息中</div>
+			<div class="goods-tips">{php echo language('店铺休息中');}</div>
 		<{# } }>
 	</li>
 	<{# } }>
@@ -443,7 +443,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 		var goods_id = $parent.data('goods-id');
 		var item = goods[goods_id];
 		if(!item) {
-			$.toast('商品不存在');
+			$.toast("{php echo language('商品不存在');}");
 			return false;
 		}
 		$(this).siblings().removeClass('selected');
@@ -464,7 +464,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 		var goods_id = $(this).data('goods-id');
 		var item = goods[goods_id];
 		if(!item) {
-			$.toast('商品不存在');
+			$.toast("{php echo language('商品不存在');}");
 			return false;
 		}
 		console.dir(item)
@@ -518,7 +518,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 		var goods_id = $(this).data('goods-id');
 		var item = goods[goods_id];
 		if(!item) {
-			$.toast('商品不存在');
+			$.toast("{php echo language('商品不存在');}");
 			return false;
 		}
 		var option_id = getOptionid(item, $(this));
@@ -578,7 +578,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 				var bargain = bargains[goods_item['bargain_id']];
 				if(bargain['avaliable_order_limit'] <= 0) {
 					if(!curNum && !flag) {
-						$.toast(bargain['title'] + '活动每天限购一单,超出后恢复原价');
+						$.toast(bargain['title'] + "{php echo language('活动每天限购一单,超出后恢复原价');}");
 					}
 					price = original_price;
 					price_change = 1;
@@ -586,7 +586,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 				if(goods_item['poi_user_type'] == 'new' && !is_newmember) {
 					if(!curNum && !flag) {
 						//只提示一次
-						$.toast('仅限门店新用户优惠');
+						$.toast("{php echo language('仅限门店新用户优惠');}");
 					}
 					price = original_price;
 					price_change = 1;
@@ -602,7 +602,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 						}
 					}
 					if(!marks && bargain_goods_item.length == bargain.goods_limit && !flag) {
-						$.toast(bargain['title'] + '每单特价商品限购'+ bargain.goods_limit +'种,超出后恢复原价');
+						$.toast(bargain['title'] + "{php echo language('每单特价商品限购');}"+ bargain.goods_limit +"{php echo language('种,超出后恢复原价');}");
 					}
 					if(!marks) {
 						bargain_goods_item.push(goods_id);
@@ -615,7 +615,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 					if(!price_change) {
 						var totalNum = goodsNum(goods_id, -1);
 						if(totalNum == goods_item['max_buy_limit'] && !flag) {
-							$.toast('每单特价商品限购' + goods_item.max_buy_limit + '份,超出后恢复原价');
+							$.toast("{php echo language('每单特价商品限购');}" + goods_item.max_buy_limit + "{php echo language('份,超出后恢复原价');}");
 						}
 						var discountNum = goodsNum(goods_id, -1, 'discount_num');
 						if(discountNum >= goods_item['max_buy_limit']) {
@@ -625,7 +625,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 							price = discount_price;
 							price_change = 2;
 							if(!flag && goods_item.discount_available_total != -1 && discountNum >= goods_item.discount_available_total) {
-								$.toast('活动库存不足,恢复原价购买');
+								$.toast("{php echo language('活动库存不足,恢复原价购买');}");
 								price = original_price;
 								price_change = 1;
 							}
@@ -635,11 +635,11 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 				if(price_change <= 1) {
 					var max = parseInt(goods_item.total);
 					if(!max && !flag) {
-						$.toast('库存不足,下次再来');
+						$.toast("{php echo language('库存不足,下次再来');}");
 						return false;
 					} else {
 						if(max != -1 && cart_item && cart_item['options'] && goodsNum(goods_id, '-1') >= max && !flag) {
-							$.toast('库存不足,下次再来');
+							$.toast("{php echo language('库存不足,下次再来');}");
 							return false;
 						}
 					}
@@ -650,7 +650,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 					max = goods_item['options'][goods_option_id]['total'];
 				}
 				if(null != max && max != "" && max != "-1" && curNum >= max && !flag) {
-					$.toast('库存不足,下次再来');
+					$.toast("{php echo language('库存不足,下次再来');}");
 					return false;
 				}
 			}
@@ -742,7 +742,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 			var box_price_item = cart_new['88888'];
 			if(!box_price_item) {
 				cart_new['88888'] = {
-					title: '餐盒费',
+					title: "{php echo language('餐盒费');}",
 					goods_id: 0,
 					options: {
 						'0': {
@@ -984,7 +984,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 				return false;
 			} else {
 				$('.coupon-show-container').hide();
-				$.toast('领取优惠券成功');
+				$.toast("{php echo language('领取优惠券成功');}");
 				return false;
 			}
 		});

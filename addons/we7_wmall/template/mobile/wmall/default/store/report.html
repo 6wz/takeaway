@@ -2,15 +2,15 @@
 <div class="page report">
 	<header class="bar bar-nav common-bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">举报商家</h1>
-		<button class="button button-link button-nav pull-right" id="btnSubmit">提交</button>
+		<h1 class="title">{php echo language('举报商家');}</h1>
+		<button class="button button-link button-nav pull-right" id="btnSubmit">{php echo language('提交');}</button>
 	</header>
 	{php get_mall_menu();}
 	<div class="content">
 		<div class="list-block">
 			<ul class="border-1px-tb">
 				<li>
-					<label class="border-1px-b"><i class="icon icon-info-circle"></i> 举报商家：{$store['title']}</label>
+					<label class="border-1px-b"><i class="icon icon-info-circle"></i> {php echo language('举报商家');}：{$store['title']}</label>
 				</li>
 				{loop $reports $report}
 					<li>
@@ -28,13 +28,13 @@
 			</ul>
 		</div>
 		<div class="list-block report-msg border-1px-tb">
-			<textarea placeholder="必填。描述详细。" name="note"></textarea>
+			<textarea placeholder="{php echo language('必填。描述详细。');}" name="note"></textarea>
 		</div>
-		<div class="content-block-title">有图有真相</div>
+		<div class="content-block-title">{php echo language('有图有真相');}</div>
 		{php echo tpl_mutil_image('images', '', 3);}
-		<div class="content-block-title">手机号,仅平台管理员可见</div>
+		<div class="content-block-title">{php echo language('手机号,仅平台管理员可见');}</div>
 		<div class="report-phone border-1px-tb">
-			<input type="text" name="mobile" value="{$_W['member']['mobile']}" placeholder="手机号码：仅平台管理员可见">
+			<input type="text" name="mobile" value="{$_W['member']['mobile']}" placeholder="{php echo language('手机号,仅平台管理员可见');}">
 		</div>
 	</div>
 </div>

@@ -2,22 +2,22 @@
 <div class="page">
 	<header class="bar bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">预订时间</h1>
+		<h1 class="title">{php echo language('预订时间');}</h1>
 	</header>
 	{php get_mall_menu();}
 	<div class="content">
 		<div class="wx-order-time">
 			<ul>
 				<li class="wxactive" data-value="{php echo date('Y-m-d');}">
-					<p>今天</p>
+					<p>{php echo language('今天');}</p>
 					<span>{php echo date('m-d'); } {php echo date2week(time());}</span>
 				</li>
 				<li class="" data-value="{php echo date('Y-m-d', strtotime('+1 days'));}">
-					<p>明天</p>
+					<p>{php echo language('明天');}</p>
 					<span>{php echo date('m-d', strtotime('+1 days')); } {php echo date2week(strtotime('+1 days'));}</span>
 				</li>
 				<li style="display: none" data-value="{php echo date('Y-m-d', strtotime('+2 days'));}">
-					<p>后天</p>
+					<p>{php echo language('后天');}</p>
 					<span>{php echo date('m-d', strtotime('+2 days')); } {php echo date2week(strtotime('+2 days'));}</span>
 				</li>
 				<li style="display: none" data-value="{php echo date('Y-m-d', strtotime('+3 days'));}">
@@ -42,7 +42,7 @@
 			{loop $categorys $category}
 				<section>
 					<h5>{$category['title']}</h5>
-					<p>¥{$category['reservation_price']}起订</p>
+					<p>{php echo language('最低消费');} ¥{$category['reservation_price']}</p>
 					<ul>
 						{loop $reserves[$category['id']] $row}
 							<li class="border-red time-point {if strtotime($row) < time()}time-disabled{/if}" data-value="{$row}" data-cid="{$category['id']}" data-flag="{if strtotime($row) < time()}0{else}1{/if}">

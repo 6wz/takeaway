@@ -2,20 +2,20 @@
 <div class="page order-confirm">
 	<header class="bar bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">提交订单</h1>
+		<h1 class="title">{php echo language('提交订单');}</h1>
 	</header>
 	<nav class="bar bar-tab no-gutter order-bar">
 		<div class="left open-popup open-shop-cart" data-popup=".popup-shop-cart">
 			<span class="pull-left">
-				已优惠
+				{php echo language('已优惠');}
 				<span>￥{$activityed['total']}</span>
 			</span>
 			<span class="pull-right">
-				还需付
+				{php echo language('还需付');}
 				<span class="sum">￥<span class="wait-price">{$waitprice}</span></span>
 			</span>
 		</div>
-		<div class="right text-center bg-danger" id="order-submit">确认下单</div>
+		<div class="right text-center bg-danger" id="order-submit">{php echo language('确认下单');}</div>
 	</nav>
 	<div class="content">
 		<form method="post" id="order-form" action="">
@@ -24,13 +24,13 @@
 			<input type="hidden" name="record_id" id="record_id" value="{$recordid}">
 			<input type="hidden" name="note" id="order-note" value="">
 			<input type="hidden" name="table_id" id="table_id" value="{$table_id}">
-			<div class="content-block-title">店内点餐</div>
+			<div class="content-block-title">{php echo language('店内点餐');}</div>
 			<div class="list-block">
 				<ul class="border-1px-tb">
 					<li>
 						<div class="item-content">
 							<div class="item-inner border-1px-b">
-								<div class="item-title label">来客人数</div>
+								<div class="item-title label">{php echo language('来客人数');}</div>
 								<div class="item-input">
 									<input type="text" name="person_num" value="1">
 								</div>
@@ -40,16 +40,16 @@
 					<li>
 						<div class="item-content">
 							<div class="item-inner border-1px-b">
-								<div class="item-title label">下单人</div>
+								<div class="item-title label">{php echo language('下单人');}</div>
 								<div class="item-input">
-									<input type="text" name="username" class="{$_W['member']['realname']}" placeholder="您的姓名">
+									<input type="text" name="username" class="{$_W['member']['realname']}" placeholder="{php echo language('您的姓名');}">
 								</div>
 							</div>
 						</div>
 					</li>
 				</ul>
 			</div>
-			<div class="content-block-title">选择支付方式 <span class="color-warning hide">（在线支付立减5元）</span></div>
+			<div class="content-block-title">{php echo language('选择支付方式');} <span class="color-warning hide">（{php echo language('在线支付立减5元');}）</span></div>
 			<div class="list-block media-list pay-method">
 				<ul class="border-1px-tb">
 					{loop $payments $row}
@@ -70,7 +70,7 @@
 					<li>
 						<a href="javascript:;" class="item-link item-content">
 							<div class="item-inner">
-								<div class="item-title">代金券</div>
+								<div class="item-title">{php echo language('代金券');}</div>
 								<div class="item-after color-danger text-right {if !empty($coupons)}open-popup{/if}" data-popup=".popup-coupon">
 								{$coupon_text}
 								</div>
@@ -80,9 +80,9 @@
 					{if !empty($conpon)}
 						<li class="help-block">
 							{if $conpon['use_limit'] == 1}
-							<div class="color-danger">本券可与其他优惠叠加使用</div>
+							<div class="color-danger">{php echo language('本券可与其他优惠叠加使用');}</div>
 							{else}
-							<div class="color-gray">本券不可与其他优惠叠加使用</div>
+							<div class="color-gray">{php echo language('本券不可与其他优惠叠加使用');}</div>
 							{/if}
 						</li>
 					{/if}
@@ -93,8 +93,8 @@
 					<li>
 						<a class="item-link item-content">
 							<div class="item-inner border-1px-b">
-								<div class="item-title">备注</div>
-								<div class="item-after order-note" id="order-note-show">(选填)可填入特殊要求</div>
+								<div class="item-title">{php echo language('备注');}</div>
+								<div class="item-after order-note" id="order-note-show">{php echo language('(选填)可填入特殊要求');}</div>
 							</div>
 						</a>
 					</li>
@@ -102,7 +102,7 @@
 					<li>
 						<div class="item-content invoice">
 							<div class="item-inner border-1px-b">
-								<div class="item-title">需要发票</div>
+								<div class="item-title">{php echo language('需要发票');}</div>
 								<div class="item-after">
 									<label class="label-switch invoice-status">
 										<input type="checkbox" value="1">
@@ -115,7 +115,7 @@
 					{/if}
 					<li class="hide invoice-value">
 						<div class="item-content">
-							<input type="text" id="invoice" placeholder="输入个人或者公司抬头"/>
+							<input type="text" id="invoice" placeholder="{php echo language('输入个人或者公司抬头');}"/>
 						</div>
 					</li>
 				</ul>
@@ -147,7 +147,7 @@
 						<li class="order-list">
 							<div class="inner-con border-1px-b">
 								<div class="row no-gutter">
-									<div class="col-80">服务费</div>
+									<div class="col-80">{php echo language('服务费');}</div>
 									<div class="col-20 text-right color-black">￥{$serve_fee}</div>
 								</div>
 							</div>
@@ -168,8 +168,8 @@
 					<li class="order-list">
 						<div class="inner-con border-1px-b">
 							<div class="row no-gutter">
-								<div class="col-60 color-muted">订单 <span class="color-black">￥{$cart['price']}</span> - 优惠<span class="color-black">￥{$activityed['total']}</span></div>
-								<div class="col-20 text-right color-muted">总计</div>
+								<div class="col-60 color-muted">{php echo language('订单');} <span class="color-black">￥{$cart['price']}</span> - {php echo language('优惠');}<span class="color-black">￥{$activityed['total']}</span></div>
+								<div class="col-20 text-right color-muted">{php echo language('总计');}</div>
 								<div class="col-20 text-right color-black">￥<span class="wait-price">{$waitprice}</span></div>
 							</div>
 						</div>
@@ -184,11 +184,11 @@
 	<div class="content-block">
 		<div class="popup-header row no-gutter">
 			<div class="col-25"><a href=""><span class="icon icon-arrow-left"></span></a></div>
-			<div class="col-50 text-center">填写备注</div>
-			<div class="col-25 text-right"><a href="javascript:;" class="sure close-popup" id="note-submit">确定</a></div>
+			<div class="col-50 text-center">{php echo language('填写备注');}</div>
+			<div class="col-25 text-right"><a href="javascript:;" class="sure close-popup" id="note-submit">{php echo language('确定');}</a></div>
 		</div>
 		<div class="popup-body">
-			<textarea name="" id="note-textarea" placeholder="给商家留言,可输入对商家的要求"></textarea>
+			<textarea name="" id="note-textarea" placeholder="{php echo language('给商家留言,可输入对商家的要求');}"></textarea>
 			{if !empty($store['order_note'])}
 				<div class="specs-select">
 					{loop $store['order_note'] $order_note}
@@ -202,11 +202,11 @@
 <div class="popup popup-coupon" id="popup-coupon">
 	<div class="page coupon coupon-select">
 		<header class="bar bar-nav common-bar-nav">
-			<h1 class="title">选择代金券</h1>
+			<h1 class="title">{php echo language('选择代金券');}</h1>
 		</header>
 		<div class="content">
 			<div class="content-padded">
-				<a href="{php echo imurl('wmall/store/table/post', array('sid' => $sid, 'table_id' => $table_id));}" class="button button-light button-big">不使用代金券</a>
+				<a href="{php echo imurl('wmall/store/table/post', array('sid' => $sid, 'table_id' => $table_id));}" class="button button-light button-big">{php echo language('不使用代金券');}</a>
 			</div>
 			<div class="coupon-list content-padded">
 				{loop $coupons $coupon}
@@ -221,26 +221,26 @@
 								<div class="row no-gutter">
 									<div class="col-40 text-center">
 										<div class="price"><span>￥</span>{$coupon['discount']}</div>
-										<div class="condition">满{$coupon['condition']}元可用</div>
+										<div class="condition">{php echo language('满{price}元可用' , ['price'=>$coupon['condition']]) ; } </div>
 									</div>
 									<div class="col-60">
 										<div class="store-title">{$coupon['title']}</div>
-										<div class="date">有效期至{php echo date('Y-m-d', $coupon['endtime'])}</div>
+										<div class="date">{php echo language('有效期至');}{php echo date('Y-m-d', $coupon['endtime'])}</div>
 									</div>
 								</div>
 							</div>
 						</label>
-						<span class="scan-rules">代金券使用规则<span class="icon icon-arrow-down"></span></span>
+						<span class="scan-rules">{php echo language('代金券使用规则');}<span class="icon icon-arrow-down"></span></span>
 					</div>
 					<ol class="coupon-rules hide">
 						<li>
 							{if $coupon['use_limit'] == 1}
-							可与其他优惠同享
+							{php echo language('可与其他优惠同享');}
 							{else}
-							不与其他优惠同享
+							{php echo language('不与其他优惠同享');}
 							{/if}
 						</li>
-						<li>仅在线支付可用</li>
+						<li>{php echo language('仅在线支付可用');}</li>
 					</ol>
 				</div>
 				{/loop}
@@ -274,12 +274,12 @@ $(function(){
 		var person_num = parseInt($(':text[name="person_num"]').val());
 		if(isNaN(person_num)) {
 			$(this).addClass('bg-danger').removeClass('bg-grey');
-			$.toast('来客人数有误');
+			$.toast("{php echo language('来客人数有误');}");
 			return false;
 		}
 		if(!$('.pay_type:checked').val()) {
 			$(this).addClass('bg-danger').removeClass('bg-grey');
-			$.toast('请选择支付方式');
+			$.toast("{php echo language('请选择支付方式');}");
 			return false;
 		}
 		var params = {
@@ -297,7 +297,7 @@ $(function(){
 				$(this).addClass('bg-danger').removeClass('bg-grey');
 				$.toast(result.message.message);
 			} else {
-				$.toast('下单成功');
+				$.toast("{php echo language('下单成功');}");
 				location.href = "{php echo imurl('system/paycenter/pay', array('sid' => $sid, 'order_type' => 'takeout'));}&id=" + result.message.message;
 			}
 			return false;
@@ -317,7 +317,7 @@ $(function(){
 	$(document).on('click', '#note-submit', function(){
 		var note = $('#note-textarea').val();
 		if(note == '') {
-			note = '(选填)可填入特殊要求';
+			note = "{php echo language('(选填)可填入特殊要求');}";
 		}
 		$('#order-note-show').html(note);
 		$('#order-note').val(note);

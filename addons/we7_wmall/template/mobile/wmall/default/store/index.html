@@ -2,7 +2,7 @@
 <div class="page store-detail" id="page-app-store">
 	<header class="bar bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">商户详情</h1>
+		<h1 class="title">{php echo language('商户详情');}</h1>
 		<a class="pull-right" href="javascript:;" id="btn-favorite" data-id="{$store['id']}" data-uid="{$_W['member']['uid']}">
 			<i class="fa {if !empty($is_favorite)}icon icon-favorfill{else}icon icon-favor{/if}"></i>
 		</a>
@@ -33,17 +33,17 @@
 						<span class="star-rank-value">{$store['score']}</span>
 					</span>
 				</div>
-				<div class="sell-info">已售:{$store['sailed']}份</div>
+				<div class="sell-info">{php echo language('已售{num}份' , ['num'=> $store['sailed'] ]);} </div>
 			</div>
 		</div>
 		<div class="row no-gutter delivery-info">
-			<div class="col-33 border-1px-r">起送价￥{$store['send_price']}</div>
-			<div class="col-33 border-1px-r">配送￥{$store['delivery_price']}</div>
-			<div class="col-33">送达时长{$store['delivery_time']}分钟</div>
+			<div class="col-33 border-1px-r">{php echo language('起送价');}￥{$store['send_price']}</div>
+			<div class="col-33 border-1px-r">{php echo language('配送费');}￥{$store['delivery_price']}</div>
+			<div class="col-33">{php echo language('送达时长');}{$store['delivery_time']}{php echo language('分钟');}</div>
 		</div>
 		<div class="grid-nav grid-money border-1px-tb">
 			<div class="grid-money-title border-1px-b">
-				商家服务
+				{php echo language('商家服务');}
 			</div>
 			<div class="row no-gutter">
 				<div class="col-20">
@@ -178,7 +178,7 @@
 						<div class="item-inner border-1px-b">
 							<div class="item-title">
 								<span><i class="icon icon-weixin"></i></span>
-								门店特色
+								{php echo language('门店特色');}
 							</div>
 						</div>
 					</a>
@@ -206,7 +206,8 @@
 						<div class="item-inner">
 							<div class="item-title">
 								<img src="{WE7_WMALL_TPL_URL}static/img/mian_b.png" alt="" />
-								下单满{$store['delivery_free_price']}元免配送费
+								{php echo language('满{delivery_free_price}免配送费' , ['delivery_free_price'=>$store['delivery_free_price'] ]); }
+
 							</div>
 						</div>
 					</div>
@@ -221,7 +222,7 @@
 						<div class="item-inner">
 							<div class="item-title">
 								<img src="{WE7_WMALL_TPL_URL}static/img/pay_b.png" alt="" />
-								支持在线支付
+								{php echo language('支持在线支付');}
 							</div>
 						</div>
 					</div>
@@ -232,7 +233,7 @@
 						<div class="item-inner border-1px-t">
 							<div class="item-title">
 								<img src="{WE7_WMALL_TPL_URL}static/img/invoice_b.png" alt="" />
-								支持使用代金券抵付现金
+								{php echo language('支持使用代金券抵付现金');}
 							</div>
 						</div>
 					</div>
@@ -243,7 +244,7 @@
 		{if !empty($store['qualification']) && !empty($store['qualification']['business']) || !empty($store['qualification']['service']) || !empty($store['qualification']['more1']) || !empty($store['qualification']['more2'])}
 			<div class="list-block store-qualification">
 				<div class="card border-1px-tb">
-					<div class="card-header border-1px-b">资质证照</div>
+					<div class="card-header border-1px-b">{php echo language('资质证照');}</div>
 					<div class="card-content">
 						<div class="row">
 							{if !empty($store['qualification']['business']['thumb'])}
@@ -264,7 +265,7 @@
 			</div>
 		{/if}
 		<div class="report border-1px-tb">
-			<a href="{php echo imurl('wmall/store/report', array('sid' => $sid));}">举报商家</a>
+			<a href="{php echo imurl('wmall/store/report', array('sid' => $sid));}">{php echo language('举报商家');}</a>
 		</div>
 	</div>
 </div>
@@ -272,8 +273,8 @@
 <div class="popup popup-store-description">
 	<div class="page">
 		<header class="bar bar-nav common-bar-nav">
-			<h1 class="title">门店特色</h1>
-			<button class="button button-link button-nav pull-right close-popup">关闭</button>
+			<h1 class="title">{php echo language('门店特色');}</h1>
+			<button class="button button-link button-nav pull-right close-popup">{php echo language('关闭');}</button>
 		</header>
 		<div class="content" style="background: #FFF">
 			<div class="content-padded">
