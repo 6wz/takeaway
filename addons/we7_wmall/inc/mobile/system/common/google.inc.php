@@ -11,7 +11,7 @@ if( $ta == "getAddressByLngLat" )
     $longitude = trim($_GPC["lng"]);
     $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&language=". 'en' . "&latlng=" . $latitude. "," .$longitude ;
     $result = ihttp_get($url);
-    die($result) ;
+    die(json_encode($result , 256)) ;
 
 }
 

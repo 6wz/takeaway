@@ -69,20 +69,21 @@ define(["laytpl"], function (a) {
                 //获取当前地理位置
                 navigator.geolocation.getCurrentPosition(function (position) {
                         var coords = position.coords;
-                        $.ajax({
+
+                       /* $.ajax({
                             type: "get",
                             async:false,
                             url: c.getUrl('system/common/google'),
                             contentType: "application/json;charset=utf-8",
                             dataType: "json",
-                            data:{'ta':getAddressByLngLat , 'lat':coords.latitude , 'lng':coords.longitude} ,
+                            data:{'ta':'getAddressByLngLat' , 'lat':coords.latitude , 'lng':coords.longitude} ,
                             success: function (data) {
                                 string =    data
                             }, error: function (error) {
                                 console.log(error);
                             }
                         });
-                        console.log(string) ;
+                        console.log(string) ;*/
                     },
                     function (error) {
                         alert("获取地址失败");
