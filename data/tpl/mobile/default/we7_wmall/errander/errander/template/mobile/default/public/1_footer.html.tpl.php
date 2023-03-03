@@ -5,20 +5,20 @@
 	<div class="follow-tips">
 		<div class="info">
 			<div class="logo"><img src="<?php  echo tomedia($_W['we7_wmall']['config']['mall']['logo']);?>" alt=""></div>
-			<div class="txt"><p>欢迎进入<?php  echo $_W['we7_wmall']['config']['mall']['title'];?><br>关注公众号，享专属服务</p></div>
+			<div class="txt"><p><?php  echo language('欢迎进入');?><?php  echo $_W['we7_wmall']['config']['mall']['title'];?><br><?php  echo language('关注公众号，享专属服务');?></p></div>
 		</div>
 		<?php  if(!empty($_W['we7_wmall']['config']['follow']['qrcode'])) { ?>
-			<div class="text-btn"><a href="javascript:;" class="button button-big js-open-modal" data-modal="#concern">立即关注</a></div>
+			<div class="text-btn"><a href="javascript:;" class="button button-big js-open-modal" data-modal="#concern"><?php  echo language('立即关注');?></a></div>
 			<div class="close-modal">&times;</div>
 		<?php  } else { ?>
-			<div class="text-btn"><a href="<?php  echo $_W['we7_wmall']['config']['follow']['link'];?>">立即关注</a></div>
+			<div class="text-btn"><a href="<?php  echo $_W['we7_wmall']['config']['follow']['link'];?>"><?php  echo language('立即关注');?></a></div>
 		<?php  } ?>
 	</div>
 	<div class="modal modal-no-buttons" id="concern">
 		<div class="code-warpper">
 			<img src="<?php  echo tomedia($_W['we7_wmall']['config']['follow']['qrcode'])?>" alt="">
 		</div>
-		<div class="notice">长按识别二维码关注</div>
+		<div class="notice"><?php  echo language('长按识别二维码关注');?></div>
 		<a href="javascript:;" class="js-close-modal" data-modal="#concern">&times;</a>
 	</div>
 <?php  } ?>
@@ -30,7 +30,7 @@
 			<img src="<?php  echo tomedia($_config_mall['logo']);?>" alt="">
 			<div class="text">
 				<div class="order-status"><?php  echo $_order['log']['title'];?></div>
-				<div class="time">请耐心等待</div>
+				<div class="time"><?php  echo language('请耐心等待');?></div>
 			</div>
 			<span class="order-status-close">&times;</span>
 		</div>
@@ -221,7 +221,7 @@ $(function(){
 				}
 			}).fail(function() {
 				obj.removeAttr("submitting");
-				$.toast('网络异常');
+				$.toast("<?php  echo language('网络异常');?>");
 			});
 		};
 		if(confirm) {

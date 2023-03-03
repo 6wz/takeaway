@@ -9,11 +9,11 @@
 			</div>
 			<div class="btn-area">
 				<p>
-					<a href="<?php  echo $redirect;?>" class="button"><?php  if(!empty($btn_text)) { ?><?php  echo $btn_text;?><?php  } else { ?>确定<?php  } ?></a>
+					<a href="<?php  echo $redirect;?>" class="button"><?php  if(!empty($btn_text)) { ?><?php  echo $btn_text;?><?php  } else { ?><?php  echo language('确定');?><?php  } ?></a>
 				</p>
 			</div>
 			<div class="extra-area">
-				<a href="<?php  echo ivurl('pages/home/index', array(), true);?>">返回首页</a>
+				<a href="<?php  echo ivurl('pages/home/index', array(), true);?>"><?php  echo language('返回首页');?></a>
 			</div>
 		</div>
 	</div>
