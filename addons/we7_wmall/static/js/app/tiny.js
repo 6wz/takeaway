@@ -69,7 +69,15 @@ define(["laytpl"], function (a) {
                 //获取当前地理位置
                 navigator.geolocation.getCurrentPosition(function (position) {
                         var coords = position.coords;
-
+                        console.log(coords) ;
+                        a({ lat: coords.latitude, lng: coords.longitude});
+                        $.isFunction(b) && b({
+                            address: '暂时地址显示',
+                            lat: coords.latitude,
+                            lng: coords.longitude,
+                            location_x: coords.latitude,
+                            location_y: coords.longitude
+                        })
                        /* $.ajax({
                             type: "get",
                             async:false,
