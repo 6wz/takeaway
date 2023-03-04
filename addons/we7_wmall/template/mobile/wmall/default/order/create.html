@@ -367,7 +367,7 @@
 						<ul id="category1">
 							{if $time_flag == 1}
 								<li data-value="{php echo language('尽快送达');}" data-id="{$predict_index}" data-extra-price="{$predict_extra_price}" class="time-flag"><a href="javascript:;">{php echo language('尽快送达');} <span>({$predict_delivery_price})</span></a></li>
-								<li class="delivery-tips time-flag">{php echo language('约{time}送达' , ['time'=>$predict_time_cn])}</li>
+								<li class="delivery-tips time-flag"><?php echo language('约{time}送达' , ['time'=>$predict_time_cn])?></li>
 							{/if}
 							{loop $delivery_time['times'] $i $time}
 								<li data-value="{$time['start']} ~ {$time['end']}" data-id="{$i}" data-extra-price="{$time['fee']}" class="{if $time['timestamp'] <= $predict_timestamp && !$delivery_time['reserve']}hide init-hide{/if}">
@@ -426,11 +426,11 @@
 							</div>
 						</div>
 						<div class="redPacket-use-limit row">
-							<div class="col-60"> {php echo language('仅限{time_cn}时段使用' , ['time_cn'=> date('Y-m-d', $redPacket['starttime']).'~'. date('Y-m-d', $redPacket['endtime']] ) }
+							<div class="col-60"> <?php echo language('仅限{time_cn}时段使用' , ['time_cn'=> date('Y-m-d', $redPacket['starttime']).'~'. date('Y-m-d', $redPacket['endtime']] ) ?>
 								</div>
 							<div class="col-40 text-right">
 								{if $redPacket['condition'] > 0}
-									<p class="use-condition">{php echo language('满{price}元可用' , [ 'price'=> $redPacket['condition'] ]  )}  </p>
+									<p class="use-condition"><?php echo language('满{price}元可用' , [ 'price'=> $redPacket['condition'] ]  ) ?>  </p>
 								{else}
 									<p class="use-condition">{php echo language('满任意金额元可用');}</p>
 								{/if}
@@ -514,9 +514,9 @@
 		</div>
 		<div class="modal-text">
 			<div class="notice">
-				{php echo language('{start_km}千米内，收取{price}元配送费' , [ 'start_km'=> $store['delivery_price_extra']['start_km'] ,'price'=> $store['delivery_price_extra']['start_fee']]  )}<br>
+				<?php echo language('{start_km}千米内，收取{price}元配送费' , [ 'start_km'=> $store['delivery_price_extra']['start_km'] ,'price'=> $store['delivery_price_extra']['start_fee']]  ) ?><br>
 
-				{php echo language('{start_km}千米以上，每增加1千米，多收取{price}元' , ['start_km'=> $store['delivery_price_extra']['start_km'] , 'price'=> $store['delivery_price_extra']['pre_km_fee'] ]  )}
+				<?php echo language('{start_km}千米以上，每增加1千米，多收取{price}元' , ['start_km'=> $store['delivery_price_extra']['start_km'] , 'price'=> $store['delivery_price_extra']['pre_km_fee'] ]  )?>
 
 				<div id="delivery-predict-price" class="{if empty($delivery_time['times'][$predict_index]['fee'])}hide{/if}">
 					{php echo language('特殊时间段配送附加费');} ￥{$delivery_time['times'][$predict_index]['fee']}

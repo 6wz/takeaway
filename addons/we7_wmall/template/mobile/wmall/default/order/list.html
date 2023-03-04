@@ -45,7 +45,7 @@
 							</div>
 							<a class="goods-info row no-gutter external" href="{php echo imurl('wmall/order/index/detail', array('id' => $order['id']));}">
 								<div class="col-75">
-									<div class="goods-title">{php echo language('{title}等{num}件商品' ,  [ 'title'=>$order['goods']['goods_title'] ,'num'=> $order['num']   ])} </div>
+									<div class="goods-title"><?php echo language('{title}等{num}件商品' ,  [ 'title'=>$order['goods']['goods_title'] ,'num'=> $order['num']   ])?> </div>
 									<div class="date">{php echo date('Y-m-d H:i', $order['addtime']);}</div>
 								</div>
 								<div class="col-25 text-right">
@@ -63,7 +63,7 @@
 										<div class="clearfix">{php echo language('待支付');}<span class="pull-right date">{php echo date('H:i', $order['addtime']);}</span></div>
 										<div class="tips">
 											{if $config_takeout['pay_time_limit'] > 0}
-												{php echo language('请在提交订单后{time}分钟内完成支付' , ['time'=> $config_takeout['pay_time_limit']  ])}
+												<?php echo language('请在提交订单后{time}分钟内完成支付' , ['time'=> $config_takeout['pay_time_limit']  ])?>
 											{else}
 												{php echo language('请在提交订单后尽快完成支付');}
 											{/if}

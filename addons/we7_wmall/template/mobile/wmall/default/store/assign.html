@@ -88,7 +88,7 @@
 	{php get_mall_menu();}
 	<div class="content">
 		<div class="wxwait-status">
-			<h5>{php echo language('还需等待{count}桌，您的号码是',['count'=>$count   ] )}</h5>
+			<h5><?php echo language('还需等待{count}桌，您的号码是',['count'=>$count   ] )?></h5>
 			<div class="wxwait-arr">{$mine['number']}</div>
 			<div class="wxwait-arr-cur">{$queue['title']}，{php echo language('已叫号至');}{$now_number}</div>
 		</div>

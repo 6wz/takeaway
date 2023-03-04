@@ -201,7 +201,7 @@
 				<div class="xin text-left">
 					{php echo language('新用户在线支付');}
 					{loop $activity['first_order_data'] $first}
-						{php echo language('满{condition}减{discount}' , ['condition'=>$first['condition'] , 'discount'=> $first['back']  ]); }
+						<?php echo language('满{condition}减{discount}' , ['condition'=>$first['condition'] , 'discount'=> $first['back']  ]); ?>
 
 					{/loop}
 				</div>
@@ -210,7 +210,7 @@
 				<div class="minus text-left">
 					{php echo language('在线支付');}
 					{loop $activity['discount_data'] $discount}
-						{php echo language('满{condition}减{discount}' , ['condition'=>$first['condition'] , 'discount'=> $discount['back']  ]); }
+						<?php echo language('满{condition}减{discount}' , ['condition'=>$first['condition'] , 'discount'=> $discount['back']  ]); ?>
 					{/loop}
 				</div>
 			{/if}
@@ -218,7 +218,7 @@
 				<div class="zeng text-left">
 					{php echo language('在线支付');}
 					{loop $activity['grant_data'] $grant}
-					   {php echo language('满{condition}元赠{back}' , ['condition'=>$grant['condition'] , 'back'=> $grant['back']  ]); }
+					   <?php echo language('满{condition}元赠{back}' , ['condition'=>$grant['condition'] , 'back'=> $grant['back']  ]); ?>
 					{/loop}
 				</div>
 			{/if}
@@ -229,7 +229,7 @@
 			{/if}
 			{if $store['delivery_free_price'] > 0}
 				<div class="free text-left">
-					{php echo language('满{delivery_free_price}免配送费' , ['delivery_free_price'=>$store['delivery_free_price'] ]); }
+					<?php echo language('满{delivery_free_price}免配送费' , ['delivery_free_price'=>$store['delivery_free_price'] ]); ?>
 				</div>
 			{/if}
 			<div class="announcement">{php echo language('商家公告');}</div>

@@ -96,9 +96,9 @@
 						<div class="coupon-info">
 							<div class="coupon-title">{php echo language('商家代金券');}</div>
 							{if $token_nums > 1}
-								<div class="condition">{php echo language('内含{num}张券' , ['num'=>$token_nums]) ; }</div>
+								<div class="condition"><?php echo language('内含{num}张券' , ['num'=>$token_nums]) ; ?></div>
 							{else}
-								<div class="condition">{php echo language('满{price}元可用' , ['price'=>$token['condition']]) ; }</div>
+								<div class="condition"><?php echo language('满{price}元可用' , ['price'=>$token['condition']]) ; ?></div>
 							{/if}
 						</div>
 						<div class="get">
@@ -137,7 +137,7 @@
 													{/if}
 												</div>
 												{if !empty($ds['discount'])}
-												<span class="tag tag-danger">{if $ds['poi_user_type'] == 'new'}{php echo language('新用户专享');}{/if} {$ds['discount']}{php echo language('折');} {php echo language('每单仅限{num}份' , ['num'=> $ds['max_buy_limit'] ] )}</span>
+												<span class="tag tag-danger">{if $ds['poi_user_type'] == 'new'}{php echo language('新用户专享');}{/if} {$ds['discount']}{php echo language('折');} <?php echo language('每单仅限{num}份' , ['num'=> $ds['max_buy_limit'] ] ) ?> </span>
 												{/if}
 											</div>
 										</a>

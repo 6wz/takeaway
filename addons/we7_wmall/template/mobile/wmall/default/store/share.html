@@ -35,7 +35,7 @@
                         {/loop}
                         {if $store['delivery_free_price'] > 0}
                             <div class="activity-row free {if $num > 1}hide{/if}">
-								{php echo language('满{delivery_free_price}免配送费' ,['delivery_free_price'=> $store['delivery_free_price'] ]) ;}
+								<?php echo language('满{delivery_free_price}免配送费' ,['delivery_free_price'=> $store['delivery_free_price'] ]) ;?>
 
                             </div>
                         {/if}

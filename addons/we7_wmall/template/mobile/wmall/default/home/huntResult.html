@@ -87,7 +87,7 @@
 											{php echo language('在线支付');}
 											{loop $store['activity']['discount_data'] $discount}
 
-											{php echo language('满{condition}减{discount}' , ['condition'=>$discount['condition'] , 'discount'=>$discount['back']]);}
+											<?php echo language('满{condition}减{discount}' , ['condition'=>$discount['condition'] , 'discount'=>$discount['back']]);?>
 
 											{/loop}
 										</div>
