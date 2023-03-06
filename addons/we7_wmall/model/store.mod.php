@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 
@@ -28,13 +28,13 @@ defined("IN_IA") or exit( "Access Denied" );
 function is_favorite_store($sid, $uid = 0)
 {
     global $_W;
-    if( empty($uid) ) 
+    if( empty($uid) )
     {
         $uid = $_W["member"]["uid"];
     }
 
     $is_ok = pdo_get("tiny_wmall_store_favorite", array( "sid" => $sid, "uid" => $uid ));
-    if( !empty($is_ok) ) 
+    if( !empty($is_ok) )
     {
         return true;
     }
@@ -48,15 +48,15 @@ function store_set_data($sid, $key, $value)
     $data = store_get_data($sid);
     $keys = explode(".", $key);
     $counts = count($keys);
-    if( $counts == 1 ) 
+    if( $counts == 1 )
     {
         $data[$keys[0]] = $value;
     }
     else
     {
-        if( $counts == 2 ) 
+        if( $counts == 2 )
         {
-            if( !is_array($data[$keys[0]]) ) 
+            if( !is_array($data[$keys[0]]) )
             {
                 $data[$keys[0]] = array(  );
             }
@@ -65,15 +65,15 @@ function store_set_data($sid, $key, $value)
         }
         else
         {
-            if( $counts == 3 ) 
+            if( $counts == 3 )
             {
-                if( !is_array($data[$keys[0]]) ) 
+                if( !is_array($data[$keys[0]]) )
                 {
                     $data[$keys[0]] = array(  );
                 }
                 else
                 {
-                    if( !is_array($data[$keys[0]][$keys[1]]) ) 
+                    if( !is_array($data[$keys[0]][$keys[1]]) )
                     {
                         $data[$keys[0]][$keys[1]] = array(  );
                     }
@@ -96,29 +96,29 @@ function store_get_data($sid, $key = "")
     global $_W;
     $store = pdo_get("tiny_wmall_store", array( "uniacid" => $_W["uniacid"], "id" => $sid ), array( "data" ));
     $data = iunserializer($store["data"]);
-    if( !is_array($data) ) 
+    if( !is_array($data) )
     {
         $data = array(  );
     }
 
-    if( empty($key) ) 
+    if( empty($key) )
     {
         return $data;
     }
 
     $keys = explode(".", $key);
     $counts = count($keys);
-    if( $counts == 1 ) 
+    if( $counts == 1 )
     {
         return $data[$key];
     }
 
-    if( $counts == 2 ) 
+    if( $counts == 2 )
     {
         return $data[$keys[0]][$keys[1]];
     }
 
-    if( $counts == 3 ) 
+    if( $counts == 3 )
     {
         return $data[$keys[0]][$keys[1]][$keys[1]];
     }
@@ -130,7 +130,7 @@ function clerk_manage($id)
 {
     global $_W;
     $perm = pdo_getall("tiny_wmall_store_clerk", array( "uniacid" => $_W["uniacid"], "clerk_id" => $id, "role" => "manager" ), array(  ), "sid");
-    if( empty($perm) ) 
+    if( empty($perm) )
     {
         return array(  );
     }
@@ -141,15 +141,15 @@ function clerk_manage($id)
 function store_fetch($id, $field = array(  ))
 {
     global $_W;
-    if( empty($id) ) 
+    if( empty($id) )
     {
         return false;
     }
 
     $field_str = "*";
-    if( !empty($field) ) 
+    if( !empty($field) )
     {
-        if( in_array("cid", $field) && !in_array("cate_parentid1", $field) ) 
+        if( in_array("cid", $field) && !in_array("cate_parentid1", $field) )
         {
             $field = array_merge($field, array( "cate_parentid1", "cate_childid1", "cate_parentid2", "cate_childid2" ));
         }
@@ -158,12 +158,12 @@ function store_fetch($id, $field = array(  ))
     }
 
     $data = pdo_fetch("SELECT " . $field_str . " FROM " . tablename("tiny_wmall_store") . " WHERE uniacid = :uniacid AND id = :id", array( ":uniacid" => $_W["uniacid"], ":id" => $id ));
-    if( empty($data) ) 
+    if( empty($data) )
     {
         return error(-1, "门店不存在或已删除");
     }
 
-    if( empty($data["delivery_mode"]) ) 
+    if( empty($data["delivery_mode"]) )
     {
         $data["delivery_mode"] = 2;
     }
@@ -174,31 +174,31 @@ function store_fetch($id, $field = array(  ))
     $cid = array_filter(explode("|", $data["cid"]));
     $data["category_arr"] = array_values($cid);
     $cid = implode(",", $cid);
-    if( !empty($data["cid"]) && !empty($cid) ) 
+    if( !empty($data["cid"]) && !empty($cid) )
     {
         $category = pdo_fetchall("select id, title from " . tablename("tiny_wmall_store_category") . " where uniacid = :uniacid and id in (" . $cid . ")", array( ":uniacid" => $_W["uniacid"] ));
         $data["category"] = array(  );
-        if( !empty($category) ) 
+        if( !empty($category) )
         {
             $category_cn1 = $category_cn2 = "";
-            foreach( $category as $val ) 
+            foreach( $category as $val )
             {
-                if( $val["id"] == $data["cate_parentid1"] ) 
+                if( $val["id"] == $data["cate_parentid1"] )
                 {
                     $category_cn1 .= $val["title"];
                 }
 
-                if( $val["id"] == $data["cate_childid1"] ) 
+                if( $val["id"] == $data["cate_childid1"] )
                 {
                     $category_cn1 .= "-" . $val["title"];
                 }
 
-                if( $val["id"] == $data["cate_parentid2"] ) 
+                if( $val["id"] == $data["cate_parentid2"] )
                 {
                     $category_cn2 .= $val["title"];
                 }
 
-                if( $val["id"] == $data["cate_childid2"] ) 
+                if( $val["id"] == $data["cate_childid2"] )
                 {
                     $category_cn2 .= "-" . $val["title"];
                 }
@@ -212,30 +212,30 @@ function store_fetch($id, $field = array(  ))
 
     }
 
-    $se_fileds = array( "thumbs", "delivery_areas", "delivery_areas1", "delivery_extra", "sns", "payment", "business_hours", "remind_reply", "qualification", "comment_reply", "wechat_qrcode", "custom_url", "serve_fee", "order_note", "delivery_times", "data", "haodian_data" );
-    foreach( $se_fileds as $se_filed ) 
+    $se_fileds = array( "thumbs", "delivery_areas", "delivery_areas1", "delivery_extra", "sns", "payment", "business_hours", "remind_reply","remind_reply_th", "qualification", "comment_reply","comment_reply_th", "wechat_qrcode", "custom_url", "serve_fee", "order_note", "order_note_th", "delivery_times", "data", "haodian_data" );
+    foreach( $se_fileds as $se_filed )
     {
-        if( isset($data[$se_filed]) ) 
+        if( isset($data[$se_filed]) )
         {
-            if( !in_array($se_filed, array( "thumbs", "delivery_areas", "qualification" )) ) 
+            if( !in_array($se_filed, array( "thumbs", "delivery_areas", "qualification" )) )
             {
                 $data[$se_filed] = iunserializer($data[$se_filed]);
             }
             else
             {
                 $data[$se_filed] = iunserializer($data[$se_filed]);
-                if( $se_filed == "thumbs" ) 
+                if( $se_filed == "thumbs" )
                 {
-                    foreach( $data[$se_filed] as &$thumb ) 
+                    foreach( $data[$se_filed] as &$thumb )
                     {
                         $thumb["image"] = tomedia($thumb["image"]);
                     }
                 }
                 else
                 {
-                    if( $se_filed == "qualification" ) 
+                    if( $se_filed == "qualification" )
                     {
-                        foreach( $data[$se_filed] as &$thumb ) 
+                        foreach( $data[$se_filed] as &$thumb )
                         {
                             $thumb["thumb"] = tomedia($thumb["thumb"]);
                         }
@@ -249,24 +249,24 @@ function store_fetch($id, $field = array(  ))
 
     }
     $data["address_type"] = 0;
-    if( check_plugin_perm("area") && $_W["we7_wmall"]["config"]["mall"]["address_type"] == 1 ) 
+    if( check_plugin_perm("area") && $_W["we7_wmall"]["config"]["mall"]["address_type"] == 1 )
     {
         $data["address_type"] = 1;
     }
 
-    if( $data["auto_handel_order"] == 2 && isset($data["auto_print_order"]) ) 
+    if( $data["auto_handel_order"] == 2 && isset($data["auto_print_order"]) )
     {
         $data["auto_print_order"] = 0;
     }
 
-    if( !empty($data["delivery_areas1"]) ) 
+    if( !empty($data["delivery_areas1"]) )
     {
-        foreach( $data["delivery_areas1"] as $key => $value ) 
+        foreach( $data["delivery_areas1"] as $key => $value )
         {
             mload()->model("plugin");
             pload()->model("area");
             $status = area_check_area_status($key);
-            if( empty($status) ) 
+            if( empty($status) )
             {
                 unset($data["delivery_areas1"][$key]);
             }
@@ -276,11 +276,11 @@ function store_fetch($id, $field = array(  ))
     }
 
     $data["is_in_business_hours"] = intval($data["is_in_business"]);
-    if( isset($data["business_hours"]) ) 
+    if( isset($data["business_hours"]) )
     {
-        if( $data["is_in_business"] == 1 ) 
+        if( $data["is_in_business"] == 1 )
         {
-            if( $data["rest_can_order"] == 1 ) 
+            if( $data["rest_can_order"] == 1 )
             {
                 $data["is_in_business_hours"] = true;
             }
@@ -291,11 +291,11 @@ function store_fetch($id, $field = array(  ))
 
         }
 
-        if( $data["is_in_business_hours"] && !store_is_in_business_hours($data["business_hours"]) ) 
+        if( $data["is_in_business_hours"] && !store_is_in_business_hours($data["business_hours"]) )
         {
             $data["is_rest_reserve"] = 1;
             $rest_order_info = store_rest_start_delivery_time($data);
-            if( $rest_order_info["nextday"] == 1 ) 
+            if( $rest_order_info["nextday"] == 1 )
             {
                 $data["rest_reserve_cn"] = "现在预订， 最早明天" . $rest_order_info["delivery_time"] . "开始配送";
             }
@@ -307,9 +307,9 @@ function store_fetch($id, $field = array(  ))
         }
 
         $hour = array(  );
-        foreach( $data["business_hours"] as $li ) 
+        foreach( $data["business_hours"] as $li )
         {
-            if( !is_array($li) ) 
+            if( !is_array($li) )
             {
                 continue;
             }
@@ -319,18 +319,18 @@ function store_fetch($id, $field = array(  ))
         $data["business_hours_cn"] = implode(",", $hour);
     }
 
-    if( isset($data["score"]) ) 
+    if( isset($data["score"]) )
     {
         $data["score_cn"] = round($data["score"] / 5, 2) * 100;
         $data["score"] = floatval($data["score"]);
     }
 
-    if( isset($data["delivery_fee_mode"]) ) 
+    if( isset($data["delivery_fee_mode"]) )
     {
-        if( $data["delivery_fee_mode"] == 1 ) 
+        if( $data["delivery_fee_mode"] == 1 )
         {
             $data["order_address_limit"] = 1;
-            if( !$data["not_in_serve_radius"] && 0 < $data["serve_radius"] ) 
+            if( !$data["not_in_serve_radius"] && 0 < $data["serve_radius"] )
             {
                 $data["order_address_limit"] = 2;
             }
@@ -338,11 +338,11 @@ function store_fetch($id, $field = array(  ))
         }
         else
         {
-            if( $data["delivery_fee_mode"] == 2 ) 
+            if( $data["delivery_fee_mode"] == 2 )
             {
                 $data["delivery_price_extra"] = iunserializer($data["delivery_price"]);
                 $data["delivery_price"] = $data["delivery_price_extra"]["start_fee"];
-                if( !$data["not_in_serve_radius"] && 0 < $data["serve_radius"] ) 
+                if( !$data["not_in_serve_radius"] && 0 < $data["serve_radius"] )
                 {
                     $data["order_address_limit"] = 2;
                 }
@@ -354,7 +354,7 @@ function store_fetch($id, $field = array(  ))
             }
             else
             {
-                if( $data["delivery_fee_mode"] == 3 ) 
+                if( $data["delivery_fee_mode"] == 3 )
                 {
                     $data["order_address_limit"] = 4;
                     $price = store_order_condition($data);
@@ -368,63 +368,63 @@ function store_fetch($id, $field = array(  ))
 
     }
 
-    if( isset($data["haodian_score"]) ) 
+    if( isset($data["haodian_score"]) )
     {
         $data["haodian_score"] = floatval($data["haodian_score"]);
     }
 
-    if( isset($data["haodian_cid"]) && 0 < $data["haodian_cid"] ) 
+    if( isset($data["haodian_cid"]) && 0 < $data["haodian_cid"] )
     {
         $data["haodian_cid_cn"] = pdo_fetchcolumn("select title from " . tablename("tiny_wmall_haodian_category") . " where uniacid = :uniacid and agentid = :agentid and id = :id", array( "uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"], ":id" => $data["haodian_cid"] ));
         $data["haodian_category_cn"] = $data["haodian_cid_cn"];
     }
 
-    if( isset($data["haodian_child_id"]) && 0 < $data["haodian_child_id"] ) 
+    if( isset($data["haodian_child_id"]) && 0 < $data["haodian_child_id"] )
     {
         $data["haodian_child_id_cn"] = pdo_fetchcolumn("select title from " . tablename("tiny_wmall_haodian_category") . " where uniacid = :uniacid and agentid = :agentid and id = :id", array( "uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"], ":id" => $data["haodian_child_id"] ));
         $data["haodian_category_cn"] .= "-" . $data["haodian_child_id_cn"];
     }
 
-    if( isset($data["data"]) ) 
+    if( isset($data["data"]) )
     {
         $data["data"] = iunserializer($data["data"]);
-        if( !empty($data["data"]["shopSign"]) ) 
+        if( !empty($data["data"]["shopSign"]) )
         {
             $data["data"]["shopSign"] = tomedia($data["data"]["shopSign"]);
         }
 
         $data["service_titles"] = array( "takeout" => "点外卖", "tangshi" => "扫码点餐", "assign" => "排号", "reserve" => "预定", "paybill" => "当面付" );
-        if( !empty($data["data"]["service_titles"]) ) 
+        if( !empty($data["data"]["service_titles"]) )
         {
             $data["service_titles"] = array_merge($data["service_titles"], $data["data"]["service_titles"]);
         }
 
         $data["pindan_status"] = 1;
-        if( !empty($data["data"]["pindan"]) && isset($data["data"]["pindan"]["pindan_status"]) ) 
+        if( !empty($data["data"]["pindan"]) && isset($data["data"]["pindan"]["pindan_status"]) )
         {
             $data["pindan_status"] = $data["data"]["pindan"]["pindan_status"];
         }
 
-        if( empty($data["data"]["cn"]) ) 
+        if( empty($data["data"]["cn"]) )
         {
             $data["data"]["cn"] = array( "box_price" => "餐盒费", "pack_fee" => "包装费" );
         }
 
         $data["cn"] = $data["data"]["cn"];
-        if( !empty($data["data"]["zhunshibao"]) && $data["data"]["zhunshibao"]["status"] == 1 ) 
+        if( !empty($data["data"]["zhunshibao"]) && $data["data"]["zhunshibao"]["status"] == 1 )
         {
-            if( $data["data"]["zhunshibao"]["fee_type"] == 1 ) 
+            if( $data["data"]["zhunshibao"]["fee_type"] == 1 )
             {
                 $rule_cn = "";
-                if( !empty($data["data"]["zhunshibao"]["rule"]) ) 
+                if( !empty($data["data"]["zhunshibao"]["rule"]) )
                 {
-                    foreach( $data["data"]["zhunshibao"]["rule"] as $val ) 
+                    foreach( $data["data"]["zhunshibao"]["rule"] as $val )
                     {
                         $rule_cn .= "延误" . $val["time"] . "分钟,赔" . $val["fee"] . "元,";
                     }
                 }
 
-                if( !empty($rule_cn) ) 
+                if( !empty($rule_cn) )
                 {
                     $rule_cn = rtrim($rule_cn, ",");
                     $rule_cn = "骑手送达" . $rule_cn;
@@ -436,31 +436,31 @@ function store_fetch($id, $field = array(  ))
             $data["zhunshibao_agreement"] = get_config_text("zhunshibao:agreement");
         }
 
-        if( empty($data["data"]["order_form"]) ) 
+        if( empty($data["data"]["order_form"]) )
         {
             $data["data"]["order_form"] = array( "person_num" => "1" );
         }
 
     }
 
-    if( isset($data["haodian_data"]) ) 
+    if( isset($data["haodian_data"]) )
     {
         $data["haodian_tags"] = array(  );
-        if( !empty($data["haodian_data"]["tags"]) ) 
+        if( !empty($data["haodian_data"]["tags"]) )
         {
             $data["haodian_tags"] = $data["haodian_data"]["tags"];
         }
 
     }
 
-    if( isset($data["menu"]) ) 
+    if( isset($data["menu"]) )
     {
         $data["menu"] = json_decode(base64_decode($data["menu"]), true);
-        if( !empty($data["menu"]["data"]) ) 
+        if( !empty($data["menu"]["data"]) )
         {
-            foreach( $data["menu"]["data"]["data"] as &$val ) 
+            foreach( $data["menu"]["data"]["data"] as &$val )
             {
-                if( empty($val["img"]) ) 
+                if( empty($val["img"]) )
                 {
                     continue;
                 }
@@ -479,7 +479,7 @@ function store_manager($sid)
     global $_W;
     $perm = pdo_get("tiny_wmall_store_clerk", array( "uniacid" => $_W["uniacid"], "sid" => $sid, "role" => "manager" ));
     $clerk = array(  );
-    if( !empty($perm) ) 
+    if( !empty($perm) )
     {
         $clerk = pdo_get("tiny_wmall_clerk", array( "uniacid" => $_W["uniacid"], "id" => $perm["clerk_id"] ));
     }
@@ -491,26 +491,26 @@ function store_fetchall($field = array(  ))
 {
     global $_W;
     $field_str = "*";
-    if( !empty($field) ) 
+    if( !empty($field) )
     {
         $field_str = implode(",", $field);
     }
 
     $data = pdo_fetchall("SELECT " . $field_str . " FROM " . tablename("tiny_wmall_store") . " WHERE uniacid = :uniacid", array( ":uniacid" => $_W["uniacid"] ), "id");
-    if( !empty($data) ) 
+    if( !empty($data) )
     {
         $se_fileds = array( "thumbs", "sns", "mobile_verify", "payment", "business_hours", "thumbs", "remind_reply", "comment_reply", "wechat_qrcode", "custom_url" );
         $foreach_fileds = array_merge($se_fileds, array( "score" ));
         $intersect = array_intersect($field, $foreach_fileds);
-        if( !empty($intersect) ) 
+        if( !empty($intersect) )
         {
-            foreach( $data as &$row ) 
+            foreach( $data as &$row )
             {
-                foreach( $se_fileds as $se_filed ) 
+                foreach( $se_fileds as $se_filed )
                 {
-                    if( isset($row[$se_filed]) ) 
+                    if( isset($row[$se_filed]) )
                     {
-                        if( $se_filed != "thumbs" ) 
+                        if( $se_filed != "thumbs" )
                         {
                             $row[$se_filed] = (array) iunserializer($row[$se_filed]);
                         }
@@ -522,12 +522,12 @@ function store_fetchall($field = array(  ))
                     }
 
                 }
-                if( isset($row["business_hours"]) ) 
+                if( isset($row["business_hours"]) )
                 {
                     $row["is_in_business_hours"] = intval($row["is_in_business"]);
-                    if( $row["is_in_business"] == 1 ) 
+                    if( $row["is_in_business"] == 1 )
                     {
-                        if( $row["rest_can_order"] == 1 ) 
+                        if( $row["rest_can_order"] == 1 )
                         {
                             $row["is_in_business_hours"] = true;
                         }
@@ -539,14 +539,14 @@ function store_fetchall($field = array(  ))
                     }
 
                     $hour = array(  );
-                    foreach( $row["business_hours"] as $li ) 
+                    foreach( $row["business_hours"] as $li )
                     {
                         $hour[] = (string) $li["s"] . "~" . $li["e"];
                     }
                     $row["business_hours_cn"] = implode(",", $hour);
                 }
 
-                if( isset($row["score"]) ) 
+                if( isset($row["score"]) )
                 {
                     $row["score_cn"] = round($row["score"] / 5, 2) * 100;
                 }
@@ -566,42 +566,42 @@ function store_fetchall_category($type = "all", $filter = array(  ))
     $condition = " where uniacid = :uniacid and agentid = :agentid and status = 1";
     $params = array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"] );
     $data = pdo_fetchall("select id,parentid,thumb,link,wxapp_link,title from " . tablename("tiny_wmall_store_category") . $condition . " order by displayorder desc", $params, "id");
-    if( !empty($data) ) 
+    if( !empty($data) )
     {
-        if( $filter["store_num"] == 1 ) 
+        if( $filter["store_num"] == 1 )
         {
             $stores = pdo_fetchall("select cate_parentid1, cate_childid1, cate_parentid2, cate_childid2 from " . tablename("tiny_wmall_store") . $condition, $params);
         }
 
-        foreach( $data as &$da ) 
+        foreach( $data as &$da )
         {
             $store_num = 0;
             $da["thumb"] = tomedia($da["thumb"]);
             $da["is_sys"] = 0;
-            if( empty($da["link"]) && empty($da["wxapp_link"]) ) 
+            if( empty($da["link"]) && empty($da["wxapp_link"]) )
             {
                 $da["is_sys"] = 1;
                 $da["link"] = imurl("wmall/home/search", array( "cid" => $da["id"], "order" => $_GPC["order"], "dis" => $_GPC["dis"] ));
             }
 
-            if( empty($da["wxapp_link"]) ) 
+            if( empty($da["wxapp_link"]) )
             {
                 $da["wxapp_link"] = "pages/home/category?cid=" . $da["id"];
             }
 
-            if( $filter["is_sys"] == 1 && empty($da["is_sys"]) ) 
+            if( $filter["is_sys"] == 1 && empty($da["is_sys"]) )
             {
                 unset($data[$da["id"]]);
                 continue;
             }
 
-            if( $filter["store_num"] == 1 ) 
+            if( $filter["store_num"] == 1 )
             {
-                if( !empty($stores) ) 
+                if( !empty($stores) )
                 {
-                    foreach( $stores as $val ) 
+                    foreach( $stores as $val )
                     {
-                        if( in_array($da["id"], $val) ) 
+                        if( in_array($da["id"], $val) )
                         {
                             $store_num++;
                         }
@@ -612,12 +612,12 @@ function store_fetchall_category($type = "all", $filter = array(  ))
                 $da["store_num"] = $store_num;
             }
 
-            if( $type == "parent_child" ) 
+            if( $type == "parent_child" )
             {
-                if( !empty($da["parentid"]) ) 
+                if( !empty($da["parentid"]) )
                 {
                     $config_mall = $_W["we7_wmall"]["config"]["mall"];
-                    if( $config_mall["store_use_child_category"] == 1 ) 
+                    if( $config_mall["store_use_child_category"] == 1 )
                     {
                         $data[$da["parentid"]]["child"][] = $da;
                     }
@@ -628,10 +628,10 @@ function store_fetchall_category($type = "all", $filter = array(  ))
             }
             else
             {
-                if( $type == "parent&child" ) 
+                if( $type == "parent&child" )
                 {
                     $da["name"] = $da["title"];
-                    if( empty($da["parentid"]) ) 
+                    if( empty($da["parentid"]) )
                     {
                         $parent[$da["id"]] = $da;
                     }
@@ -645,7 +645,7 @@ function store_fetchall_category($type = "all", $filter = array(  ))
             }
 
         }
-        if( $type == "parent&child" ) 
+        if( $type == "parent&child" )
         {
             unset($data);
             $data = array( "parent" => $parent, "child" => $child );
@@ -662,34 +662,34 @@ function store_fetch_category()
     global $_GPC;
     $cid = intval($_GPC["cid"]);
     $category = pdo_get("tiny_wmall_store_category", array( "uniacid" => $_W["uniacid"], "id" => $cid, "status" => 1 ));
-    if( !empty($category) ) 
+    if( !empty($category) )
     {
-        if( !empty($category["nav"]) && $category["nav_status"] == 1 ) 
+        if( !empty($category["nav"]) && $category["nav_status"] == 1 )
         {
             $category["nav"] = iunserializer($category["nav"]);
-            foreach( $category["nav"] as &$value ) 
+            foreach( $category["nav"] as &$value )
             {
                 $value["thumb"] = tomedia($value["thumb"]);
             }
         }
 
-        if( !empty($category["slide"]) && $category["slide_status"] == 1 ) 
+        if( !empty($category["slide"]) && $category["slide_status"] == 1 )
         {
             $category["slide"] = iunserializer($category["slide"]);
             array_sort($category["slide"], "displayorder", SORT_DESC);
-            foreach( $category["slide"] as &$v ) 
+            foreach( $category["slide"] as &$v )
             {
                 $v["thumb"] = tomedia($v["thumb"]);
             }
         }
 
         $config_mall = $_W["we7_wmall"]["config"]["mall"];
-        if( $category["parentid"] == 0 && $config_mall["store_use_child_category"] == 1 ) 
+        if( $category["parentid"] == 0 && $config_mall["store_use_child_category"] == 1 )
         {
             $category["child"] = pdo_fetchall("select id, parentid, thumb, title from" . tablename("tiny_wmall_store_category") . " where uniacid = :uniacid and parentid = :parentid order by displayorder desc,id asc", array( ":uniacid" => $_W["uniacid"], ":parentid" => $category["id"] ), "id");
-            if( !empty($category["child"]) ) 
+            if( !empty($category["child"]) )
             {
-                foreach( $category["child"] as &$v ) 
+                foreach( $category["child"] as &$v )
                 {
                     $v["thumb"] = tomedia($v["thumb"]);
                 }
@@ -711,7 +711,7 @@ function store_fetch_activity($sid, $type = array(  ))
     global $_W;
     $condition = " where uniacid = :uniacid and sid = :sid and status = 1";
     $params = array( ":uniacid" => $_W["uniacid"], ":sid" => $sid );
-    if( !empty($type) ) 
+    if( !empty($type) )
     {
         $type = implode("','", $type);
         $type = "'" . $type . "'";
@@ -721,80 +721,80 @@ function store_fetch_activity($sid, $type = array(  ))
     $condition .= " order by displayorder desc";
     $data = pdo_fetchall("SELECT title,type,data FROM " . tablename("tiny_wmall_store_activity") . $condition, $params, "type");
     $activity = array( "num" => 0, "items" => "", "labels" => "" );
-    if( !empty($data) ) 
+    if( !empty($data) )
     {
         $activity["num"] = count($data);
         $activity["items"] = $data;
-        foreach( $data as $da ) 
+        foreach( $data as $da )
         {
-            if( $da["type"] == "discount" ) 
+            if( $da["type"] == "discount" )
             {
                 $discount = iunserializer($da["data"]);
-                foreach( $discount as $dis ) 
+                foreach( $discount as $dis )
                 {
                     $activity["labels"][] = array( "title" => (string) $dis["condition"] . "减" . $dis["back"], "class" => "tag tag-danger" );
                 }
             }
             else
             {
-                if( $da["type"] == "grant" ) 
+                if( $da["type"] == "grant" )
                 {
                     $activity["labels"][] = array( "title" => "满赠", "class" => "tag tag-danger" );
                 }
                 else
                 {
-                    if( $da["type"] == "mallNewMember" ) 
+                    if( $da["type"] == "mallNewMember" )
                     {
                         $mallNewMember = iunserializer($da["data"]);
                         $activity["labels"][] = array( "title" => "首单减" . $mallNewMember["back"], "class" => "tag tag-danger" );
                     }
                     else
                     {
-                        if( $da["type"] == "newMember" ) 
+                        if( $da["type"] == "newMember" )
                         {
                             $newMember = iunserializer($da["data"]);
                             $activity["labels"][] = array( "title" => "新客减" . $newMember["back"], "class" => "tag tag-danger" );
                         }
                         else
                         {
-                            if( $da["type"] == "couponCollect" ) 
+                            if( $da["type"] == "couponCollect" )
                             {
                                 $activity["labels"][] = array( "title" => "有机会领券", "class" => "tag tag-danger" );
                             }
                             else
                             {
-                                if( $da["type"] == "couponGrant" ) 
+                                if( $da["type"] == "couponGrant" )
                                 {
                                     $couponGrant = iunserializer($da["data"]);
                                     $activity["labels"][] = array( "title" => "返" . $couponGrant["discount"] . "元券", "class" => "tag tag-danger" );
                                 }
                                 else
                                 {
-                                    if( $da["type"] == "bargain" ) 
+                                    if( $da["type"] == "bargain" )
                                     {
                                         $activity["labels"][] = array( "title" => $da["title"], "class" => "tag tag-danger" );
                                     }
                                     else
                                     {
-                                        if( $da["type"] == "deliveryFeeDiscount" ) 
+                                        if( $da["type"] == "deliveryFeeDiscount" )
                                         {
                                             $activity["labels"][] = array( "title" => "可减配送费", "class" => "tag tag-danger" );
                                         }
                                         else
                                         {
-                                            if( $da["type"] == "selfPickup" || $da["type"] == "selfDelivery" ) 
+                                            if( $da["type"] == "selfPickup" || $da["type"] == "selfDelivery" )
                                             {
                                                 $activity["labels"][] = array( "title" => "自提优惠", "class" => "tag tag-danger" );
                                             }
                                             else
                                             {
-                                                if( $da["type"] == "cashGrant" ) 
+                                                if( $da["type"] == "cashGrant" )
                                                 {
                                                     $activity["labels"][] = array( "title" => "返余额", "class" => "tag tag-danger" );
                                                 }
                                                 else
                                                 {
-                                                    if( $da["type"] == "svipRedpacket" ) 
+                                                    if( $da["type"] == "svipRedpacket" )
                                                     {
                                                         $da["data"] = iunserializer($da["data"]);
                                                         $activity["labels"][] = array( "title" => (string) $da["data"]["discount"] . "元无门槛红包", "class" => "tag tag-svip" );
@@ -829,15 +829,15 @@ function store_fetch_activity($sid, $type = array(  ))
 
 function store_is_in_business_hours($business_hours)
 {
-    if( !is_array($business_hours) ) 
+    if( !is_array($business_hours) )
     {
         return true;
     }
 
     $business_hours_flag = false;
-    foreach( $business_hours as $li ) 
+    foreach( $business_hours as $li )
     {
-        if( !is_array($li) || empty($li["s"]) || empty($li["e"]) ) 
+        if( !is_array($li) || empty($li["s"]) || empty($li["e"]) )
         {
             continue;
         }
@@ -845,13 +845,13 @@ function store_is_in_business_hours($business_hours)
         $starttime = strtotime($li["s"]);
         $endtime = strtotime($li["e"]);
         $cross_night = 0;
-        if( $endtime <= $starttime ) 
+        if( $endtime <= $starttime )
         {
             $cross_night = 1;
         }
 
         $now = TIMESTAMP;
-        if( !$cross_night && $starttime <= $now && $now <= $endtime || $cross_night && ($starttime <= $now || $now <= $endtime) ) 
+        if( !$cross_night && $starttime <= $now && $now <= $endtime || $cross_night && ($starttime <= $now || $now <= $endtime) )
         {
             $business_hours_flag = true;
             break;
@@ -864,19 +864,19 @@ function store_is_in_business_hours($business_hours)
 function store_business_hours_init($sid = 0)
 {
     global $_W;
-    if( 0 < $sid ) 
+    if( 0 < $sid )
     {
         $store = store_fetch($sid, array( "business_hours", "is_in_business", "rest_can_order" ));
         $is_rest = 1;
-        if( $store["is_in_business"] ) 
+        if( $store["is_in_business"] )
         {
-            if( $store["rest_can_order"] == 1 ) 
+            if( $store["rest_can_order"] == 1 )
             {
                 $is_rest = 0;
             }
             else
             {
-                if( store_is_in_business_hours($store["business_hours"]) ) 
+                if( store_is_in_business_hours($store["business_hours"]) )
                 {
                     $is_rest = 0;
                 }
@@ -890,21 +890,21 @@ function store_business_hours_init($sid = 0)
     else
     {
         $stores = pdo_fetchall("select id,business_hours,is_in_business,rest_can_order from " . tablename("tiny_wmall_store") . " where uniacid = :uniacid", array( ":uniacid" => $_W["uniacid"] ));
-        if( !empty($stores) ) 
+        if( !empty($stores) )
         {
-            foreach( $stores as $row ) 
+            foreach( $stores as $row )
             {
                 $row["business_hours"] = iunserializer($row["business_hours"]);
                 $is_rest = 1;
-                if( $row["is_in_business"] ) 
+                if( $row["is_in_business"] )
                 {
-                    if( $row["rest_can_order"] == 1 ) 
+                    if( $row["rest_can_order"] == 1 )
                     {
                         $is_rest = 0;
                     }
                     else
                     {
-                        if( store_is_in_business_hours($row["business_hours"]) ) 
+                        if( store_is_in_business_hours($row["business_hours"]) )
                         {
                             $is_rest = 0;
                         }
@@ -927,34 +927,34 @@ function store_fetchall_goods_category($store_id, $status = "-1", $ignore_bargai
     global $_W;
     $condition = " where uniacid = :uniacid and sid = :sid";
     $params = array( ":uniacid" => $_W["uniacid"], ":sid" => $store_id );
-    if( $type == "parent" ) 
+    if( $type == "parent" )
     {
         $condition .= " and parentid = 0";
     }
 
-    if( 0 <= $status ) 
+    if( 0 <= $status )
     {
         $condition .= " and status = :status";
         $params[":status"] = $status;
     }
 
     $categorys = pdo_fetchall("select * from " . tablename("tiny_wmall_goods_category") . $condition . " order by displayorder desc, id asc", $params, "id");
-    if( $type == "parent" && $category_type == "available" ) 
+    if( $type == "parent" && $category_type == "available" )
     {
-        foreach( $categorys as &$val ) 
+        foreach( $categorys as &$val )
         {
-            if( !empty($val["is_showtime"]) ) 
+            if( !empty($val["is_showtime"]) )
             {
                 $now_week = date("N", TIMESTAMP);
                 $start_time = intval(strtotime($val["start_time"]));
                 $end_time = intval(strtotime($val["end_time"]));
                 $week = explode(",", $val["week"]);
-                if( $end_time <= $start_time ) 
+                if( $end_time <= $start_time )
                 {
                     $end_time = $end_time + 86400;
                 }
 
-                if( !empty($val["week"]) && !in_array($now_week, $week) || !empty($start_time) && (TIMESTAMP < $start_time || $end_time < TIMESTAMP) ) 
+                if( !empty($val["week"]) && !in_array($now_week, $week) || !empty($start_time) && (TIMESTAMP < $start_time || $end_time < TIMESTAMP) )
                 {
                     unset($categorys[$val["id"]]);
                 }
@@ -964,29 +964,29 @@ function store_fetchall_goods_category($store_id, $status = "-1", $ignore_bargai
         }
     }
 
-    if( $type == "all" ) 
+    if( $type == "all" )
     {
-        foreach( $categorys as &$val ) 
+        foreach( $categorys as &$val )
         {
-            if( !empty($val["parentid"]) ) 
+            if( !empty($val["parentid"]) )
             {
                 $categorys[$val["parentid"]]["child"][] = $val;
                 unset($categorys[$val["id"]]);
             }
             else
             {
-                if( $category_type == "available" && !empty($val["is_showtime"]) ) 
+                if( $category_type == "available" && !empty($val["is_showtime"]) )
                 {
                     $now_week = date("N", TIMESTAMP);
                     $start_time = intval(strtotime($val["start_time"]));
                     $end_time = intval(strtotime($val["end_time"]));
                     $week = explode(",", $val["week"]);
-                    if( $end_time <= $start_time ) 
+                    if( $end_time <= $start_time )
                     {
                         $end_time = $end_time + 86400;
                     }
 
-                    if( !empty($val["week"]) && !in_array($now_week, $week) || !empty($start_time) && (TIMESTAMP < $start_time || $end_time < TIMESTAMP) ) 
+                    if( !empty($val["week"]) && !in_array($now_week, $week) || !empty($start_time) && (TIMESTAMP < $start_time || $end_time < TIMESTAMP) )
                     {
                         unset($categorys[$val["id"]]);
                     }
@@ -999,25 +999,25 @@ function store_fetchall_goods_category($store_id, $status = "-1", $ignore_bargai
     }
     else
     {
-        if( $type == "other" ) 
+        if( $type == "other" )
         {
-            foreach( $categorys as &$value ) 
+            foreach( $categorys as &$value )
             {
                 $value["name"] = $value["title"];
-                if( empty($value["parentid"]) ) 
+                if( empty($value["parentid"]) )
                 {
-                    if( $category_type == "available" && !empty($value["is_showtime"]) ) 
+                    if( $category_type == "available" && !empty($value["is_showtime"]) )
                     {
                         $now_week = date("N", TIMESTAMP);
                         $start_time = intval(strtotime($value["start_time"]));
                         $end_time = intval(strtotime($value["end_time"]));
                         $week = explode(",", $value["week"]);
-                        if( $end_time <= $start_time ) 
+                        if( $end_time <= $start_time )
                         {
                             $end_time = $end_time + 86400;
                         }
 
-                        if( !empty($value["week"]) && !in_array($now_week, $week) || !empty($start_time) && (TIMESTAMP < $start_time || $end_time < TIMESTAMP) ) 
+                        if( !empty($value["week"]) && !in_array($now_week, $week) || !empty($start_time) && (TIMESTAMP < $start_time || $end_time < TIMESTAMP) )
                         {
                             unset($categorys[$value["id"]]);
                         }
@@ -1039,14 +1039,14 @@ function store_fetchall_goods_category($store_id, $status = "-1", $ignore_bargai
 
     }
 
-    if( !$ignore_bargain ) 
+    if( !$ignore_bargain )
     {
         $condition = " where uniacid = :uniacid and sid = :sid and status = :status order by id limit 2";
         $params = array( ":uniacid" => $_W["uniacid"], ":sid" => $store_id, ":status" => 1 );
         $bargains = pdo_fetchall("select id,title from " . tablename("tiny_wmall_activity_bargain") . $condition, $params, "id");
-        if( !empty($bargains) ) 
+        if( !empty($bargains) )
         {
-            foreach( $bargains as &$bargain ) 
+            foreach( $bargains as &$bargain )
             {
                 array_unshift($categorys, array( "id" => "bargain_" . $bargain["id"], "title" => $bargain["title"], "bargain_id" => $bargain["id"] ));
             }
@@ -1054,10 +1054,10 @@ function store_fetchall_goods_category($store_id, $status = "-1", $ignore_bargai
 
     }
 
-    foreach( $categorys as &$row ) 
+    foreach( $categorys as &$row )
     {
         $row["total"] = 0;
-        if( !isset($row["child"]) && defined("IN_VUE") ) 
+        if( !isset($row["child"]) && defined("IN_VUE") )
         {
             $row["child"] = array(  );
         }
@@ -1070,7 +1070,7 @@ function get_goods_child_category($sid, $parentid)
 {
     global $_W;
     global $_GPC;
-    if( empty($parentid) ) 
+    if( empty($parentid) )
     {
         $parentid = intval($_GPC["parentid"]);
     }
@@ -1083,14 +1083,14 @@ function store_fetch_goods($id, $field = array( "basic", "options" ))
 {
     global $_W;
     $goods = pdo_get("tiny_wmall_goods", array( "uniacid" => $_W["uniacid"], "id" => $id ));
-    if( empty($goods) ) 
+    if( empty($goods) )
     {
         return error(-1, "商品不存在或已删除");
     }
 
     $goods["data"] = iunserializer($goods["data"]);
     $goods["thumb_"] = tomedia($goods["thumb"]);
-    if( in_array("options", $field) && $goods["is_options"] ) 
+    if( in_array("options", $field) && $goods["is_options"] )
     {
         $goods["options"] = pdo_getall("tiny_wmall_goods_options", array( "uniacid" => $_W["uniacid"], "goods_id" => $id ), array(  ), "id");
         $goods["options_haskey"] = $goods["options"];
@@ -1107,7 +1107,7 @@ function store_comment_stat($sid, $update = true)
     $stat["goods_quality"] = round(pdo_fetchcolumn("select avg(goods_quality) from " . tablename("tiny_wmall_order_comment") . " where uniacid = :uniacid and sid = :sid and status = 1", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid )), 1);
     $stat["delivery_service"] = round(pdo_fetchcolumn("select avg(delivery_service) from " . tablename("tiny_wmall_order_comment") . " where uniacid = :uniacid and sid = :sid and status = 1", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid )), 1);
     $stat["score"] = round(($stat["goods_quality"] + $stat["delivery_service"]) / 2, 1);
-    if( $update ) 
+    if( $update )
     {
         pdo_update("tiny_wmall_store", array( "score" => $stat["score"] ), array( "uniacid" => $_W["uniacid"], "id" => $sid ));
     }
@@ -1127,12 +1127,12 @@ function store_account($sid, $fileds = array(  ))
 {
     global $_W;
     $account = pdo_get("tiny_wmall_store_account", array( "uniacid" => $_W["uniacid"], "sid" => $sid ), $fileds);
-    if( !empty($account) ) 
+    if( !empty($account) )
     {
         $se_fileds = array( "bank", "wechat", "alipay", "fee_goods", "fee_takeout", "fee_selfDelivery", "fee_instore", "fee_paybill", "fee_eleme", "fee_meituan", "fee_gohome" );
-        foreach( $se_fileds as $se_filed ) 
+        foreach( $se_fileds as $se_filed )
         {
-            if( isset($account[$se_filed]) ) 
+            if( isset($account[$se_filed]) )
             {
                 $account[$se_filed] = (array) iunserializer($account[$se_filed]);
             }
@@ -1147,15 +1147,15 @@ function store_update_account($sid, $fee, $trade_type, $extra, $remark = "")
 {
     global $_W;
     $account = pdo_get("tiny_wmall_store_account", array( "uniacid" => $_W["uniacid"], "sid" => $sid ));
-    if( empty($account) ) 
+    if( empty($account) )
     {
         return error(-1, "账户不存在");
     }
 
-    if( ($trade_type == 1 || $trade_type == 8) && !empty($extra) ) 
+    if( ($trade_type == 1 || $trade_type == 8) && !empty($extra) )
     {
         $is_exist = pdo_get("tiny_wmall_store_current_log", array( "uniacid" => $_W["uniacid"], "sid" => $sid, "trade_type" => $trade_type, "extra" => $extra ), array( "id" ));
-        if( !empty($is_exist) ) 
+        if( !empty($is_exist) )
         {
             return error(-1, "订单已经入账");
         }
@@ -1163,7 +1163,7 @@ function store_update_account($sid, $fee, $trade_type, $extra, $remark = "")
     }
 
     $hash = md5((string) $_W["uniacid"] . "-" . $sid . "-" . $trade_type . "-" . $extra);
-    if( $trade_type == 3 || $trade_type == 7 ) 
+    if( $trade_type == 3 || $trade_type == 7 )
     {
         $hash = md5((string) $_W["uniacid"] . "-" . $sid . "-" . $trade_type . "-" . $fee . TIMESTAMP);
     }
@@ -1172,12 +1172,12 @@ function store_update_account($sid, $fee, $trade_type, $extra, $remark = "")
     $log = array( "uniacid" => $_W["uniacid"], "agentid" => $account["agentid"], "sid" => $sid, "trade_type" => $trade_type, "extra" => $extra, "fee" => $fee, "amount" => $now_amount, "addtime" => TIMESTAMP, "hash" => $hash, "remark" => $remark );
     pdo_insert("tiny_wmall_store_current_log", $log);
     $id = pdo_insertid();
-    if( in_array($trade_type, array( 3, 5, 7 )) && empty($extra) ) 
+    if( in_array($trade_type, array( 3, 5, 7 )) && empty($extra) )
     {
         mlog(2005, $id, $remark);
     }
 
-    if( !empty($id) ) 
+    if( !empty($id) )
     {
         pdo_update("tiny_wmall_store_account", array( "amount" => $now_amount ), array( "uniacid" => $_W["uniacid"], "sid" => $sid ));
     }
@@ -1195,10 +1195,10 @@ function store_delivery_times($sid, $force_update = false)
 {
     global $_W;
     $cache_key = "we7wmall_store_delivery_times|" . $sid . "|" . $_W["uniacid"];
-    if( !$force_update && 0 ) 
+    if( !$force_update && 0 )
     {
         $data = cache_read($cache_key);
-        if( !empty($data) && TIMESTAMP < $data["updatetime"] ) 
+        if( !empty($data) && TIMESTAMP < $data["updatetime"] )
         {
             return $data;
         }
@@ -1210,7 +1210,7 @@ function store_delivery_times($sid, $force_update = false)
     $totaytime = strtotime(date("Y-m-d"));
     $times = $store["delivery_times"];
     $last_time = $totaytime + 79200;
-    if( !empty($times) ) 
+    if( !empty($times) )
     {
         $last_time = array_pop($times);
         $last_time = explode(":", $last_time["end"]);
@@ -1218,21 +1218,21 @@ function store_delivery_times($sid, $force_update = false)
     }
 
     $predict_timestamp = TIMESTAMP + 60 * $store["delivery_time"];
-    if( $last_time < $predict_timestamp ) 
+    if( $last_time < $predict_timestamp )
     {
         $totaytime = $totaytime + 86400;
         $nextday = date("m-d", $totaytime);
     }
 
-    if( 0 < $store["delivery_reserve_days"] ) 
+    if( 0 < $store["delivery_reserve_days"] )
     {
         $days[] = date("m-d", $totaytime + $store["delivery_reserve_days"] * 86400);
     }
     else
     {
-        if( 0 < $store["delivery_within_days"] ) 
+        if( 0 < $store["delivery_within_days"] )
         {
-            for( $i = 0; $i <= $store["delivery_within_days"]; $i++ ) 
+            for( $i = 0; $i <= $store["delivery_within_days"]; $i++ )
             {
                 $days[] = date("m-d", $totaytime + $i * 86400);
             }
@@ -1247,17 +1247,17 @@ function store_delivery_times($sid, $force_update = false)
     $mktimes = array( "month" => date("m", $totaytime), "day" => date("d", $totaytime) );
     $times = $store["delivery_times"];
     $timestamp = array(  );
-    if( !empty($times) ) 
+    if( !empty($times) )
     {
-        foreach( $times as $key => &$row ) 
+        foreach( $times as $key => &$row )
         {
-            if( empty($row["status"]) ) 
+            if( empty($row["status"]) )
             {
                 unset($times[$key]);
                 continue;
             }
 
-            if( $store["delivery_fee_mode"] == 1 ) 
+            if( $store["delivery_fee_mode"] == 1 )
             {
                 $row["delivery_price"] = $store["delivery_price"] + $row["fee"];
                 $row["delivery_price_cn"] = (string) $row["delivery_price"] . "元配送费";
@@ -1278,9 +1278,9 @@ function store_delivery_times($sid, $force_update = false)
         $start = mktime(8, 0, 0, $mktimes["month"], $mktimes["day"]);
         $end = mktime(22, 0, 0, $mktimes["month"], $mktimes["day"]);
         $i = $start;
-        while( $i < $end ) 
+        while( $i < $end )
         {
-            if( $store["delivery_fee_mode"] == 1 ) 
+            if( $store["delivery_fee_mode"] == 1 )
             {
                 $store["delivery_price_cn"] = (string) $store["delivery_price"] . "元配送费";
             }
@@ -1302,17 +1302,17 @@ function store_delivery_times($sid, $force_update = false)
 function store_rest_start_delivery_time($store)
 {
     $delivery_time = "";
-    foreach( $store["business_hours"] as $hours ) 
+    foreach( $store["business_hours"] as $hours )
     {
         $starthour = strtotime($hours["s"]);
-        if( TIMESTAMP < $starthour ) 
+        if( TIMESTAMP < $starthour )
         {
             $delivery_time = $hours["s"];
             break;
         }
 
     }
-    if( empty($delivery_time) ) 
+    if( empty($delivery_time) )
     {
         $delivery_time = $store["business_hours"][0]["s"];
         $delivery_time_cn = "预定中 明天" . $delivery_time . "开始配送";
@@ -1336,31 +1336,31 @@ function store_delivery_modes()
 function store_fetchall_by_condition($type = "hot", $option = array(  ))
 {
     global $_W;
-    if( empty($option["limit"]) ) 
+    if( empty($option["limit"]) )
     {
         $option["limit"] = 6;
     }
 
-    if( empty($option["extra_type"]) ) 
+    if( empty($option["extra_type"]) )
     {
         $option["extra_type"] = "all";
     }
 
     $condition = " where uniacid = :uniacid and agentid = :agentid and status = 1 and is_waimai = 1";
     $params = array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"] );
-    if( isset($option["is_rest"]) ) 
+    if( isset($option["is_rest"]) )
     {
         $condition .= " and is_rest = :is_rest";
         $params[":is_rest"] = intval($option["is_rest"]);
     }
 
-    if( $type == "hot" ) 
+    if( $type == "hot" )
     {
         $stores = pdo_fetchall("select id,title,forward_mode,forward_url from " . tablename("tiny_wmall_store") . $condition . " order by click desc, displayorder desc limit 4", $params);
     }
     else
     {
-        if( $type == "recommend" ) 
+        if( $type == "recommend" )
         {
             $condition .= " and is_recommend = 1 and position = 1";
             $stores = pdo_fetchall("select id,title,logo,content,business_hours,delivery_fee_mode,delivery_price,delivery_areas,send_price,delivery_time,forward_mode,forward_url,score,location_y,location_x,sailed,is_rest from " . tablename("tiny_wmall_store") . $condition . " order by is_rest asc, displayorder desc limit " . $option["limit"], $params);
@@ -1368,29 +1368,29 @@ function store_fetchall_by_condition($type = "hot", $option = array(  ))
 
     }
 
-    if( !empty($stores) ) 
+    if( !empty($stores) )
     {
-        foreach( $stores as &$row ) 
+        foreach( $stores as &$row )
         {
             $row["logo"] = tomedia($row["logo"]);
             $row["scores_original"] = $row["score"];
             $row["scores"] = score_format($row["score"]);
             $row["url"] = store_forward_url($row["id"], $row["forward_mode"], $row["forward_url"], $_W["channel"]);
-            if( $option["extra_type"] == "all" ) 
+            if( $option["extra_type"] == "all" )
             {
                 $row["activity"] = store_fetch_activity($row["id"]);
                 $row["activity"]["items"] = array_values($row["activity"]["items"]);
-                if( $row["delivery_fee_mode"] == 2 ) 
+                if( $row["delivery_fee_mode"] == 2 )
                 {
                     $row["delivery_price"] = iunserializer($row["delivery_price"]);
                     $row["delivery_price"] = $row["delivery_price"]["start_fee"];
                 }
                 else
                 {
-                    if( $row["delivery_fee_mode"] == 3 ) 
+                    if( $row["delivery_fee_mode"] == 3 )
                     {
                         $row["delivery_areas"] = iunserializer($row["delivery_areas"]);
-                        if( !is_array($row["delivery_areas"]) ) 
+                        if( !is_array($row["delivery_areas"]) )
                         {
                             $row["delivery_areas"] = array(  );
                         }
@@ -1413,44 +1413,44 @@ function store_fetchall_by_condition($type = "hot", $option = array(  ))
 function store_forward_url($sid, $forward_mode, $forward_url = "", $channel = "")
 {
     global $_W;
-    if( empty($channel) ) 
+    if( empty($channel) )
     {
         $channel = $_W["channel"];
     }
 
-    if( $channel == "wechat" ) 
+    if( $channel == "wechat" )
     {
-        if( $forward_mode == 0 ) 
+        if( $forward_mode == 0 )
         {
             $url = imurl("wmall/store/goods", array( "sid" => $sid ));
         }
         else
         {
-            if( $forward_mode == 1 ) 
+            if( $forward_mode == 1 )
             {
                 $url = imurl("wmall/store/index", array( "sid" => $sid ));
             }
             else
             {
-                if( $forward_mode == 3 ) 
+                if( $forward_mode == 3 )
                 {
                     $url = imurl("wmall/store/assign", array( "sid" => $sid ));
                 }
                 else
                 {
-                    if( $forward_mode == 4 ) 
+                    if( $forward_mode == 4 )
                     {
                         $url = imurl("wmall/store/reserve", array( "sid" => $sid ));
                     }
                     else
                     {
-                        if( $forward_mode == 6 ) 
+                        if( $forward_mode == 6 )
                         {
                             $url = imurl("wmall/store/paybill", array( "sid" => $sid ));
                         }
                         else
                         {
-                            if( $forward_mode == 5 ) 
+                            if( $forward_mode == 5 )
                             {
                                 $url = $forward_url;
                             }
@@ -1469,15 +1469,15 @@ function store_forward_url($sid, $forward_mode, $forward_url = "", $channel = ""
     else
     {
         $url = "/pages/store/goods?sid=" . $sid;
-        if( $forward_mode == 0 ) 
+        if( $forward_mode == 0 )
         {
             $url = "/pages/store/goods?sid=" . $sid;
         }
         else
         {
-            if( $forward_mode == 1 ) 
+            if( $forward_mode == 1 )
             {
-                if( check_plugin_perm("wxapp") ) 
+                if( check_plugin_perm("wxapp") )
                 {
                     $url = "/pages/store/home?sid=" . $sid;
                 }
@@ -1489,13 +1489,13 @@ function store_forward_url($sid, $forward_mode, $forward_url = "", $channel = ""
             }
             else
             {
-                if( $forward_mode == 4 ) 
+                if( $forward_mode == 4 )
                 {
                     $url = "/tangshi/pages/reserve/index?sid=" . $sid;
                 }
                 else
                 {
-                    if( $forward_mode == 6 ) 
+                    if( $forward_mode == 6 )
                     {
                         $url = "/pages/store/paybill?sid=" . $sid;
                     }
@@ -1523,9 +1523,9 @@ function store_check()
 {
     global $_W;
     global $_GPC;
-    if( !defined("IN_MOBILE") ) 
+    if( !defined("IN_MOBILE") )
     {
-        if( !empty($_GPC["_sid"]) ) 
+        if( !empty($_GPC["_sid"]) )
         {
             $sid = intval($_GPC["_sid"]);
             isetcookie("__sid", $sid, 86400);
@@ -1541,15 +1541,15 @@ function store_check()
         $sid = intval($_GPC["sid"]);
     }
 
-    if( !defined("IN_MOBILE") && $_W["role"] != "manager" && empty($_W["isfounder"]) && $_W["we7_wmall"]["store"]["id"] != $sid ) 
+    if( !defined("IN_MOBILE") && $_W["role"] != "manager" && empty($_W["isfounder"]) && $_W["we7_wmall"]["store"]["id"] != $sid )
     {
         message("您没有该门店的管理权限", "", "error");
     }
 
     $store = pdo_fetch("SELECT id, title, status, pc_notice_status, delivery_mode FROM " . tablename("tiny_wmall_store") . " WHERE uniacid = :aid AND id = :id", array( ":aid" => $_W["uniacid"], ":id" => $sid ));
-    if( empty($store) ) 
+    if( empty($store) )
     {
-        if( !defined("IN_MOBILE") ) 
+        if( !defined("IN_MOBILE") )
         {
             message("门店信息不存在或已删除", "", "error");
         }
@@ -1571,25 +1571,25 @@ function store_serve_fee_items()
 function is_in_store_radius($sid, $lnglat, $area_id = 0)
 {
     global $_W;
-    if( is_array($sid) ) 
+    if( is_array($sid) )
     {
         $store = $sid;
     }
 
-    if( empty($store) ) 
+    if( empty($store) )
     {
         $store = store_fetch($sid, array( "location_y", "location_x", "delivery_fee_mode", "delivery_price", "delivery_areas", "delivery_areas1", "serve_radius", "not_in_serve_radius" ));
     }
 
-    if( empty($store) ) 
+    if( empty($store) )
     {
         return false;
     }
 
     $flag = false;
-    if( $store["address_type"] == 1 ) 
+    if( $store["address_type"] == 1 )
     {
-        if( !empty($lnglat) && !empty($lnglat["area_id"]) && in_array($lnglat["area_id"], $store["delivery_areas1_ids"]) ) 
+        if( !empty($lnglat) && !empty($lnglat["area_id"]) && in_array($lnglat["area_id"], $store["delivery_areas1_ids"]) )
         {
             $flag = true;
         }
@@ -1597,17 +1597,17 @@ function is_in_store_radius($sid, $lnglat, $area_id = 0)
     }
     else
     {
-        if( $store["delivery_fee_mode"] == 1 || $store["delivery_fee_mode"] == 2 ) 
+        if( $store["delivery_fee_mode"] == 1 || $store["delivery_fee_mode"] == 2 )
         {
-            if( !$store["not_in_serve_radius"] && 0 < $store["serve_radius"] ) 
+            if( !$store["not_in_serve_radius"] && 0 < $store["serve_radius"] )
             {
-                if( empty($lnglat[0]) || empty($lnglat[1]) ) 
+                if( empty($lnglat[0]) || empty($lnglat[1]) )
                 {
                     return false;
                 }
 
                 $dist = distanceBetween($lnglat[0], $lnglat[1], $store["location_y"], $store["location_x"]);
-                if( $dist <= $store["serve_radius"] * 1000 ) 
+                if( $dist <= $store["serve_radius"] * 1000 )
                 {
                     $flag = true;
                 }
@@ -1621,27 +1621,27 @@ function is_in_store_radius($sid, $lnglat, $area_id = 0)
         }
         else
         {
-            if( $store["delivery_fee_mode"] == 3 ) 
+            if( $store["delivery_fee_mode"] == 3 )
             {
-                if( empty($lnglat[0]) || empty($lnglat[1]) ) 
+                if( empty($lnglat[0]) || empty($lnglat[1]) )
                 {
                     return false;
                 }
 
-                if( empty($store["delivery_areas"]) ) 
+                if( empty($store["delivery_areas"]) )
                 {
                     return false;
                 }
 
-                if( !empty($area_id) ) 
+                if( !empty($area_id) )
                 {
                     $store["delivery_areas"] = array( $store["delivery_areas"][$area_id] );
                 }
 
-                foreach( $store["delivery_areas"] as $area ) 
+                foreach( $store["delivery_areas"] as $area )
                 {
                     $flag = isPointInPolygon($area["path"], array( $lnglat[0], $lnglat[1] ));
-                    if( $flag ) 
+                    if( $flag )
                     {
                         break;
                     }
@@ -1660,7 +1660,7 @@ function is_in_store_area($storeOrId, $addressOrId, $area_id = 0)
 {
     global $_W;
     global $_GPC;
-    if( is_array($storeOrId) ) 
+    if( is_array($storeOrId) )
     {
         $store = $storeOrId;
     }
@@ -1669,12 +1669,12 @@ function is_in_store_area($storeOrId, $addressOrId, $area_id = 0)
         $store = store_fetch($storeOrId, array( "location_y", "location_x", "delivery_fee_mode", "delivery_price", "delivery_areas", "delivery_areas1", "serve_radius", "not_in_serve_radius" ));
     }
 
-    if( empty($store) ) 
+    if( empty($store) )
     {
         return false;
     }
 
-    if( is_array($addressOrId) ) 
+    if( is_array($addressOrId) )
     {
         $address = $addressOrId;
     }
@@ -1683,13 +1683,13 @@ function is_in_store_area($storeOrId, $addressOrId, $area_id = 0)
         $address = pdo_fetch("SELECT * FROM " . tablename("tiny_wmall_address") . " WHERE uniacid = :uniacid AND id = :id AND type = 1", array( ":uniacid" => $_W["uniacid"], ":id" => $addressOrId ));
     }
 
-    if( empty($address) ) 
+    if( empty($address) )
     {
         return false;
     }
 
     $flag = false;
-    if( $store["address_type"] == 1 ) 
+    if( $store["address_type"] == 1 )
     {
         $flag = is_in_store_radius($store, array( "area_id" => $address["area_id"] ));
     }
@@ -1704,27 +1704,27 @@ function is_in_store_area($storeOrId, $addressOrId, $area_id = 0)
 function store_order_condition($sid, $lnglat = array(  ))
 {
     global $_GPC;
-    if( is_array($sid) ) 
+    if( is_array($sid) )
     {
         $store = $sid;
     }
 
-    if( empty($store) ) 
+    if( empty($store) )
     {
         $store = store_fetch($sid, array( "location_y", "location_x", "delivery_fee_mode", "delivery_price", "delivery_areas", "delivery_areas1", "delivery_price", "delivery_free_price", "send_price" ));
     }
 
-    if( empty($store) ) 
+    if( empty($store) )
     {
         return error(-1, "门店不存在");
     }
 
     $price = array( "send_price" => $store["send_price"], "delivery_price" => $store["delivery_price"], "delivery_free_price" => $store["delivery_free_price"] );
-    if( empty($store["address_type"]) && $store["delivery_fee_mode"] == 3 ) 
+    if( empty($store["address_type"]) && $store["delivery_fee_mode"] == 3 )
     {
-        if( empty($lnglat) ) 
+        if( empty($lnglat) )
         {
-            if( 0 < $_GPC["address_id"] ) 
+            if( 0 < $_GPC["address_id"] )
             {
                 $address = member_fetch_address($_GPC["address_id"]);
                 $lnglat = array( $address["location_y"], $address["location_x"] );
@@ -1739,12 +1739,12 @@ function store_order_condition($sid, $lnglat = array(  ))
         $delivery_price_arr = array(  );
         $send_price_arr = array(  );
         $delivery_free_price_arr = array(  );
-        foreach( $store["delivery_areas"] as $key => $area ) 
+        foreach( $store["delivery_areas"] as $key => $area )
         {
             $in = isPointInPolygon($area["path"], $lnglat);
-            if( $in ) 
+            if( $in )
             {
-                if( $_GPC["op"] == "goods" ) 
+                if( $_GPC["op"] == "goods" )
                 {
                     isetcookie("_guess_area", $key, 300);
                 }
@@ -1759,7 +1759,7 @@ function store_order_condition($sid, $lnglat = array(  ))
             $send_price_arr[] = $area["send_price"];
             $delivery_free_price_arr[] = $area["delivery_free_price"];
         }
-        if( !$in ) 
+        if( !$in )
         {
             $price["delivery_price"] = min($delivery_price_arr);
             $price["send_price"] = min($send_price_arr);
@@ -1774,7 +1774,7 @@ function store_order_condition($sid, $lnglat = array(  ))
 function store_notice_stat($clerk_id = 0)
 {
     global $_W;
-    if( empty($clerk_id) ) 
+    if( empty($clerk_id) )
     {
         $clerk_id = $_W["clerk"]["id"];
     }
@@ -1782,9 +1782,9 @@ function store_notice_stat($clerk_id = 0)
     $new_id = pdo_fetchcolumn("SELECT notice_id FROM" . tablename("tiny_wmall_notice_read_log") . " WHERE uid = :uid ORDER BY notice_id DESC LIMIT 1", array( ":uid" => $clerk_id ));
     $new_id = intval($new_id);
     $notices = pdo_fetchall("SELECT id FROM " . tablename("tiny_wmall_notice") . " WHERE status = 1 AND type = :type AND id > :id", array( ":type" => "store", ":id" => $new_id ));
-    if( !empty($notices) ) 
+    if( !empty($notices) )
     {
-        foreach( $notices as &$notice ) 
+        foreach( $notices as &$notice )
         {
             $insert = array( "uid" => $clerk_id, "notice_id" => $notice["id"], "is_new" => 1 );
             pdo_insert("tiny_wmall_notice_read_log", $insert);
@@ -1800,22 +1800,22 @@ function store_stat_init($name, $sid = 0, $day = 30)
     global $_W;
     $limittime = TIMESTAMP - 86400 * $day;
     $routers = array( "sailed" => "count(*) as sailed", "delivery_time" => "avg(delivery_success_time - paytime) as delivery_time, data" );
-    if( empty($sid) ) 
+    if( empty($sid) )
     {
         $orders = pdo_fetchall("select sid, " . $routers[$name] . " from" . tablename("tiny_wmall_order") . "where uniacid = :uniacid and agentid = :agentid and status = 5 and addtime > " . $limittime . " and delivery_success_time > 0 group by sid", array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"] ), "sid");
         $sids = array(  );
-        if( !empty($orders) ) 
+        if( !empty($orders) )
         {
             $sids = array_keys($orders);
         }
 
         $stores = pdo_fetchall("select id,sailed,delivery_time,data from " . tablename("tiny_wmall_store") . " where uniacid = :uniacid and agentid = :agentid", array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"] ));
-        foreach( $stores as &$da ) 
+        foreach( $stores as &$da )
         {
-            if( $name == "delivery_time" ) 
+            if( $name == "delivery_time" )
             {
                 $da["data"] = iunserializer($da["data"]);
-                if( !empty($da["data"]) && $da["data"]["delivery_time_type"] == 1 ) 
+                if( !empty($da["data"]) && $da["data"]["delivery_time_type"] == 1 )
                 {
                     continue;
                 }
@@ -1823,10 +1823,10 @@ function store_stat_init($name, $sid = 0, $day = 30)
             }
 
             $update = array(  );
-            if( in_array($da["id"], $sids) ) 
+            if( in_array($da["id"], $sids) )
             {
                 $value = intval($orders[$da["id"]][$name]);
-                if( $name == "delivery_time" ) 
+                if( $name == "delivery_time" )
                 {
                     $value = floor($value / 60);
                     $value = min($value, 255);
@@ -1845,15 +1845,15 @@ function store_stat_init($name, $sid = 0, $day = 30)
     else
     {
         $store = pdo_fetch("select id,sailed,delivery_time from" . tablename("tiny_wmall_store") . " where uniacid = :uniacid and agentid = :agentid and id = :id", array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"], ":id" => $sid ));
-        if( empty($store) ) 
+        if( empty($store) )
         {
             return error(-1, "商店不存在");
         }
 
-        if( $name == "delivery_time" ) 
+        if( $name == "delivery_time" )
         {
             $store["data"] = iunserializer($store["data"]);
-            if( !empty($store["data"]) && $store["data"]["delivery_time_type"] == 1 ) 
+            if( !empty($store["data"]) && $store["data"]["delivery_time_type"] == 1 )
             {
                 return error(-1, "门店预计送达时间计算方式为门店手动设置");
             }
@@ -1862,10 +1862,10 @@ function store_stat_init($name, $sid = 0, $day = 30)
 
         $orders = pdo_fetch("select sid,{\$routers[\$name]} from" . tablename("tiny_wmall_order") . "where uniacid = :uniacid and agentid = :agentid and status = 5 and addtime > " . $limittime . " and sid = :sid", array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"], ":sid" => $sid ));
         $update = array(  );
-        if( !empty($orders) ) 
+        if( !empty($orders) )
         {
             $value = intval($orders[$name]);
-            if( $name == "delivery_time" ) 
+            if( $name == "delivery_time" )
             {
                 $value = floor($value / 60);
                 $value = min($value, 255);

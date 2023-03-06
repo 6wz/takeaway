@@ -54,6 +54,13 @@
 						<input type="text" class="form-control" name="title" value="{$item['title']}" required="true">
 					</div>
 				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店名称（泰语）</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="title_th" value="{$item['title_th']}" required="true">
+					</div>
+				</div>
 				{if $config_mall['store_use_child_category'] == 1}
 					<div class="form-group">
 						<label class="col-xs-12 col-sm-3 col-md-2 control-label">主营品类</label>
@@ -121,6 +128,13 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店描述（泰语）</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="content_th" value="{$item['content_th']}" required="true">
+						<div class="help-block">粉丝分享时调用.</div>
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店电话</label>
 					<div class="col-sm-9 col-xs-12">
 						<input type="text" class="form-control" name="telephone" value="{$item['telephone']}" required="true">
@@ -175,6 +189,12 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店特色（泰语）</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						{php echo tpl_ueditor('description_th', $item['description_th']);}
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店实景</label>
 					<div class="col-sm-9 col-xs-9 col-md-9 thumbs">
 						<a href="javascript:;" class="btn btn-primary" id="selectThumb">选择图片</a>
@@ -202,6 +222,13 @@
 					<label class="col-xs-12 col-sm-3 col-md-2 control-label">详细地址</label>
 					<div class="col-sm-9 col-xs-9 col-md-9">
 						<input type="text" name="address" class="form-control" value="{$item['address']}" required="true">
+						<div class="help-block">请尽可能详细. 商家自提地址为这里设置的地址.</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">详细地址(泰语)</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<input type="text" name="address_th" class="form-control" value="{$item['address_th']}" required="true">
 						<div class="help-block">请尽可能详细. 商家自提地址为这里设置的地址.</div>
 					</div>
 				</div>
@@ -720,9 +747,23 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">公告(泰语)</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<input type="text" name="shopnotice_th" value="{$item['notice_th']}" class="form-control">
+						<div class="help-block">手机端将以滚动的方式展示</div>
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-xs-12 col-sm-3 col-md-2 control-label">进入商品列表页提示</label>
 					<div class="col-sm-9 col-xs-9 col-md-9">
 						<input type="text" name="tips" value="{$item['tips']}" class="form-control">
+						<div class="help-block">用户进入页面后, 将弹框提示设置的内容</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">进入商品列表页提示（泰语）</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<input type="text" name="tips_th" value="{$item['tips_th']}" class="form-control">
 						<div class="help-block">用户进入页面后, 将弹框提示设置的内容</div>
 					</div>
 				</div>
@@ -744,6 +785,26 @@
 						<div class="help-block">例如: 带点醋, 不吃辣, 自带零钱, 延时送餐等</div>
 					</div>
 				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"> </span>自定义订单备注(泰语)</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						{if !empty($item['order_note_th'])}
+						{loop $item['order_note_th'] $order_note_th}
+						<div class="btn-group btn-label">
+							<input type="hidden" name="order_note_th[]" value="{$order_note_th}">
+							<a class="btn btn-default border-radius-4">{$order_note_th}</a>
+							<a class="btn btn-default label-delete">
+								<span class="fa fa-times-circle"></span>
+							</a>
+						</div>
+						{/loop}
+						{/if}
+						<a class="btn btn-success label-add-th"><i class="fa fa-plus-circle"></i> 添加</a>
+						<div class="help-block">例如: 带点醋, 不吃辣, 自带零钱, 延时送餐等</div>
+					</div>
+				</div>
+
 				{if $store['self_audit_comment'] == 1}
 					<div class="form-group">
 						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"> </span>是否需要审核评论</label>
@@ -769,6 +830,8 @@
 									<div class="input-group">
 										<span class="input-group-addon">链接文字</span>
 										<input type="text" class="form-control" name="custom_title[]" value="{$url['title']}">
+										<span class="input-group-addon">链接文字（泰语）</span>
+										<input type="text" class="form-control" name="custom_title_th[]" value="{$url['title_th']}">
 										<span class="input-group-addon">链接地址</span>
 										<input type="text" class="form-control" name="custom_link[]" value="{$url['url']}">
 										<span class="input-group-addon">小程序/新版公众号跳转链接</span>
@@ -788,6 +851,8 @@
 								<div class="input-group">
 									<span class="input-group-addon">链接文字</span>
 									<input type="text" class="form-control" name="custom_title[]" value="">
+									<span class="input-group-addon">链接文字（泰语）</span>
+									<input type="text" class="form-control" name="custom_title_th[]" value="">
 									<span class="input-group-addon">链接地址</span>
 									<input type="text" class="form-control" name="custom_link[]" value="">
 									<span class="input-group-addon">小程序/新版公众号跳转链接</span>
@@ -815,25 +880,45 @@
 							<span class="input-group-addon">外卖：</span>
 							<input type="text" class="form-control" name="service_titles[takeout]" value="{$item['data']['service_titles']['takeout']}">
 						</div>
+						<div class="input-group">
+							<span class="input-group-addon">外卖（泰语）：</span>
+							<input type="text" class="form-control" name="service_titles_th[takeout]" value="{$item['data']['service_titles_th']['takeout']}">
+						</div>
 						<div class="help-block">请设置前台外卖入口名称，为空使用默认值</div>
 						<div class="input-group">
 							<span class="input-group-addon">店内点餐：</span>
 							<input type="text" class="form-control" name="service_titles[tangshi]" value="{$item['data']['service_titles']['tangshi']}">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon">店内点餐（泰语）：</span>
+							<input type="text" class="form-control" name="service_titles_th[tangshi]" value="{$item['data']['service_titles_th']['tangshi']}">
 						</div>
 						<div class="help-block">请设置前台店内点餐入口名称，为空使用默认值</div>
 						<div class="input-group">
 							<span class="input-group-addon">排号：</span>
 							<input type="text" class="form-control" name="service_titles[assign]" value="{$item['data']['service_titles']['assign']}">
 						</div>
+						<div class="input-group">
+							<span class="input-group-addon">排号（泰语）：</span>
+							<input type="text" class="form-control" name="service_titles_th[assign]" value="{$item['data']['service_titles_th']['assign']}">
+						</div>
 						<div class="help-block">请设置前台排号入口名称，为空使用默认值</div>
 						<div class="input-group">
 							<span class="input-group-addon">预定：</span>
 							<input type="text" class="form-control" name="service_titles[reserve]" value="{$item['data']['service_titles']['reserve']}">
 						</div>
+						<div class="input-group">
+							<span class="input-group-addon">预定（泰语）：</span>
+							<input type="text" class="form-control" name="service_titles_th[reserve]" value="{$item['data']['service_titles_th']['reserve']}">
+						</div>
 						<div class="help-block">请设置前台预定入口名称，为空使用默认值</div>
 						<div class="input-group">
 							<span class="input-group-addon">当面付：</span>
 							<input type="text" class="form-control" name="service_titles[paybill]" value="{$item['data']['service_titles']['paybill']}">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon">当面付（泰语）：</span>
+							<input type="text" class="form-control" name="service_titles_th[paybill]" value="{$item['data']['service_titles_th']['paybill']}">
 						</div>
 						<div class="help-block">请设置前台当面付入口名称，为空使用默认值</div>
 					</div>
@@ -1031,6 +1116,39 @@
 						<a href="javascript:;" class="remind-reply-add"><i class="fa fa-plus-circle"></i> 添加自定义催单回复</a>
 					</div>
 				</div>
+
+				<div id="remind-reply-th">
+					{if !empty($item['remind_reply_th'])}
+					{loop $item['remind_reply_th'] $reply_th}
+					<div class="form-group item">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义催单回复(泰语)</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" name="remind_reply_th[]" value="{$reply_th}">
+						</div>
+						<div class="col-sm-1" style="margin-top:5px">
+							<a href="javascript:;" class="remind-reply-del"><i class="fa fa-times-circle"></i> </a>
+						</div>
+					</div>
+					{/loop}
+					{else}
+					<div class="form-group item">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义催单回复（泰语）</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" name="remind_reply_th[]" value="{$reply_th}">
+						</div>
+						<div class="col-sm-1" style="margin-top:5px">
+							<a href="javascript:;" class="remind-reply-del"><i class="fa fa-times-circle"></i> </a>
+						</div>
+					</div>
+					{/if}
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<a href="javascript:;" class="remind-reply-add-th"><i class="fa fa-plus-circle"></i> 添加自定义催单回复</a>
+					</div>
+				</div>
+
 			</div>
 			<div class="tab-pane {if $_GPC['type'] == 'comment'}active{/if}" role="tabpanel" id="comment">
 				<h3>评价回复</h3>
@@ -1063,6 +1181,38 @@
 					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
 					<div class="col-sm-9 col-xs-12">
 						<a href="javascript:;" class="comment-reply-add"><i class="fa fa-plus-circle"></i> 添加自定义评价回复</a>
+					</div>
+				</div>
+
+				<div id="comment-reply-th">
+					{if !empty($item['comment_reply_th'])}
+					{loop $item['comment_reply_th'] $creply_th}
+					<div class="form-group item">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义评价回复(泰语)</label>
+						<div class="col-sm-6">
+							<textarea class="form-control" name="comment_reply_th[]">{$creply_th}</textarea>
+						</div>
+						<div class="col-sm-1" style="margin-top:5px">
+							<a href="javascript:;" class="comment-reply-del"><i class="fa fa-times-circle"></i> </a>
+						</div>
+					</div>
+					{/loop}
+					{else}
+					<div class="form-group item">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义评价回复（泰语）</label>
+						<div class="col-sm-6">
+							<textarea class="form-control" name="comment_reply_th[]"></textarea>
+						</div>
+						<div class="col-sm-1" style="margin-top:5px">
+							<a href="javascript:;" class="comment-reply-del"><i class="fa fa-times-circle"></i> </a>
+						</div>
+					</div>
+					{/if}
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<a href="javascript:;" class="comment-reply-add-th"><i class="fa fa-plus-circle"></i> 添加自定义评价回复</a>
 					</div>
 				</div>
 			</div>
@@ -1489,6 +1639,22 @@ require(['clockpicker'], function($){
 		}
 		$('#remind-reply').append(html);
 	});
+	$('.remind-reply-add-th').click(function(){
+		var html ='	<div class="form-group item">'+
+				'	<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义催单回复(泰语)</label>'+
+				'	<div class="col-sm-6">'+
+				'		<input type="text" class="form-control" name="remind_reply_th[]" value="">'+
+				'	</div>'+
+				'	<div class="col-sm-1" style="margin-top:5px">'+
+				'		<a href="javascript:;" class="remind-reply-del"><i class="fa fa-times-circle"></i> </a>'+
+				'	</div>'+
+				'</div>';
+		if($('#remind-reply .item').size() >= 15) {
+			util.message('最多可添加15个自定义催单回复', '', 'error');
+			return false;
+		}
+		$('#remind-reply-th').append(html);
+	});
 
 	$('.comment-reply-add').click(function(){
 		var html ='	<div class="form-group item">'+
@@ -1505,6 +1671,22 @@ require(['clockpicker'], function($){
 			return false;
 		}
 		$('#comment-reply').append(html);
+	});
+	$('.comment-reply-add-th').click(function(){
+		var html ='	<div class="form-group item">'+
+				'	<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义评价回复(泰语)</label>'+
+				'	<div class="col-sm-6">'+
+				'		<textarea class="form-control" name="comment_reply_th[]"></textarea>'+
+				'	</div>'+
+				'	<div class="col-sm-1" style="margin-top:5px">'+
+				'		<a href="javascript:;" class="comment-reply-del"><i class="fa fa-times-circle"></i> </a>'+
+				'	</div>'+
+				'</div>';
+		if($('#comment-reply .item').size() >= 15) {
+			util.message('最多可添加15个自定义评价回复', '', 'error');
+			return false;
+		}
+		$('#comment-reply-th').append(html);
 	});
 
 	$('#times-add').click(function(){
@@ -1526,6 +1708,8 @@ require(['clockpicker'], function($){
 					'			<div class="input-group">'+
 					'				<span class="input-group-addon">链接文字</span>'+
 					'				<input type="text" class="form-control" name="custom_title[]" value="">'+
+				    '				<span class="input-group-addon">链接文字（泰语）</span>'+
+				    '				<input type="text" class="form-control" name="custom_title_th[]" value="">'+
 					'				<span class="input-group-addon">链接地址</span>'+
 					'				<input type="text" class="form-control" name="custom_link[]" value="">'+
 					'				<span class="input-group-addon">小程序/新版公众号跳转链接</span>'+
@@ -1581,6 +1765,23 @@ irequire(['tiny', 'laytpl'], function(tiny, laytpl){
 			}
 			var html = '<div class="btn-group btn-label">'+
 					'		<input type="hidden" name="order_note[]" value="'+ data +'">'+
+					'		<a class="btn btn-default border-radius-4">'+data+'</a>'+
+					'		<a class="btn btn-default label-delete">'+
+					'		    <span class="fa fa-times-circle"></span>'+
+					'	    </a>'+
+					'	</div>';
+			$this.before(html);
+		});
+	});
+
+	$(document).on('click', '.label-add-th', function(){
+		var $this = $(this);
+		tiny.prompt($this, '', function(data) {
+			if(!data) {
+				return false;
+			}
+			var html = '<div class="btn-group btn-label">'+
+					'		<input type="hidden" name="order_note_th[]" value="'+ data +'">'+
 					'		<a class="btn btn-default border-radius-4">'+data+'</a>'+
 					'		<a class="btn btn-default label-delete">'+
 					'		    <span class="fa fa-times-circle"></span>'+
