@@ -83,6 +83,7 @@ if( $ta == "post" )
     $store_config = $_W["we7_wmall"]["config"]["store"]["settle"];
     $svip_perm = check_plugin_perm("svip");
     $config_goods = $_W["we7_wmall"]["store"]["data"]["goods"];
+
     if( $_W["ispost"] )
     {
         $price = floatval($_GPC["price"]);
@@ -218,7 +219,7 @@ if( $ta == "post" )
                     continue;
                 }
 
-                $options[] = array( "id" => intval($_GPC["options"]["id"][$key]), "name" => $val,"name_th" => $val, "price" => $price, "svip_price" => floatval($_GPC["options"]["svip_price"][$key]), "total" => intval($_GPC["options"]["total"][$key]), "total_warning" => intval($_GPC["options"]["total_warning"][$key]), "displayorder" => intval($_GPC["options"]["displayorder"][$key]) );
+                $options[] = array( "id" => intval($_GPC["options"]["id"][$key]), "name" => $val,"name_th" => $val_th, "price" => $price, "svip_price" => floatval($_GPC["options"]["svip_price"][$key]), "total" => intval($_GPC["options"]["total"][$key]), "total_warning" => intval($_GPC["options"]["total_warning"][$key]), "displayorder" => intval($_GPC["options"]["displayorder"][$key]) );
                 if( 0 < $_GPC["options"]["id"][$key] )
                 {
                     mload()->model("goods");
@@ -316,7 +317,6 @@ if( $ta == "post" )
             pdo_insert("tiny_wmall_goods", $data);
             $id = pdo_insertid();
         }
-
         $ids = array( 0 );
         if( !empty($options) )
         {

@@ -492,10 +492,18 @@
 							<div class="input-group-addon">自定义餐盒费名称</div>
 							<input type="text" name="box_price" value="{$config_cn['box_price']}" class="form-control" />
 						</div>
+						<div class="input-group">
+							<div class="input-group-addon">自定义餐盒费名称(泰语)</div>
+							<input type="text" name="box_price_th" value="{$config_cn_th['box_price']}" class="form-control" />
+						</div>
 						<div class="help-block">不填写名称则为餐盒费</div>
 						<div class="input-group">
 							<div class="input-group-addon">自定义包装费名称</div>
 							<input type="text" name="pack_fee" value="{$config_cn['pack_fee']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<div class="input-group-addon">自定义包装费名称（泰语）</div>
+							<input type="text" name="pack_fee_th" value="{$config_cn_th['pack_fee']}" class="form-control" />
 						</div>
 						<div class="help-block">不填写名称则为包装费</div>
 					</div>
@@ -533,6 +541,10 @@
 					<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送区域</label>
 					<div class="col-sm-9 col-xs-9 col-md-9">
 						<input type="text" class="form-control" name="delivery_area" value="{$item['delivery_area']}">
+					</div>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送区域(泰语)</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<input type="text" class="form-control" name="delivery_area_th" value="{$item['delivery_area_th']}">
 					</div>
 				</div>
 				<div class="form-group">

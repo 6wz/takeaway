@@ -1905,4 +1905,29 @@ function language($key = '' , $params = [] , $force_language=''){
     }
     return $str ;
 }
+
+function chooseLanguageData($datas = [] , $params = []  , $force_language='') {
+    global $_W;
+    //session_start() ;
+    $language = empty($force_language) ? $_W['language'] :  $force_language;
+    if($language == 'zh-cn' || empty($params)){
+
+    }else{
+        foreach ($datas as $key=>$val) {
+            if(is_array($val)) {
+                foreach ($val as $k=>$child) {
+                    if(in_array($k , $params)){
+                        $datas[$key][$k] = isset($datas[$key][$k.'_th']) ? $datas[$key][$k.'_th'] : $datas[$key][$k] ;
+                    }
+                }
+            }else{
+                if(in_array($key , $params)){
+                    $datas[$key] = isset($datas[$key.'_th']) ? $datas[$key.'_th'] : $datas[$key] ;
+                }
+            }
+        }
+    }
+    return $datas ;
+
+}
 ?>

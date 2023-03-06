@@ -411,6 +411,14 @@ function store_fetch($id, $field = array(  ))
         }
 
         $data["cn"] = $data["data"]["cn"];
+
+        if( empty($data["data"]["cn_th"]) )
+        {
+            $data["data"]["cn_th"] = array( "box_price" => "ค่ากล่องอาหาร", "pack_fee" => "ค่าบรรจุภัณฑ์" );
+        }
+
+        $data["cn"] = $data["data"]["cn"];
+
         if( !empty($data["data"]["zhunshibao"]) && $data["data"]["zhunshibao"]["status"] == 1 )
         {
             if( $data["data"]["zhunshibao"]["fee_type"] == 1 )

@@ -37,6 +37,7 @@ if( $ta == "post" )
             $config_uupaotui = store_get_data($id, "uupaotui");
             $config_reserve = store_get_data($id, "reserve");
             $config_cn = store_get_data($id, "cn");
+            $config_cn_th = store_get_data($id, "cn_th");
             $config_order_form = store_get_data($id, "order_form");
         }
 
@@ -76,15 +77,23 @@ if( $ta == "post" )
         $address_type = 1;
     }
 
+
     if( $_W["ispost"] )
     {
-        $data = array( "title" => trim($_GPC["title"]),"title_th" => trim($_GPC["title_th"]) , "logo" => trim($_GPC["logo"]), "telephone" => trim($_GPC["telephone"]), "description" => htmlspecialchars_decode($_GPC["description"]),"description_th" => htmlspecialchars_decode($_GPC["description_th"]), "pack_price" => trim($_GPC["pack_price"]), "delivery_area" => trim($_GPC["delivery_area"]), "address" => trim($_GPC["address"]),"address_th" => trim($_GPC["address_th"]), "location_x" => $_GPC["map"]["lat"], "location_y" => $_GPC["map"]["lng"], "notice" => trim($_GPC["shopnotice"]),"notice_th" => trim($_GPC["shopnotice_th"]), "tips" => trim($_GPC["tips"]),"tips_th" => trim($_GPC["tips_th"]), "content" => trim($_GPC["content"]),"content_th" => trim($_GPC["content_th"]), "sns" => iserializer(array( "qq" => trim($_GPC["sns"]["qq"]), "weixin" => trim($_GPC["sns"]["weixin"]) )), "invoice_status" => intval($_GPC["invoice_status"]), "token_status" => intval($_GPC["token_status"]), "comment_status" => intval($_GPC["comment_status"]), "payment" => iserializer($_GPC["payment"]), "remind_time_limit" => intval($_GPC["remind_time_limit"]), "remind_time_start" => intval($_GPC["remind_time_start"]), "delivery_type" => intval($_GPC["delivery_type"]), "delivery_within_days" => intval($_GPC["delivery_within_days"]), "delivery_reserve_days" => intval($_GPC["delivery_reserve_days"]), "auto_handel_order" => intval($_GPC["auto_handel_order"]), "auto_print_order" => (intval($_GPC["auto_handel_order"]) == 2 ? 0 : intval($_GPC["auto_print_order"])), "auto_notice_deliveryer" => intval($_GPC["auto_notice_deliveryer"]), "is_meal" => intval($_GPC["is_meal"]), "is_paybill" => intval($_GPC["is_paybill"]), "is_assign" => intval($_GPC["is_assign"]), "is_reserve" => intval($_GPC["is_reserve"]), "forward_mode" => intval($_GPC["forward_mode"]), "forward_url" => trim($_GPC["forward_url"]), "consume_per_person" => intval($_GPC["consume_per_person"]), "qualification" => iserializer(array( "business" => array( "thumb" => trim($_GPC["qualification"]["business"]) ), "service" => array( "thumb" => trim($_GPC["qualification"]["service"]) ), "more1" => array( "thumb" => trim($_GPC["qualification"]["more1"]) ), "more2" => array( "thumb" => trim($_GPC["qualification"]["more2"]) ) )), "elemeShopId" => trim($_GPC["elemeShopId"]), "rest_can_order" => intval($_GPC["rest_can_order"]) );
+        $data = array( "title" => trim($_GPC["title"]),"title_th" => trim($_GPC["title_th"]) , "logo" => trim($_GPC["logo"]), "telephone" => trim($_GPC["telephone"]), "description" => htmlspecialchars_decode($_GPC["description"]),"description_th" => htmlspecialchars_decode($_GPC["description_th"]), "pack_price" => trim($_GPC["pack_price"]), "delivery_area" => trim($_GPC["delivery_area"]),  "delivery_area_th" => trim($_GPC["delivery_area_th"]), "address" => trim($_GPC["address"]),"address_th" => trim($_GPC["address_th"]), "location_x" => $_GPC["map"]["lat"], "location_y" => $_GPC["map"]["lng"], "notice" => trim($_GPC["shopnotice"]),"notice_th" => trim($_GPC["shopnotice_th"]), "tips" => trim($_GPC["tips"]),"tips_th" => trim($_GPC["tips_th"]), "content" => trim($_GPC["content"]),"content_th" => trim($_GPC["content_th"]), "sns" => iserializer(array( "qq" => trim($_GPC["sns"]["qq"]), "weixin" => trim($_GPC["sns"]["weixin"]) )), "invoice_status" => intval($_GPC["invoice_status"]), "token_status" => intval($_GPC["token_status"]), "comment_status" => intval($_GPC["comment_status"]), "payment" => iserializer($_GPC["payment"]), "remind_time_limit" => intval($_GPC["remind_time_limit"]), "remind_time_start" => intval($_GPC["remind_time_start"]), "delivery_type" => intval($_GPC["delivery_type"]), "delivery_within_days" => intval($_GPC["delivery_within_days"]), "delivery_reserve_days" => intval($_GPC["delivery_reserve_days"]), "auto_handel_order" => intval($_GPC["auto_handel_order"]), "auto_print_order" => (intval($_GPC["auto_handel_order"]) == 2 ? 0 : intval($_GPC["auto_print_order"])), "auto_notice_deliveryer" => intval($_GPC["auto_notice_deliveryer"]), "is_meal" => intval($_GPC["is_meal"]), "is_paybill" => intval($_GPC["is_paybill"]), "is_assign" => intval($_GPC["is_assign"]), "is_reserve" => intval($_GPC["is_reserve"]), "forward_mode" => intval($_GPC["forward_mode"]), "forward_url" => trim($_GPC["forward_url"]), "consume_per_person" => intval($_GPC["consume_per_person"]), "qualification" => iserializer(array( "business" => array( "thumb" => trim($_GPC["qualification"]["business"]) ), "service" => array( "thumb" => trim($_GPC["qualification"]["service"]) ), "more1" => array( "thumb" => trim($_GPC["qualification"]["more1"]) ), "more2" => array( "thumb" => trim($_GPC["qualification"]["more2"]) ) )), "elemeShopId" => trim($_GPC["elemeShopId"]), "rest_can_order" => intval($_GPC["rest_can_order"]) );
         $reserve = array( "reserve_time_limit" => intval($_GPC["reserve"]["reserve_time_limit"]), "notice_clerk_before_delivery" => intval($_GPC["reserve"]["notice_clerk_before_delivery"]) );
         store_set_data($id, "reserve", $reserve);
         $box_price = trim($_GPC["box_price"]);
         $pack_fee = trim($_GPC["pack_fee"]);
         $cn = array( "box_price" => (!empty($box_price) ? $box_price : "餐盒费"), "pack_fee" => (!empty($pack_fee) ? $pack_fee : "包装费") );
         store_set_data($id, "cn", $cn);
+
+
+        $box_price_th = trim($_GPC["box_price_th"]);
+        $pack_fee_th = trim($_GPC["pack_fee_th"]);
+        $cn_th = array( "box_price" => (!empty($box_price_th) ? $box_price_th : "ค่ากล่องอาหาร"), "pack_fee" => (!empty($pack_fee_th) ? $pack_fee_th : "ค่าบรรจุภัณฑ์") );
+        store_set_data($id, "cn_th", $cn_th);
+
         $order_form = array( "person_num" => intval($_GPC["order_form"]["person_num"]) );
         store_set_data($id, "order_form", $order_form);
         if( $_W["role"] != "merchanter" )
