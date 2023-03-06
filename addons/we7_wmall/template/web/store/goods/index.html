@@ -10,6 +10,12 @@
 			</div>
 		</div>
 		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品名称（泰语）</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="title_th" value="{$item['title_th']}" required="true">
+			</div>
+		</div>
+		<div class="form-group">
 			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品编号</label>
 			<div class="col-sm-9 col-xs-12">
 				<input type="text" class="form-control" name="number" value="{$item['number']}">
@@ -102,7 +108,7 @@
 		</div>
 		<div class="form-group">
 			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"> 启用规格</span></label>
-			<div class="col-sm-9 col-xs-12">
+			<div class="col-sm-10 col-xs-12">
 				<div class="checkbox checkbox-inline">
 					<input type="checkbox" name="is_options" id="is-options-1" value="1" {if $item['is_options'] == 1}checked{/if} onclick="$('#options').toggle();">
 					<label for="is-options-1">启用</label>
@@ -116,6 +122,8 @@
 									<span class="input-group-addon">规格名称</span>
 									<input type="hidden" name="options[id][]" value="{$row['id']}">
 									<input type="text" name="options[name][]" value="{$row['name']}" class="form-control" placeholder="规格名称">
+									<span class="input-group-addon">规格名称(泰语)</span>
+									<input type="text" name="options[name_th][]" value="{$row['name_th']}" class="form-control" placeholder="规格名称">
 									<span class="input-group-addon">价格</span>
 									<input type="text" name="options[price][]" value="{$row['price']}" class="form-control" placeholder="价格">
 									{if check_plugin_perm('svip')}
@@ -136,6 +144,8 @@
 								<span class="input-group-addon">规格名称</span>
 								<input type="hidden" name="options[id][]" value="">
 								<input type="text" name="options[name][]" class="form-control" placeholder="规格名称">
+								<span class="input-group-addon">规格名称(泰语)</span>
+								<input type="text" name="options[name_th][]" class="form-control" placeholder="规格名称">
 								<span class="input-group-addon">价格</span>
 								<input type="text" name="options[price][]" class="form-control" placeholder="价格">
 								{if check_plugin_perm('svip')}
@@ -194,7 +204,31 @@
 				<a class="btn btn-primary btn-sm add-attr" href="javascript:;">添加商品属性</a>
 				<span class="help-block">列如：属性名称可以设为辣度，属性标签可以设为微辣，中辣等。输入多个属性标签时用英文状态的逗号隔开。</span>
 			</div>
+
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品属性（泰语）</label>
+			<div class="col-sm-9 col-xs-12">
+				<div id="attrs-container-th">
+					{if !empty($item['attrs_th'])}
+					{loop $item['attrs_th'] $attr}
+					<div class="attr-item">
+						<div class="col-md-3">
+							<input type="text" name="attrs_th[name][]" class="form-control" value="{$attr['name']}" placeholder="列如:辣度">
+						</div>
+						<div class="col-md-8">
+							<input type="text" name="attrs_th[label][]" class="form-control" value="{$attr['label']}" placeholder="列如:微辣">
+						</div>
+						<div class="col-md-1">
+							<span class="attrs-delete"><i class="fa fa-remove"></i></span>
+						</div>
+					</div>
+					{/loop}
+					{/if}
+				</div>
+				<a class="btn btn-primary btn-sm add-attr-th" href="javascript:;">添加商品属性</a>
+				<span class="help-block">列如：属性名称可以设为辣度，属性标签可以设为微辣，中辣等。输入多个属性标签时用英文状态的逗号隔开。</span>
+			</div>
 		</div>
+
 		<div class="form-group">
 			<label class="col-xs-12 col-sm-3 col-md-2 control-label">可售时间段</label>
 			<div class="col-sm-9 col-xs-12">
@@ -320,6 +354,11 @@
 			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品单位</label>
 			<div class="col-sm-9 col-xs-12">
 				<input type="text" class="form-control" name="unitname" value="{$item['unitname']}" required="true">
+				<div class="help-block"></div>
+			</div>
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品单位(泰语)</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="unitname_th" value="{$item['unitname_th']}" required="true">
 			</div>
 		</div>
 		<div class="form-group">
@@ -328,11 +367,21 @@
 				<input type="text" class="form-control" name="content" value="{$item['content']}">
 				<div class="help-block">该信息显示在商品列表页面, 字数控制在30个以内</div>
 			</div>
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">简单描述（泰语）</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="content_th" value="{$item['content_th']}">
+				<div class="help-block">该信息显示在商品列表页面, 字数控制在30个以内</div>
+			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义标签</label>
 			<div class="col-sm-9 col-xs-9 col-md-9">
 				<input type="text" class="form-control" name="label" value="{$item['label']}">
+				<div class="help-block">可设置为：热卖，新品，爆款等。只能设置一个，不超过两个字</div>
+			</div>
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义标签（泰语）</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="text" class="form-control" name="label_th" value="{$item['label_th']}">
 				<div class="help-block">可设置为：热卖，新品，爆款等。只能设置一个，不超过两个字</div>
 			</div>
 		</div>
@@ -412,6 +461,10 @@
 			<div class="col-sm-9 col-xs-12">
 				{php echo tpl_ueditor('description', $item['description']);}
 			</div>
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品详情(泰语)</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_ueditor('description_th', $item['description_th']);}
+			</div>
 		</div>
 		<div class="form-group">
 			<div class="col-sm-9 col-xs-9 col-md-9">
@@ -473,6 +526,8 @@ $(function() {
 					'<span class="input-group-addon">规格名称</span>'+
 					'<input type="hidden" name="options[id][]" value="">'+
 					'<input type="text" name="options[name][]" class="form-control" placeholder="规格名称">'+
+					'<span class="input-group-addon">规格名称(泰语)</span>'+
+					'<input type="text" name="options[name_th][]" class="form-control" placeholder="规格名称">'+
 					'<span class="input-group-addon">价格</span>'+
 					'<input type="text" name="options[price][]" class="form-control" placeholder="价格">'+
 					'<span class="input-group-addon">会员价</span>'+
@@ -490,6 +545,8 @@ $(function() {
 					'<span class="input-group-addon">规格名称</span>'+
 					'<input type="hidden" name="options[id][]" value="">'+
 					'<input type="text" name="options[name][]" class="form-control" placeholder="规格名称">'+
+					'<span class="input-group-addon">规格名称(泰语)</span>'+
+					'<input type="text" name="options[name_th][]" class="form-control" placeholder="规格名称">'+
 					'<span class="input-group-addon">价格</span>'+
 					'<input type="text" name="options[price][]" class="form-control" placeholder="价格">'+
 					'<span class="input-group-addon">库存</span>'+
@@ -527,6 +584,26 @@ $(function() {
 				'	</div>';
 		$('#attrs-container').append(html);
 	});
+	$(document).on('click', '.add-attr-th', function() {
+		var length = $('#attrs-container-th .attr-item').length;
+		if(length >= 10) {
+			Notify.info('最多可添加10个属性');
+			return false;
+		}
+		var html = '<div class="attr-item">'+
+				'		<div class="col-md-3">'+
+				'			<input type="text" name="attrs_th[name][]" class="form-control" placeholder="列如:辣度">'+
+				'		</div>'+
+				'		<div class="col-md-8">'+
+				'			<input type="text" name="attrs_th[label][]" class="form-control" placeholder="列如:微辣">'+
+				'		</div>'+
+				'		<div class="col-md-1">'+
+				'			<span class="attrs-delete"><i class="fa fa-remove"></i></span>'+
+				'		</div>'+
+				'	</div>';
+		$('#attrs-container-th').append(html);
+	});
+
 	$(document).on('click', '.attrs-delete', function() {
 		$(this).parent().parent().remove();
 	});

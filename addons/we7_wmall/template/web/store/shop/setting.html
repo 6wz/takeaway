@@ -825,8 +825,8 @@
 					{if !empty($item['custom_url'])}
 						{loop $item['custom_url'] $url}
 							<div class="form-group item">
-								<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店详情页自定义链接</label>
-								<div class="col-sm-6">
+								<label class="col-xs-12 col-sm-2 col-md-2 control-label">门店详情页自定义链接</label>
+								<div class="col-sm-8">
 									<div class="input-group">
 										<span class="input-group-addon">链接文字</span>
 										<input type="text" class="form-control" name="custom_title[]" value="{$url['title']}">
@@ -846,8 +846,8 @@
 						{/loop}
 					{else}
 						<div class="form-group item">
-							<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店详情页自定义链接</label>
-							<div class="col-sm-6">
+							<label class="col-xs-12 col-sm-2 col-md-2 control-label">门店详情页自定义链接</label>
+							<div class="col-sm-9">
 								<div class="input-group">
 									<span class="input-group-addon">链接文字</span>
 									<input type="text" class="form-control" name="custom_title[]" value="">
@@ -1703,8 +1703,8 @@ require(['clockpicker'], function($){
 
 	$('#custom-url-add').click(function(){
 		var html = '<div class="form-group item">'+
-					'	<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店详情页自定义链接</label>'+
-					'		<div class="col-sm-6">'+
+					'	<label class="col-xs-12 col-sm-2 col-md-2 control-label">门店详情页自定义链接</label>'+
+					'		<div class="col-sm-9">'+
 					'			<div class="input-group">'+
 					'				<span class="input-group-addon">链接文字</span>'+
 					'				<input type="text" class="form-control" name="custom_title[]" value="">'+

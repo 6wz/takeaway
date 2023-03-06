@@ -11,9 +11,21 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">分类名称(泰语)</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" class="form-control" name="title_th" value="{$item['title_th']}">
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-xs-12 col-sm-3 col-md-2 control-label">分类描述</label>
 				<div class="col-sm-9 col-xs-12">
 					<input type="text" class="form-control" name="description" value="{$item['description']}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">分类描述(泰语)</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" class="form-control" name="description_th" value="{$item['description_th']}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -228,6 +240,7 @@
 							<tr>
 								<input type="hidden" name="ids[]" value="{$row['id']}">
 								<td style="padding-left: 35px;"><input type="text" name="title[]" class="form-control width-100" value="{$row['title']}"></td>
+								<td style="padding-left: 35px;"><input type="text" name="title_th[]" class="form-control width-100" value="{$row['title_th']}"></td>
 								<td></td>
 								<td><input type="text" name="displayorder[]" class="form-control width-100" value="{$row['displayorder']}"></td>
 								<td></td>
