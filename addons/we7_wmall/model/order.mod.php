@@ -733,37 +733,37 @@ function order_status() {
 	$data = array(
 		'0' => array(
 			'css' => '',
-			'text' => '所有',
+			'text' => language('所有'),
 			'color' => ''
 		),
 		'1' => array(
 			'css' => 'label label-default',
-			'text' => '待确认',
+			'text' => language('待确认'),
 			'color' => '',
 		),
 		'2' => array(
 			'css' => 'label label-info',
-			'text' => '处理中',
+			'text' => language('处理中'),
 			'color' => 'color-primary'
 		),
 		'3' => array(
 			'css' => 'label label-warning',
-			'text' => '待配送',
+			'text' => language('待配送'),
 			'color' => 'color-warning'
 		),
 		'4' => array(
 			'css' => 'label label-warning',
-			'text' => '配送中',
+			'text' => language('配送中'),
 			'color' => 'color-warning'
 		),
 		'5' => array(
 			'css' => 'label label-success',
-			'text' => '已完成',
+			'text' => language('已完成'),
 			'color' => 'color-success'
 		),
 		'6' => array(
 			'css' => 'label label-danger',
-			'text' => '已取消',
+			'text' => language('已取消'),
 			'color' => 'color-danger'
 		)
 	);
@@ -1895,6 +1895,7 @@ function order_check_member_cart($sid) {
 	$errmessage = '';
 	$goods_ids = implode(',', array_keys($cart['data']));
 	$goods_info = pdo_fetchall('SELECT * FROM ' . tablename('tiny_wmall_goods') ." WHERE uniacid = :uniacid AND sid = :sid AND id IN ($goods_ids)", array(':uniacid' => $_W['uniacid'], ':sid' => $sid), 'id');
+    $goods_info = chooseLanguageData($goods_info , ['title' , 'unitname','label' ,'content' ,'description' , 'attrs','unitname_cn']) ;
 	if(!empty($goods_info)) {
 		foreach($goods_info as &$value) {
 			if(defined('ORDER_TYPE') && ORDER_TYPE == 'tangshi') {
@@ -1935,6 +1936,7 @@ function order_check_member_cart($sid) {
 				if(empty($option)) {
 					continue;
 				}
+                $option = chooseLanguageData($option , ['name']) ;
 				if($option['total'] != -1 && $cart_item['num'] > $option['total']) {
 					$errno = -2; //商品库存不足
 					$errmessage = "{$option_item['title']}库存不足！";

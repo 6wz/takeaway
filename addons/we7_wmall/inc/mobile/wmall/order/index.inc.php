@@ -8,7 +8,8 @@ $config_order = $_W["we7_wmall"]["config"]["takeout"]["order"];
 if( $ta == "list" )
 {
     $_W["page"]["title"] = language("订单列表");
-    $orders = pdo_fetchall("select a.id as aid, a.*, b.title, b.logo, b.delivery_mode from " . tablename("tiny_wmall_order") . " as a left join " . tablename("tiny_wmall_store") . " as b on a.sid = b.id where a.uniacid = :uniacid and a.uid = :uid and a.is_delete = 0 order by a.id desc limit 5", array( ":uniacid" => $_W["uniacid"], ":uid" => $_W["member"]["uid"] ), "aid");
+    $orders = pdo_fetchall("select a.id as aid, a.*, b.title,b.title_th, b.logo, b.delivery_mode from " . tablename("tiny_wmall_order") . " as a left join " . tablename("tiny_wmall_store") . " as b on a.sid = b.id where a.uniacid = :uniacid and a.uid = :uid and a.is_delete = 0 order by a.id desc limit 5", array( ":uniacid" => $_W["uniacid"], ":uid" => $_W["member"]["uid"] ), "aid");
+    $orders = chooseLanguageData($orders , ['title']) ;
     $min = 0;
     if( !empty($orders) )
     {
