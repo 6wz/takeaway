@@ -11,9 +11,9 @@
 			{if empty($coupons)}
 				<div class="common-no-con">
 					<img src= "{WE7_WMALL_TPL_URL}static/img/coupon_no_con.png" alt="" />
-					<p>{php echo language('您没有代金券');}</p>
+					<p><?php echo language('您没有代金券'); ?></p>
 					<div class="btn">
-						<a href="{php echo imurl('wmall/channel/coupon');}">{php echo language('去领券中心看看');}</a>
+						<a href="{php echo imurl('wmall/channel/coupon');}"><?php echo language('去领券中心看看'); ?></a>
 					</div>
 				</div>
 			{else}
@@ -34,14 +34,14 @@
 										<div class="coupon-title">
 											{$coupon['title']}
 										</div>
-										<div class="use-time">{php echo language('有效期至');}:{$coupon['endtime']}</div>
+										<div class="use-time"><?php echo language('有效期至') . ':' .$coupon['endtime']; ?></div>
 									</div>
 								</div>
 								<div class="right">
 									<div class="price">
 										<span>¥</span>{$coupon['discount']}
 									</div>
-									<div class="condition">{php echo language('满{price}元可用' ,['price'=>$coupon['condition']]);} </div>
+									<div class="condition"><?php echo language('满{price}元可用' ,['price'=>$coupon['condition']]); ?> </div>
 								</div>
 							</div>
 						</a>

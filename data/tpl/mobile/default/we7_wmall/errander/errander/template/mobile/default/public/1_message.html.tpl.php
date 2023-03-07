@@ -13,7 +13,7 @@
 				</p>
 			</div>
 			<div class="extra-area">
-				<a href="<?php  echo ivurl('pages/home/index', array(), true);?>"><?php  echo language('返回首页');?></a>
+				<a href="<?php  echo imurl('home/index', array(), true);?>"><?php  echo language('返回首页');?></a>
 			</div>
 		</div>
 	</div>

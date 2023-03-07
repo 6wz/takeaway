@@ -10,7 +10,7 @@ if( empty($store) )
 {
     imessage(language("门店不存在或已经删除"), referer(), "error");
 }
-$store = chooseLanguageData($store , ['title'  , 'content' , 'description' , 'address' , 'notice' ,'tips' ,'delivery_area' ,'order_note' , 'service_title' , 'cn' , 'custom_url' , 'remind_replay' , 'comment_reply' ]) ;
+$store = chooseLanguageData($store , ['title'  , 'content' , 'description' , 'address' , 'notice' ,'tips' ,'delivery_area' ,'order_note' , 'service_titles' , 'cn' , 'custom_url' , 'remind_replay' , 'comment_reply' ]) ;
 $is_favorite = pdo_get("tiny_wmall_store_favorite", array( "uniacid" => $_W["uniacid"], "uid" => $_W["member"]["uid"], "sid" => $sid ));
 $stat = store_comment_stat($sid);
 $stat["all"] = intval(pdo_fetchcolumn("select count(*) as num from " . tablename("tiny_wmall_order_comment") . " where uniacid = :uniacid and sid = :sid and status = 1", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid )));

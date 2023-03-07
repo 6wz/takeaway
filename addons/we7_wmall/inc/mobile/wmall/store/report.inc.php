@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined("IN_IA") or exit( "Access Denied" );
 global $_W;
 global $_GPC;
@@ -6,29 +6,29 @@ mload()->func("tpl.app");
 $_W["page"]["title"] = language("举报商户");
 icheckauth();
 $ta = (trim($_GPC["ta"]) ? trim($_GPC["ta"]) : "index");
-if( $ta == "index" ) 
+if( $ta == "index" )
 {
     $title = language("举报商家");
     $sid = intval($_GPC["sid"]);
-    $store = store_fetch($sid, array( "title", "id" ));
-    if( empty($store) ) 
+    $store = store_fetch($sid, array( "title","title_th" ,  "id" ));
+    if( empty($store) )
     {
         imessage(language("门店不存在或已删除"), referer(), "error");
     }
-
+    $store = chooseLanguageData($store , ['title']) ;
     $reports = $_W["we7_wmall"]["config"]["report"];
 }
 
-if( $ta == "post" ) 
+if( $ta == "post" )
 {
     $title = (!empty($_GPC["title"]) ? trim($_GPC["title"]) : imessage(error(-1, language("投诉类型有误")), "", "ajax"));
     $data = array( "uniacid" => $_W["uniacid"], "acid" => $_W["acid"], "sid" => intval($_GPC["sid"]), "uid" => $_W["member"]["uid"], "openid" => $_W["openid"], "title" => $title, "note" => trim($_GPC["note"]), "mobile" => trim($_GPC["mobile"]), "addtime" => TIMESTAMP );
     $thumbs = array(  );
-    if( !empty($_GPC["thumbs"]) ) 
+    if( !empty($_GPC["thumbs"]) )
     {
-        foreach( $_GPC["thumbs"] as $row ) 
+        foreach( $_GPC["thumbs"] as $row )
         {
-            if( empty($row) ) 
+            if( empty($row) )
             {
                 continue;
             }

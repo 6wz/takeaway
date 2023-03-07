@@ -12,7 +12,7 @@ if( empty($store) )
 {
     imessage(language("门店不存在或已经删除"), referer(), "error");
 }
-$store = chooseLanguageData($store , ['title'  , 'content' , 'description' , 'address' , 'notice' ,'tips' ,'delivery_area' ,'order_note' , 'service_title' , 'cn' , 'custom_url' , 'remind_replay' , 'comment_reply' ]) ;
+$store = chooseLanguageData($store , ['title'  , 'content' , 'description' , 'address' , 'notice' ,'tips' ,'delivery_area' ,'order_note' , 'service_titles' , 'cn' , 'custom_url' , 'remind_replay' , 'comment_reply' ]) ;
 $_W["page"]["title"] = language("商品列表");
 mload()->model("activity");
 activity_store_cron($sid);
@@ -52,6 +52,7 @@ if( $ta == "index" )
     }
     $cate_goods = $result['cate_goods'] ;
     $goods = chooseLanguageData($result["goods"] , ['title' , 'unitname','label' ,'content' ,'description' , 'attrs','unitname_cn']) ;
+
     $bargains = $result["bargains"];
     $categorys_limit_status = 0;
     $categorys_limit = array(  );
@@ -231,6 +232,7 @@ if( $ta == "detail" )
         message(error(-1, language("商品不存在或已删除")), "", "ajax");
     }
 
+
     $goods["is_sail_now"] = (goods_is_available($goods) ? 1 : 0);
     if( !$goods["comment_total"] )
     {
@@ -240,7 +242,8 @@ if( $ta == "detail" )
     {
         $goods["comment_good_percent"] = round($goods["comment_good"] / $goods["comment_total"] * 100, 2) . "%";
     }
-
+    $goods = chooseLanguageData($goods , ['title' , 'unitname','label' ,'content' ,'description' , 'attrs','unitname_cn' ]) ;
+    $goods['options'] = chooseLanguageData($goods['options'] , ['name']) ;
     message(error(0, $goods), "", "ajax");
 }
 

@@ -10,7 +10,7 @@
 		{if empty($redPackets)}
 			<div class="common-no-con">
 				<img src= "{WE7_WMALL_TPL_URL}static/img/coupon_no_con.png" alt="" />
-				<p>{php echo language('您没有红包记录');}</p>
+				<p><?php echo language('您没有红包记录'); ?> </p>
 			</div>
 		{else}
 			<div class="redPacket-list content-padded">
@@ -29,9 +29,9 @@
 								<div class="col-60"><?php echo language('仅限{time_cn}时段使用' , ['time_cn'=>($redPacket['starttime'].'-'.$redPacket['endtime'])]);?> </div>
 								<div class="col-40 text-right">
 									{if $redPacket['condition'] > 0}
-									<p class="use-condition"><?php echo language('满{price}元可用' ,['price'=>$redPacket['condition']] ; ?></p>
+									<p class="use-condition"> {language("满{price}元可用" ,['price'=>$redPacket['condition']];} </p>
 									{else}
-									<p class="use-condition">{php echo language('满任意金额元可用');}</p>
+									<p class="use-condition">{ language('满任意金额元可用')}</p>
 									{/if}
 								</div>
 							</div>

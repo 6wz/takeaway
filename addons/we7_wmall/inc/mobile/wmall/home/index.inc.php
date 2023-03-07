@@ -58,7 +58,7 @@ else
         $categorys_chunk = array_chunk($categorys, 8);
         $notices = pdo_fetchall("select id,title,link,wxapp_link,displayorder,status from" . tablename("tiny_wmall_notice") . " where uniacid = :uniacid and agentid = :agentid and type = :type and status = 1 order by displayorder desc", array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"], ":type" => "member" ));
         $recommends = store_fetchall_by_condition("recommend", array( "extra_type" => "base" ));
-        $recommends =chooseLanguageData($recommends , ['title'  , 'content' , 'description' , 'address' , 'notice' ,'tips' ,'delivery_area' ,'order_note' , 'service_title' , 'cn' , 'custom_url' , 'remind_replay' , 'comment_reply'  ]) ;
+        $recommends =chooseLanguageData($recommends , ['title'  , 'content' , 'description' , 'address' , 'notice' ,'tips' ,'delivery_area' ,'order_note' , 'service_titles' , 'cn' , 'custom_url' , 'remind_replay' , 'comment_reply'  ]) ;
         $cubes = pdo_fetchall("select * from " . tablename("tiny_wmall_cube") . " where uniacid = :uniacid and agentid = :agentid order by displayorder desc", array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"] ));
         if( check_plugin_perm("bargain") )
         {
@@ -93,7 +93,7 @@ else
         }
 
         $stores = pdo_fetchall("select * from " . tablename("tiny_wmall_store") . " where uniacid = :uniacid and agentid = :agentid and status = 1 " . $order_by, array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"] ));
-        $stores = chooseLanguageData($stores , ['title'  , 'content' , 'description' , 'address' , 'notice' ,'tips' ,'delivery_area' ,'order_note' , 'service_title' , 'cn' , 'custom_url' , 'remind_replay' , 'comment_reply'  ]) ;
+        $stores = chooseLanguageData($stores , ['title'  , 'content' , 'description' , 'address' , 'notice' ,'tips' ,'delivery_area' ,'order_note' , 'service_titles' , 'cn' , 'custom_url' , 'remind_replay' , 'comment_reply'  ]) ;
         $min = 0;
         if( !empty($stores) )
         {

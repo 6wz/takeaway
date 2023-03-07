@@ -394,9 +394,14 @@ function store_fetch($id, $field = array(  ))
         }
 
         $data["service_titles"] = array( "takeout" => "点外卖", "tangshi" => "扫码点餐", "assign" => "排号", "reserve" => "预定", "paybill" => "当面付" );
+        $data["service_titles_th"] = array( "takeout" => "สั่งซื้อกลับบ้าน", "tangshi" => "สแกนรหัสเพื่อสั่งซื้อ", "assign" => "หมายเลขแถว", "reserve" => "การจอง", "paybill" => "จ่ายด้วยตนเอง" );
         if( !empty($data["data"]["service_titles"]) )
         {
             $data["service_titles"] = array_merge($data["service_titles"], $data["data"]["service_titles"]);
+        }
+        if( !empty($data["data"]["service_titles_th"]) )
+        {
+            $data["service_titles_th"] = array_merge($data["service_titles_th"], $data["data"]["service_titles_th"]);
         }
 
         $data["pindan_status"] = 1;

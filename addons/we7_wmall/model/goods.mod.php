@@ -309,9 +309,10 @@ function goods_avaliable_fetchall($sid, $cid = 0, $ignore_bargain = false)
     {
         return $result;
     }
-
+    $goods = chooseLanguageData($goods , ['title' , 'unitname','label' ,'content' ,'description' , 'attrs','unitname_cn']) ;
     $config_svip_status = svip_status_is_available();
     $options = pdo_fetchall("select * from " . tablename("tiny_wmall_goods_options") . " where uniacid = :uniacid and sid = :sid order by displayorder desc", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid ));
+    $options = chooseLanguageData($options , ['name']) ;
     $goods_options = array(  );
     foreach( $options as $option )
     {
@@ -557,6 +558,7 @@ function goods_fetch($id)
 
     $data["is_attrs"] = 0;
     $data["attrs"] = iunserializer($data["attrs"]);
+    $data["attrs_th"] = iunserializer($data["attrs_th"]);
     if( !empty($data["attrs"]) )
     {
         $data["is_attrs"] = 1;
