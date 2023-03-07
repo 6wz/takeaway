@@ -72,7 +72,8 @@ if( $ta == "list" )
 
     }
 
-    $stores = pdo_fetchall("select id,title,logo,content,label,serve_radius,not_in_serve_radius,delivery_areas,sailed,score,business_hours,is_in_business,is_rest,is_stick,delivery_fee_mode,delivery_price,delivery_free_price,send_price,delivery_time,delivery_mode,token_status,invoice_status,location_x,location_y,forward_mode,forward_url from " . tablename("tiny_wmall_store") . (string) $condition . " " . $order_by, $params);
+    $stores = pdo_fetchall("select * from " . tablename("tiny_wmall_store") . (string) $condition . " " . $order_by, $params);
+    $stores = chooseLanguageData($stores , ['title'  , 'content' , 'description' , 'address' , 'notice' ,'tips' ,'delivery_area' ,'order_note' , 'service_title' , 'cn' , 'custom_url' , 'remind_replay' , 'comment_reply'  ]) ;
     $min = 0;
     if( !empty($stores) )
     {
@@ -163,8 +164,8 @@ if( $ta == "list" )
     }
 
     $categorys = store_fetchall_category();
-    $discounts = store_discounts();
-    $orderbys = store_orderbys();
+    $discounts = store_discounts($_W['language']);
+    $orderbys = store_orderbys($_W['language']);
     $result = array( "filter" => array( "cid" => $cid, "dis" => $dis, "order" => $order_by_type ), "stores" => $stores, "categorys" => $categorys, "discounts" => $discounts, "orderbys" => $orderbys, "carousel" => $carousel, "categoryTitle" => (!empty($carousel["title"]) ? $carousel["title"] : language("商家分类")), "discountTitle" => (!empty($discounts[$_GPC["dis"]]["title"]) ? $discounts[$_GPC["dis"]]["title"] : language("优惠活动")), "orderTitle" => (!empty($orderbys[$_GPC["order"]]["title"]) ? $orderbys[$_GPC["order"]]["title"] : language("智能排序")), "lat" => $lat, "lng" => $lng );
     $respon = array( "error" => 0, "message" => $result, "min" => $min );
     message($respon, "", "ajax");

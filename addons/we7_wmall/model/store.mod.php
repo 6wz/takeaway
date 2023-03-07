@@ -1364,14 +1364,14 @@ function store_fetchall_by_condition($type = "hot", $option = array(  ))
 
     if( $type == "hot" )
     {
-        $stores = pdo_fetchall("select id,title,forward_mode,forward_url from " . tablename("tiny_wmall_store") . $condition . " order by click desc, displayorder desc limit 4", $params);
+        $stores = pdo_fetchall("select * from " . tablename("tiny_wmall_store") . $condition . " order by click desc, displayorder desc limit 4", $params);
     }
     else
     {
         if( $type == "recommend" )
         {
             $condition .= " and is_recommend = 1 and position = 1";
-            $stores = pdo_fetchall("select id,title,logo,content,business_hours,delivery_fee_mode,delivery_price,delivery_areas,send_price,delivery_time,forward_mode,forward_url,score,location_y,location_x,sailed,is_rest from " . tablename("tiny_wmall_store") . $condition . " order by is_rest asc, displayorder desc limit " . $option["limit"], $params);
+            $stores = pdo_fetchall("select * from " . tablename("tiny_wmall_store") . $condition . " order by is_rest asc, displayorder desc limit " . $option["limit"], $params);
         }
 
     }

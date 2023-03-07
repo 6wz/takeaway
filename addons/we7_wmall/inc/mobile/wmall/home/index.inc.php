@@ -51,20 +51,22 @@ else
 
         }
 
-        $orderbys = store_orderbys();
-        $discounts = store_discounts();
+        $orderbys = store_orderbys($_W['language']);
+        $discounts = store_discounts($_W['language']);
         $slides = sys_fetch_slide("homeTop", true);
         $categorys = store_fetchall_category();
         $categorys_chunk = array_chunk($categorys, 8);
         $notices = pdo_fetchall("select id,title,link,wxapp_link,displayorder,status from" . tablename("tiny_wmall_notice") . " where uniacid = :uniacid and agentid = :agentid and type = :type and status = 1 order by displayorder desc", array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"], ":type" => "member" ));
         $recommends = store_fetchall_by_condition("recommend", array( "extra_type" => "base" ));
+        $recommends =chooseLanguageData($recommends , ['title'  , 'content' , 'description' , 'address' , 'notice' ,'tips' ,'delivery_area' ,'order_note' , 'service_title' , 'cn' , 'custom_url' , 'remind_replay' , 'comment_reply'  ]) ;
         $cubes = pdo_fetchall("select * from " . tablename("tiny_wmall_cube") . " where uniacid = :uniacid and agentid = :agentid order by displayorder desc", array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"] ));
         if( check_plugin_perm("bargain") )
         {
             $_config_bargain = get_plugin_config("bargain");
             if( $_config_bargain["status"] == 1 && $_config_bargain["is_home_display"] == 1 )
             {
-                $bargains = pdo_fetchall("select a.discount_price,a.goods_id,b.title,b.thumb,b.price,b.sid,c.is_rest from " . tablename("tiny_wmall_activity_bargain_goods") . " as a left join " . tablename("tiny_wmall_goods") . " as b on a.goods_id = b.id left join " . tablename("tiny_wmall_store") . "as c on b.sid = c.id where a.uniacid = :uniacid and a.agentid = :agentid and a.status = 1 order by c.is_rest asc, a.mall_displayorder desc limit 8", array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"] ));
+                $bargains = pdo_fetchall("select a.discount_price,a.goods_id,b.title,b.title_th,b.thumb,b.price,b.sid,c.is_rest from " . tablename("tiny_wmall_activity_bargain_goods") . " as a left join " . tablename("tiny_wmall_goods") . " as b on a.goods_id = b.id left join " . tablename("tiny_wmall_store") . "as c on b.sid = c.id where a.uniacid = :uniacid and a.agentid = :agentid and a.status = 1 order by c.is_rest asc, a.mall_displayorder desc limit 8", array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"] ));
+                $bargains = chooseLanguageData($bargains , ['title' ]) ;
                 foreach( $bargains as &$val )
                 {
                     $val["discount"] = round($val["discount_price"] / $val["price"] * 10, 1);
@@ -90,7 +92,8 @@ else
 
         }
 
-        $stores = pdo_fetchall("select id,agentid,score,title,logo,content,sailed,score,label,serve_radius,not_in_serve_radius,delivery_areas,business_hours,is_in_business,is_rest,is_stick,delivery_fee_mode,delivery_price,delivery_free_price,send_price,delivery_time,delivery_mode,token_status,invoice_status,location_x,location_y,forward_mode,forward_url,displayorder,click from " . tablename("tiny_wmall_store") . " where uniacid = :uniacid and agentid = :agentid and status = 1 " . $order_by, array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"] ));
+        $stores = pdo_fetchall("select * from " . tablename("tiny_wmall_store") . " where uniacid = :uniacid and agentid = :agentid and status = 1 " . $order_by, array( ":uniacid" => $_W["uniacid"], ":agentid" => $_W["agentid"] ));
+        $stores = chooseLanguageData($stores , ['title'  , 'content' , 'description' , 'address' , 'notice' ,'tips' ,'delivery_area' ,'order_note' , 'service_title' , 'cn' , 'custom_url' , 'remind_replay' , 'comment_reply'  ]) ;
         $min = 0;
         if( !empty($stores) )
         {

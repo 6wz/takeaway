@@ -39,7 +39,7 @@
 		<div class="row no-gutter delivery-info">
 			<div class="col-33 border-1px-r">{php echo language('起送价');}￥{$store['send_price']}</div>
 			<div class="col-33 border-1px-r">{php echo language('配送费');}￥{$store['delivery_price']}</div>
-			<div class="col-33">{php echo language('送达时长');}{$store['delivery_time']}{php echo language('分钟');}</div>
+			<div class="col-33"><?php echo language('送达时长').$store['delivery_time'] . language('分钟'); ?></div>
 		</div>
 		<div class="grid-nav grid-money border-1px-tb">
 			<div class="grid-money-title border-1px-b">
