@@ -412,7 +412,7 @@
 		</header>
 		<div class="content redPacket-my">
 			<div class="wui-loadmore-line wui-loadmore">
-				<span class="wui-loadmore-tips"> {php echo language('{num}个可用红包' , ['num'=>count($redPackets)]) }</span>
+				<span class="wui-loadmore-tips"> <?php echo language('{num}个可用红包' , ['num'=>count($redPackets)]) ?> </span>
 			</div>
 			<div class="redPacket-list content-padded">
 				{loop $redPackets $redPacket}
@@ -426,7 +426,7 @@
 							</div>
 						</div>
 						<div class="redPacket-use-limit row">
-							<div class="col-60"> <?php echo language('仅限{time_cn}时段使用' , ['time_cn'=> date('Y-m-d', $redPacket['starttime']).'~'. date('Y-m-d', $redPacket['endtime']] ) ?>
+							<div class="col-60"> <?php echo language('仅限{time_cn}时段使用' , ['time_cn'=>($redPacket['starttime'].'-'.$redPacket['endtime'])]);?>
 								</div>
 							<div class="col-40 text-right">
 								{if $redPacket['condition'] > 0}
@@ -464,7 +464,7 @@
 		</header>
 		<div class="content coupon-content">
 			<div class="wui-loadmore-line wui-loadmore">
-				<span class="wui-loadmore-tips">{php echo language('{num}张可用代金券' , [ 'num'=> count($coupons) ]  )}    </span>
+				<span class="wui-loadmore-tips">可用优惠券(<?php echo count($coupons); ?> 张)</span>
 			</div>
 			<div class="coupon-list">
 				{loop $coupons $coupon}
@@ -482,7 +482,7 @@
 								<div class="coupon-title">
 									{$store['title']}
 								</div>
-								<div class="use-time">{php echo language('有效期至');}:{php echo date('Y-m-d', $coupon['endtime'])}</div>
+								<div class="use-time"><?php echo language('有效期至'). ':' . date('Y-m-d', $coupon['endtime']) ; ?> </div>
 							</div>
 						</div>
 						<div class="right">
@@ -490,7 +490,7 @@
 								<span>¥</span>{$coupon['discount']}
 							</div>
 							<div class="condition">
-								{php echo language('满{price}元可用' , [ 'price'=> $coupon['condition'] ]  )}
+								<?php echo language('满{price}元可用' , [ 'price'=> $coupon['condition'] ]  ); ?>
 							</div>
 						</div>
 					</label>

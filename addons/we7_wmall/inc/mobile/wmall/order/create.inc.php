@@ -9,12 +9,12 @@ $_W["page"]["title"] = language("提交订单");
 $ta = (trim($_GPC["ta"]) ? trim($_GPC["ta"]) : "goods");
 $sid = intval($_GPC["sid"]);
 store_business_hours_init($sid);
-$store = store_fetch($sid, array( "agentid", "id", "cid", "is_rest", "title", "logo", "location_x", "location_y", "invoice_status", "delivery_type", "delivery_mode", "delivery_price", "delivery_fee_mode", "delivery_areas", "delivery_time", "delivery_free_price", "pack_price", "delivery_within_days", "delivery_reserve_days", "order_note", "data", "not_in_serve_radius", "serve_radius" ));
+$store = store_fetch($sid, array( "agentid", "id", "cid", "is_rest", "title","title_th", "logo", "location_x", "location_y", "invoice_status", "delivery_type", "delivery_mode", "delivery_price", "delivery_fee_mode", "delivery_areas", "delivery_time", "delivery_free_price", "pack_price", "delivery_within_days", "delivery_reserve_days", "order_note", "data", "not_in_serve_radius", "serve_radius" ));
 if( is_error($store) )
 {
     imessage(language("门店不存在"), "", "error");
 }
-
+$store = chooseLanguageData($store , ['title']) ;
 if( $store["is_rest"] == 1 )
 {
     imessage(array( "title" => language("门店已打烊,换个店铺下单哇！"), "btn_text" => language("看看其他店铺") ), imurl("wmall/home/index"), "info");
@@ -51,7 +51,6 @@ if( $ta == "index" )
 
         exit();
     }
-
     $pay_types = order_pay_types();
     if( empty($store["payment"]) )
     {

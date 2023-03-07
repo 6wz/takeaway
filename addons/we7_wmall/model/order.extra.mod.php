@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 
@@ -21,7 +21,7 @@
 defined("IN_IA") or exit( "Access Denied" );
 function is_open_order($order)
 {
-    if( !is_array($order) || empty($order["order_plateform"]) ) 
+    if( !is_array($order) || empty($order["order_plateform"]) )
     {
         $id = (is_array($order) ? $order["id"] : $order);
         $order = pdo_get("tiny_wmall_order", array( "id" => $id ), array( "order_plateform" ));
@@ -36,37 +36,37 @@ function order_fetch($id, $oauth = false)
     $id = intval($id);
     $condition = " where uniacid = :uniacid and id = :id";
     $params = array( ":uniacid" => $_W["uniacid"], ":id" => $id );
-    if( $oauth ) 
+    if( $oauth )
     {
         $condition .= " and uid = :uid";
         $params[":uid"] = $_W["member"]["uid"];
     }
 
     $order = pdo_fetch("SELECT * FROM " . tablename("tiny_wmall_order") . $condition, $params);
-    if( empty($order) ) 
+    if( empty($order) )
     {
         return false;
     }
 
-    if( !empty($order["number"]) ) 
+    if( !empty($order["number"]) )
     {
         $order["address"] = (string) $order["address"] . "-" . $order["number"];
     }
 
     $order["addtime_cn"] = date("Y-m-d H:i", $order["addtime"]);
-    if( $order["status"] == 3 && 0 < $_W["deliveryer"]["id"] ) 
+    if( $order["status"] == 3 && 0 < $_W["deliveryer"]["id"] )
     {
         $order["plateform_deliveryer_fee"] = order_calculate_deliveryer_fee($order, $_W["deliveryer"]);
     }
 
     $order["invoice"] = iunserializer($order["invoice"]);
-    if( !empty($order["invoice"]) && !is_array($order["invoice"]) ) 
+    if( !empty($order["invoice"]) && !is_array($order["invoice"]) )
     {
         $order["invoice"] = array( "title" => $order["invoice"]["title"], "recognition" => $order["invoice"]["recognition"] );
     }
 
     $order["data"] = iunserializer($order["data"]);
-    if( defined("IN_DELIVERYAPP") ) 
+    if( defined("IN_DELIVERYAPP") )
     {
         $order["data"] = "";
         $order["invoice"] = $order["invoice"]["title"];
@@ -78,17 +78,17 @@ function order_fetch($id, $oauth = false)
     $order_types = order_types();
     $order["order_type_cn"] = $order_types[$order["order_type"]]["text"];
     $order["status_cn"] = $order_status[$order["status"]]["text"];
-    if( !empty($order["plateform_serve"]) ) 
+    if( !empty($order["plateform_serve"]) )
     {
         $order["plateform_serve"] = iunserializer($order["plateform_serve"]);
     }
 
-    if( !empty($order["agent_serve"]) ) 
+    if( !empty($order["agent_serve"]) )
     {
         $order["agent_serve"] = iunserializer($order["agent_serve"]);
     }
 
-    if( empty($order["is_pay"]) ) 
+    if( empty($order["is_pay"]) )
     {
         $order["pay_type_cn"] = "未支付";
     }
@@ -97,25 +97,25 @@ function order_fetch($id, $oauth = false)
         $order["pay_type_cn"] = (!empty($pay_types[$order["pay_type"]]["text"]) ? $pay_types[$order["pay_type"]]["text"] : "其他支付方式");
     }
 
-    if( empty($order["delivery_time"]) ) 
+    if( empty($order["delivery_time"]) )
     {
         $order["delivery_time"] = "尽快送出";
     }
 
-    if( $order["order_type"] == 3 ) 
+    if( $order["order_type"] == 3 )
     {
         $table = pdo_get("tiny_wmall_tables", array( "uniacid" => $_W["uniacid"], "id" => $order["table_id"] ));
         $order["table"] = $table;
     }
     else
     {
-        if( $order["order_type"] == 4 ) 
+        if( $order["order_type"] == 4 )
         {
             $reserve_type = order_reserve_type();
             $order["reserve_type_cn"] = $reserve_type[$order["reserve_type"]]["text"];
             $category = pdo_get("tiny_wmall_tables_category", array( "uniacid" => $_W["uniacid"], "id" => $order["table_cid"] ));
             $order["table_category"] = $category;
-            if( 0 < $order["table_id"] ) 
+            if( 0 < $order["table_id"] )
             {
                 $table = pdo_get("tiny_wmall_tables", array( "uniacid" => $_W["uniacid"], "id" => $order["table_id"] ), array( "title" ));
                 $order["table"] = $table;
@@ -126,10 +126,10 @@ function order_fetch($id, $oauth = false)
     }
 
     $order["pay_type_class"] = "";
-    if( $order["is_pay"] == 1 ) 
+    if( $order["is_pay"] == 1 )
     {
         $order["pay_type_class"] = "have-pay";
-        if( $order["pay_type"] == "delivery" ) 
+        if( $order["pay_type"] == "delivery" )
         {
             $order["pay_type_class"] = "delivery-pay";
         }
@@ -145,31 +145,31 @@ function order_fetch_goods($oid, $print_lable = "", $goods_type = "normal", $ext
     $oid = intval($oid);
     $condition = "WHERE a.uniacid = :uniacid AND a.oid = :oid";
     $params = array( ":uniacid" => $_W["uniacid"], ":oid" => $oid );
-    if( $goods_type == "jiacai" ) 
+    if( $goods_type == "jiacai" )
     {
         $condition .= " AND a.goods_type = :goods_type and a.id in (" . $extra["jiacai_ids"] . ")";
         $params["goods_type"] = "jiacai";
     }
 
-    if( !empty($print_lable) ) 
+    if( !empty($print_lable) )
     {
         $condition .= " AND a.print_label in (" . $print_lable . ")";
     }
 
     $data = pdo_fetchall("select a.*,b.thumb, b.box_price from " . tablename("tiny_wmall_order_stat") . " as a left join " . tablename("tiny_wmall_goods") . " as b on a.goods_id = b.id " . $condition, $params);
-    foreach( $data as &$item ) 
+    foreach( $data as &$item )
     {
         $item["thumb"] = tomedia($item["thumb"]);
         $item["activity"] = 0;
-        if( $item["goods_type"] == "jiacai" ) 
+        if( $item["goods_type"] == "jiacai" )
         {
             $item["goods_title"] .= "(加菜)";
         }
         else
         {
-            if( $item["goods_type"] == "huangou" ) 
+            if( $item["goods_type"] == "huangou" )
             {
-                if( $item["goods_discount_num"] < $item["goods_num"] ) 
+                if( $item["goods_discount_num"] < $item["goods_num"] )
                 {
                     $item["goods_title"] .= "(" . $item["goods_discount_num"] . "份换购)";
                 }
@@ -184,7 +184,7 @@ function order_fetch_goods($oid, $print_lable = "", $goods_type = "normal", $ext
 
         $item["can_refund_num"] = $item["goods_num"];
         $item["can_refund_discount_num"] = $item["goods_discount_num"];
-        if( !empty($item["data"]) ) 
+        if( !empty($item["data"]) )
         {
             $item["data"] = iunserializer($item["data"]);
             $item["can_refund_num"] = $item["goods_num"] - intval($item["data"]["refund_total_num"]);
@@ -198,7 +198,7 @@ function order_fetch_goods($oid, $print_lable = "", $goods_type = "normal", $ext
 function order_fetch_discount($id, $type = "")
 {
     global $_W;
-    if( empty($type) ) 
+    if( empty($type) )
     {
         $data = pdo_getall("tiny_wmall_order_discount", array( "uniacid" => $_W["uniacid"], "oid" => $id ));
     }
@@ -214,7 +214,7 @@ function order_place_again($sid, $order_id)
 {
     global $_W;
     $order = order_fetch($order_id);
-    if( empty($order) ) 
+    if( empty($order) )
     {
         return false;
     }
@@ -223,11 +223,11 @@ function order_place_again($sid, $order_id)
     $isexist = pdo_fetchcolumn("SELECT id FROM " . tablename("tiny_wmall_order_cart") . " WHERE uniacid = :aid AND sid = :sid AND uid = :uid", array( ":aid" => $_W["uniacid"], ":sid" => $sid, ":uid" => $_W["member"]["uid"] ));
     $data = array( "uniacid" => $_W["uniacid"], "sid" => $sid, "uid" => $_W["member"]["uid"], "groupid" => $_W["member"]["groupid"], "num" => $order["num"], "price" => $order["price"], "box_price" => $order["box_price"], "original_data" => ($order["data"]["cart"] ? $order["data"]["cart"] : $order["data"]), "addtime" => TIMESTAMP );
     $cart_data = array(  );
-    if( !empty($data["original_data"]) ) 
+    if( !empty($data["original_data"]) )
     {
-        foreach( $data["original_data"] as $key => $row ) 
+        foreach( $data["original_data"] as $key => $row )
         {
-            if( $key == 88888 ) 
+            if( $key == 88888 )
             {
                 continue;
             }
@@ -239,7 +239,7 @@ function order_place_again($sid, $order_id)
 
     $original_data = $data["original_data"];
     $data["original_data"] = iserializer($original_data);
-    if( empty($isexist) ) 
+    if( empty($isexist) )
     {
         pdo_insert("tiny_wmall_order_cart", $data);
     }
@@ -256,22 +256,22 @@ function order_place_again($sid, $order_id)
 function order_insert_discount($id, $sid, $discount_data)
 {
     global $_W;
-    if( empty($discount_data) ) 
+    if( empty($discount_data) )
     {
         return false;
     }
 
-    if( !empty($discount_data["token"]) ) 
+    if( !empty($discount_data["token"]) )
     {
         pdo_update("tiny_wmall_activity_coupon_record", array( "status" => 2, "usetime" => TIMESTAMP, "order_id" => $id ), array( "uniacid" => $_W["uniacid"], "id" => $discount_data["token"]["recordid"] ));
     }
 
-    if( !empty($discount_data["redPacket"]) ) 
+    if( !empty($discount_data["redPacket"]) )
     {
         pdo_update("tiny_wmall_activity_redpacket_record", array( "status" => 2, "usetime" => TIMESTAMP, "order_id" => $id ), array( "uniacid" => $_W["uniacid"], "id" => $discount_data["redPacket"]["redPacket_id"] ));
     }
 
-    foreach( $discount_data as $data ) 
+    foreach( $discount_data as $data )
     {
         $insert = array( "uniacid" => $_W["uniacid"], "sid" => $sid, "oid" => $id, "type" => $data["type"], "name" => $data["name"], "icon" => $data["icon"], "note" => $data["text"], "fee" => $data["value"], "store_discount_fee" => floatval($data["store_discount_fee"]), "agent_discount_fee" => floatval($data["agent_discount_fee"]), "plateform_discount_fee" => floatval($data["plateform_discount_fee"]) );
         pdo_insert("tiny_wmall_order_discount", $insert);
@@ -282,15 +282,15 @@ function order_insert_discount($id, $sid, $discount_data)
 function get_cart_goodsnum($goods_id, $option_key = 0, $type = "num", $cart = array(  ))
 {
     $cart_goods_item = $cart[$goods_id];
-    if( !$cart_goods_item ) 
+    if( !$cart_goods_item )
     {
         return 0;
     }
 
-    if( $option_key != -1 ) 
+    if( $option_key != -1 )
     {
         $option = $cart_goods_item[$option_key];
-        if( !$option ) 
+        if( !$option )
         {
             return 0;
         }
@@ -299,9 +299,9 @@ function get_cart_goodsnum($goods_id, $option_key = 0, $type = "num", $cart = ar
     }
 
     $num = 0;
-    foreach( $cart_goods_item as $option ) 
+    foreach( $cart_goods_item as $option )
     {
-        if( $option[$type] ) 
+        if( $option[$type] )
         {
             $num += $option[$type];
         }
@@ -315,7 +315,7 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
     global $_W;
     global $_GPC;
     $option_key = trim($option_key);
-    if( empty($option_key) ) 
+    if( empty($option_key) )
     {
         $option_key = 0;
     }
@@ -324,13 +324,13 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
     $cart = order_fetch_member_cart($sid, false);
     $svip_buy_show = 1;
     $goods_ids = array(  );
-    if( !empty($cart) ) 
+    if( !empty($cart) )
     {
         $goods_ids = array_keys($cart["data"]);
         $svip_buy_show = 2;
     }
 
-    if( 0 < $goods_id ) 
+    if( 0 < $goods_id )
     {
         $svip_buy_show = 3;
     }
@@ -338,7 +338,7 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
     $goods_ids[] = $goods_id;
     $goods_ids_str = implode(",", $goods_ids);
     $buy_huangou_goods = intval($_GPC["buy_huangou_goods"]);
-    if( $buy_huangou_goods == 1 ) 
+    if( $buy_huangou_goods == 1 )
     {
         $goods_info = pdo_fetchall("SELECT * FROM " . tablename("tiny_wmall_goods") . " WHERE uniacid = :uniacid AND sid = :sid AND id IN (" . $goods_ids_str . ")", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid ), "id");
     }
@@ -347,40 +347,40 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
         $goods_info = pdo_fetchall("SELECT * FROM " . tablename("tiny_wmall_goods") . " WHERE uniacid = :uniacid AND sid = :sid and huangou_type = :huangou_type AND id IN (" . $goods_ids_str . ")", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid, ":huangou_type" => 1 ), "id");
     }
 
-    if( !empty($goods_info) ) 
+    if( !empty($goods_info) )
     {
         $config_svip_status = svip_status_is_available();
         $member_svip_status = 0;
         $buysvip = 0;
-        if( $config_svip_status ) 
+        if( $config_svip_status )
         {
             $buysvip = intval($_GPC["is_buysvip"]);
-            if( $_W["member"]["svip_status"] == 1 || $buysvip == 1 ) 
+            if( $_W["member"]["svip_status"] == 1 || $buysvip == 1 )
             {
                 $member_svip_status = 1;
             }
 
         }
 
-        foreach( $goods_info as $key => &$value ) 
+        foreach( $goods_info as $key => &$value )
         {
-            if( $member_svip_status == 1 && $value["svip_status"] == 1 ) 
+            if( $member_svip_status == 1 && $value["svip_status"] == 1 )
             {
                 $value["origin_price"] = $value["price"];
                 $value["price"] = $value["svip_price"];
             }
 
-            if( $config_svip_status ) 
+            if( $config_svip_status )
             {
                 $value["config_svip_status"] = $config_svip_status;
             }
 
-            if( ORDER_TYPE == "tangshi" ) 
+            if( ORDER_TYPE == "tangshi" )
             {
                 $value["price"] = $value["ts_price"];
             }
 
-            if( ORDER_TYPE == "takeout" && $value["type"] == 2 || ORDER_TYPE == "tangshi" && $value["type"] == 1 ) 
+            if( ORDER_TYPE == "takeout" && $value["type"] == 2 || ORDER_TYPE == "tangshi" && $value["type"] == 1 )
             {
                 unset($goods_info[$key]);
             }
@@ -389,38 +389,38 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
     }
 
     $options = pdo_fetchall("select * from " . tablename("tiny_wmall_goods_options") . " where uniacid = :uniacid and sid = :sid and goods_id in (" . $goods_ids_str . ") ", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid ));
-    if( !empty($options) ) 
+    if( !empty($options) )
     {
-        foreach( $options as $option ) 
+        foreach( $options as $option )
         {
             $goods_info[$option["goods_id"]]["options"][$option["id"]] = $option;
         }
     }
 
     $bargain_goods_ids = array(  );
-    if( !$ignore_bargain ) 
+    if( !$ignore_bargain )
     {
         mload()->model("activity");
         activity_store_cron($sid);
         $bargains = pdo_getall("tiny_wmall_activity_bargain", array( "uniacid" => $_W["uniacid"], "sid" => $sid, "status" => "1" ), array(  ), "id");
-        if( $buy_huangou_goods == 1 ) 
+        if( $buy_huangou_goods == 1 )
         {
             $bargains_huangou = pdo_get("tiny_wmall_activity_bargain", array( "uniacid" => $_W["uniacid"], "sid" => $sid, "type" => "huangou" ), array(  ));
-            if( !empty($bargains_huangou) ) 
+            if( !empty($bargains_huangou) )
             {
                 $bargains[$bargains_huangou["id"]] = $bargains_huangou;
             }
 
         }
 
-        if( !empty($bargains) ) 
+        if( !empty($bargains) )
         {
             $bargain_ids = implode(",", array_keys($bargains));
             $bargain_goods = pdo_fetchall("select * from " . tablename("tiny_wmall_activity_bargain_goods") . " where uniacid = :uniacid and sid = :sid and bargain_id in (" . $bargain_ids . ")", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid ));
             $bargain_goods_group = array(  );
-            if( !empty($bargain_goods) ) 
+            if( !empty($bargain_goods) )
             {
-                foreach( $bargain_goods as &$row ) 
+                foreach( $bargain_goods as &$row )
                 {
                     $bargain_goods_ids[$row["goods_id"]] = $row["bargain_id"];
                     $row["available_buy_limit"] = $row["max_buy_limit"];
@@ -431,12 +431,12 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
             $where = " where uniacid = :uniacid and sid = :sid and uid = :uid and stat_day = :stat_day and bargain_id in (" . $bargain_ids . ") group by bargain_id";
             $params = array( ":uniacid" => $_W["uniacid"], ":sid" => $sid, ":stat_day" => date("Ymd"), ":uid" => $_W["member"]["uid"] );
             $bargain_order = pdo_fetchall("select count(distinct(oid)) as num, bargain_id from " . tablename("tiny_wmall_order_stat") . $where, $params, "bargain_id");
-            foreach( $bargains as &$row ) 
+            foreach( $bargains as &$row )
             {
                 $row["available_goods_limit"] = $row["goods_limit"];
                 $row["goods"] = $bargain_goods_group[$row["id"]];
                 $row["avaliable_order_limit"] = $row["order_limit"];
-                if( !empty($bargain_order) && $row["type"] != "huangou" ) 
+                if( !empty($bargain_order) && $row["type"] != "huangou" )
                 {
                     $row["avaliable_order_limit"] = $row["order_limit"] - intval($bargain_order[$row["id"]]["num"]);
                 }
@@ -458,72 +458,72 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
     $cart_bargain = array(  );
     $bargain_has_goods = array(  );
     $total_huangou_price = 0;
-    if( !empty($cart) ) 
+    if( !empty($cart) )
     {
-        foreach( $cart["data"] as $k => $v ) 
+        foreach( $cart["data"] as $k => $v )
         {
             $k = intval($k);
             $goods = $goods_info[$k];
-            if( empty($goods) || $k == "88888" ) 
+            if( empty($goods) || $k == "88888" )
             {
                 continue;
             }
 
-            if( !goods_is_available($goods) ) 
+            if( !goods_is_available($goods) )
             {
                 unset($cart["data"][$k]);
                 unset($cart["original_data"][$k]);
                 continue;
             }
 
-            if( $goods["is_options"] == 1 && empty($goods["options"]) ) 
+            if( $goods["is_options"] == 1 && empty($goods["options"]) )
             {
                 $goods["is_options"] = 0;
             }
 
             $goods_box_price = $goods["box_price"];
-            if( !$goods["is_options"] ) 
+            if( !$goods["is_options"] )
             {
                 $discount_num = 0;
-                foreach( $v as $key => $val ) 
+                foreach( $v as $key => $val )
                 {
                     $goods["options_data"] = goods_build_options($goods);
                     $key = trim($key);
                     $option = $goods["options_data"][$key];
-                    if( empty($option) || empty($option["total"]) ) 
+                    if( empty($option) || empty($option["total"]) )
                     {
                         continue;
                     }
 
                     $num = intval($val["num"]);
-                    if( $option["total"] != -1 && $option["total"] <= $num ) 
+                    if( $option["total"] != -1 && $option["total"] <= $num )
                     {
                         $num = $option["total"];
                     }
 
-                    if( $num < $goods["unitnum"] ) 
+                    if( $num < $goods["unitnum"] )
                     {
                         continue;
                     }
 
-                    if( 0 < $option["total"] && $option["total"] < $goods["unitnum"] ) 
+                    if( 0 < $option["total"] && $option["total"] < $goods["unitnum"] )
                     {
                         continue;
                     }
 
-                    if( $num <= 0 ) 
+                    if( $num <= 0 )
                     {
                         continue;
                     }
 
-                    if( $goods["total"] != -1 ) 
+                    if( $goods["total"] != -1 )
                     {
                         $goods["total"] -= $num;
                         $goods["total"] = max($goods["total"], 0);
                     }
 
                     $title = $goods_info[$k]["title"];
-                    if( !empty($key) ) 
+                    if( !empty($key) )
                     {
                         $title = (string) $title . "(" . $option["name"] . ")";
                     }
@@ -531,45 +531,45 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                     $cart_item = array( "cid" => $goods_info[$k]["cid"], "child_id" => $goods_info[$k]["child_id"], "goods_id" => $k, "thumb" => tomedia($goods_info[$k]["thumb"]), "title" => $title, "option_title" => $option["name"], "num" => $num, "price" => $goods_info[$k]["price"], "discount_price" => $goods_info[$k]["price"], "discount_num" => 0, "price_num" => $num, "total_price" => round($goods_info[$k]["price"] * $num, 2), "total_discount_price" => round($goods_info[$k]["price"] * $num, 2), "bargain_id" => 0, "buy_svip_status" => intval($option["svip_status"]) && $buysvip, "is_svip_price" => $member_svip_status, "total_price_show" => 0, "total_discount_price_show" => 0, "total_huangou_price" => 0, "is_show" => 1 );
                     $cart_item["total_price_show"] = $cart_item["total_price"];
                     $cart_item["total_discount_price_show"] = $cart_item["total_discount_price"];
-                    if( $svip_buy_show != 2 && $option["svip_status"] == 1 && empty($buysvip) ) 
+                    if( $svip_buy_show != 2 && $option["svip_status"] == 1 && empty($buysvip) )
                     {
                         $svip_buy_show = 0;
                     }
 
-                    if( in_array($k, array_keys($bargain_goods_ids)) ) 
+                    if( in_array($k, array_keys($bargain_goods_ids)) )
                     {
                         $goods_bargain_id = $bargain_goods_ids[$k];
                         $bargain = $bargains[$goods_bargain_id];
                         $bargain_goods = $bargain["goods"][$k];
                         $option_discount_num_cart = $val["discount_num"];
                         $val["discount_num"] = min($bargain_goods["max_buy_limit"], $num);
-                        if( $bargain["type"] == "huangou" ) 
+                        if( $bargain["type"] == "huangou" )
                         {
                             $val["discount_num"] = min($bargain_goods["max_buy_limit"], $option_discount_num_cart);
                         }
 
-                        if( $bargain["type"] == "bargain" && 0 < $bargain["avaliable_order_limit"] && 0 < $bargain["available_goods_limit"] && 0 < $bargain_goods["available_buy_limit"] || $bargain["type"] == "huangou" && 0 < $val["discount_num"] && 0 < $bargain["available_goods_limit"] && 0 < $bargain_goods["available_buy_limit"] ) 
+                        if( $bargain["type"] == "bargain" && 0 < $bargain["avaliable_order_limit"] && 0 < $bargain["available_goods_limit"] && 0 < $bargain_goods["available_buy_limit"] || $bargain["type"] == "huangou" && 0 < $val["discount_num"] && 0 < $bargain["available_goods_limit"] && 0 < $bargain_goods["available_buy_limit"] )
                         {
                             $i = 0;
-                            while( $i < $val["discount_num"] ) 
+                            while( $i < $val["discount_num"] )
                             {
-                                if( $bargain_goods["poi_user_type"] == "new" && empty($_W["member"]["is_store_newmember"]) ) 
+                                if( $bargain_goods["poi_user_type"] == "new" && empty($_W["member"]["is_store_newmember"]) )
                                 {
                                     break;
                                 }
 
-                                if( ($bargain_goods["discount_available_total"] == -1 || 0 < $bargain_goods["discount_available_total"]) && 0 < $bargain_goods["available_buy_limit"] ) 
+                                if( ($bargain_goods["discount_available_total"] == -1 || 0 < $bargain_goods["discount_available_total"]) && 0 < $bargain_goods["available_buy_limit"] )
                                 {
                                     $cart_item["discount_price"] = $bargain_goods["discount_price"];
                                     $cart_item["discount_num"]++;
                                     $cart_item["bargain_id"] = $bargain["id"];
                                     $cart_bargain[] = $bargain["use_limit"];
-                                    if( 0 < $cart_item["price_num"] ) 
+                                    if( 0 < $cart_item["price_num"] )
                                     {
                                         $cart_item["price_num"]--;
                                     }
 
-                                    if( 0 < $bargain_goods["discount_available_total"] ) 
+                                    if( 0 < $bargain_goods["discount_available_total"] )
                                     {
                                         $bargain_goods["discount_available_total"]--;
                                         $bargains[$goods_bargain_id]["goods"][$k]["discount_available_total"]--;
@@ -591,12 +591,12 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                             $cart_item["total_discount_price"] = $cart_item["discount_num"] * $bargain_goods["discount_price"] + $cart_item["price_num"] * $goods_info[$k]["price"];
                             $cart_item["total_discount_price"] = round($cart_item["total_discount_price"], 2);
                             $cart_item["total_discount_price_show"] = $cart_item["total_discount_price"];
-                            if( $bargain["type"] == "huangou" ) 
+                            if( $bargain["type"] == "huangou" )
                             {
                                 $cart_item["total_huangou_price"] = round($cart_item["discount_num"] * $bargain_goods["discount_price"], 2);
                                 $cart_item["total_discount_price_show"] = $cart_item["total_discount_price"] - $cart_item["total_huangou_price"];
                                 $cart_item["total_price_show"] = round($goods_info[$k]["price"] * ($num - $cart_item["discount_num"]), 2);
-                                if( $cart_item["discount_num"] == $cart_item["num"] ) 
+                                if( $cart_item["discount_num"] == $cart_item["num"] )
                                 {
                                     $cart_item["is_show"] = 0;
                                 }
@@ -608,7 +608,7 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                     }
                     else
                     {
-                        if( $goods["svip_status"] == 1 && $member_svip_status == 1 ) 
+                        if( $goods["svip_status"] == 1 && $member_svip_status == 1 )
                         {
                             $cart_item["total_price"] = round($goods["origin_price"] * $num, 2);
                         }
@@ -622,14 +622,14 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                     $cart_goods[$k][$key] = $cart_item;
                     $total_huangou_price += $cart_item["total_huangou_price"];
                 }
-                if( 0 < $discount_num ) 
+                if( 0 < $discount_num )
                 {
                     $bargain["available_goods_limit"]--;
                     $bargains[$goods_bargain_id]["available_goods_limit"]--;
                 }
 
                 $totalnum = get_cart_goodsnum($k, -1, "num", $cart_goods);
-                if( $goods_info[$k]["total"] != -1 ) 
+                if( $goods_info[$k]["total"] != -1 )
                 {
                     $goods_info[$k]["total"] -= $totalnum;
                     $goods_info[$k]["total"] = max($goods_info[$k]["total"], 0);
@@ -638,57 +638,57 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
             }
             else
             {
-                foreach( $v as $key => $val ) 
+                foreach( $v as $key => $val )
                 {
                     $goods["options_data"] = goods_build_options($goods);
                     $option_id = tranferOptionid($key);
                     $key = trim($key);
                     $option = $goods["options_data"][$key];
-                    if( empty($option) || empty($option["total"]) ) 
+                    if( empty($option) || empty($option["total"]) )
                     {
                         continue;
                     }
 
                     $num = intval($val["num"]);
-                    if( $option["total"] != -1 && $option["total"] <= $num ) 
+                    if( $option["total"] != -1 && $option["total"] <= $num )
                     {
                         $num = $option["total"];
                     }
 
-                    if( $num < $goods["unitnum"] ) 
+                    if( $num < $goods["unitnum"] )
                     {
                         continue;
                     }
 
-                    if( 0 < $option["total"] && $option["total"] < $goods["unitnum"] ) 
+                    if( 0 < $option["total"] && $option["total"] < $goods["unitnum"] )
                     {
                         continue;
                     }
 
-                    if( $num <= 0 ) 
+                    if( $num <= 0 )
                     {
                         continue;
                     }
 
-                    if( $goods["options"][$option_id]["total"] != -1 ) 
+                    if( $goods["options"][$option_id]["total"] != -1 )
                     {
                         $goods["options"][$option_id]["total"] -= $num;
                         $goods["options"][$option_id]["total"] = max($goods["options"][$option_id]["total"], 0);
                     }
 
                     $title = $goods_info[$k]["title"];
-                    if( !empty($key) ) 
+                    if( !empty($key) )
                     {
                         $title = (string) $title . "(" . $option["name"] . ")";
                     }
 
                     $cart_goods[$k][$key] = array( "cid" => $goods_info[$k]["cid"], "child_id" => $goods_info[$k]["child_id"], "goods_id" => $k, "thumb" => tomedia($goods_info[$k]["thumb"]), "title" => $title, "option_title" => $option["name"], "num" => $num, "price" => $option["price"], "discount_price" => $option["price"], "discount_num" => 0, "price_num" => $num, "total_price" => round($option["price"] * $num, 2), "total_discount_price" => round($option["price"] * $num, 2), "bargain_id" => 0, "buy_svip_status" => intval($option["svip_status"]) && $buysvip, "is_svip_price" => $member_svip_status );
-                    if( $svip_buy_show != 2 && 0 < $option["svip_price"] && $option["svip_price"] < $option["price"] && empty($buysvip) ) 
+                    if( $svip_buy_show != 2 && 0 < $option["svip_price"] && $option["svip_price"] < $option["price"] && empty($buysvip) )
                     {
                         $svip_buy_show = 0;
                     }
 
-                    if( $option["svip_status"] == 1 ) 
+                    if( $option["svip_status"] == 1 )
                     {
                         $cart_goods[$k][$key]["total_price"] = round($option["origin_price"] * $num, 2);
                     }
@@ -697,7 +697,7 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                     $total_price += $option["price"] * $num;
                     $total_original_price += $cart_goods[$k][$key]["total_price"];
                     $total_box_price += $goods_box_price * $num;
-                    if( $goods_info[$k]["options"][$option_id]["total"] != -1 ) 
+                    if( $goods_info[$k]["options"][$option_id]["total"] != -1 )
                     {
                         $goods_info[$k]["options"][$option_id]["total"] -= $num;
                         $goods_info[$k]["options"][$option_id]["total"] = max($goods_info[$k]["options"][$option_id]["total"], 0);
@@ -712,38 +712,38 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
     $goods_item = $goods_info[$goods_id];
     $goods_item["options_data"] = goods_build_options($goods_item);
     $cart_item = $cart_goods[$goods_id][$option_key];
-    if( $sign == "+" ) 
+    if( $sign == "+" )
     {
-        if( !goods_is_available($goods_info[$goods_id]) ) 
+        if( !goods_is_available($goods_info[$goods_id]) )
         {
             return error(-1, "当前商品不在可售时间范围内");
         }
 
         $option = $goods_item["options_data"][$option_key];
-        if( empty($option["total"]) ) 
+        if( empty($option["total"]) )
         {
             return error(-1, "库存不足");
         }
 
-        if( empty($cart_item) ) 
+        if( empty($cart_item) )
         {
-            if( 1 < $goods_item["unitnum"] && 0 < $option["total"] && $option["total"] < $goods_item["unitnum"] ) 
+            if( 1 < $goods_item["unitnum"] && 0 < $option["total"] && $option["total"] < $goods_item["unitnum"] )
             {
                 return error(-1, "库存不足");
             }
 
             $title = $goods_item["title"];
-            if( !empty($option_key) ) 
+            if( !empty($option_key) )
             {
                 $title = (string) $title . "(" . $option["name"] . ")";
             }
 
             $cart_item = array( "cid" => $goods_info[$goods_id]["cid"], "child_id" => $goods_info[$goods_id]["child_id"], "goods_id" => $goods_id, "thumb" => tomedia($goods_info[$goods_id]["thumb"]), "title" => $title, "option_title" => $option["name"], "num" => 0, "price" => $option["price"], "discount_price" => $option["price"], "discount_num" => 0, "price_num" => 0, "total_price" => 0, "total_discount_price" => 0, "bargain_id" => 0, "buy_svip_status" => intval($option["svip_status"]) && $buysvip, "is_svip_price" => $member_svip_status, "total_price_show" => 0, "total_discount_price_show" => 0, "total_huangou_price" => 0, "is_show" => 1 );
-            if( $svip_buy_show != 2 ) 
+            if( $svip_buy_show != 2 )
             {
-                if( $goods_info[$goods_id]["is_options"] ) 
+                if( $goods_info[$goods_id]["is_options"] )
                 {
-                    if( 0 < $option["svip_price"] && $option["svip_price"] < $option["price"] && empty($buysvip) ) 
+                    if( 0 < $option["svip_price"] && $option["svip_price"] < $option["price"] && empty($buysvip) )
                     {
                         $svip_buy_show = 0;
                     }
@@ -751,7 +751,7 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                 }
                 else
                 {
-                    if( $option["svip_status"] == 1 && empty($buysvip) ) 
+                    if( $option["svip_status"] == 1 && empty($buysvip) )
                     {
                         $svip_buy_show = 0;
                     }
@@ -762,25 +762,25 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
 
         }
 
-        if( $cart_item["num"] == 0 ) 
+        if( $cart_item["num"] == 0 )
         {
-            for( $i = 0; $i < $goods_item["unitnum"]; $i++ ) 
+            for( $i = 0; $i < $goods_item["unitnum"]; $i++ )
             {
                 $price_change = 0;
                 $price = $option["price"];
-                if( in_array($goods_id, array_keys($bargain_goods_ids)) ) 
+                if( in_array($goods_id, array_keys($bargain_goods_ids)) )
                 {
                     $goods_bargain_id = $bargain_goods_ids[$goods_id];
                     $bargain = $bargains[$goods_bargain_id];
                     $bargain_goods = $bargain["goods"][$goods_id];
-                    if( $bargain["type"] == "huangou" ) 
+                    if( $bargain["type"] == "huangou" )
                     {
-                        if( $bargain["available_goods_limit"] <= 0 && !in_array($goods_id, $bargain_has_goods) ) 
+                        if( $bargain["available_goods_limit"] <= 0 && !in_array($goods_id, $bargain_has_goods) )
                         {
                             return error(-1, "换购限" . $bargain["goods_limit"] . "种商品");
                         }
 
-                        if( $bargain_goods["discount_available_total"] != -1 && $bargain_goods["discount_available_total"] == 0 ) 
+                        if( $bargain_goods["discount_available_total"] != -1 && $bargain_goods["discount_available_total"] == 0 )
                         {
                             return error(-1, "换购商品库存不足");
                         }
@@ -789,9 +789,9 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
 
                     $msg = "";
                     $pricenum = get_cart_goodsnum($goods_id, "-1", "price_num", $cart_goods);
-                    if( $bargain_goods["poi_user_type"] == "new" && !$_W["member"]["is_store_newmember"] ) 
+                    if( $bargain_goods["poi_user_type"] == "new" && !$_W["member"]["is_store_newmember"] )
                     {
-                        if( !$pricenum ) 
+                        if( !$pricenum )
                         {
                             $msg = "仅限门店新用户优惠";
                         }
@@ -800,9 +800,9 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                         $price = $option["price"];
                     }
 
-                    if( !$price_change && $bargain["avaliable_order_limit"] <= 0 ) 
+                    if( !$price_change && $bargain["avaliable_order_limit"] <= 0 )
                     {
-                        if( !$pricenum ) 
+                        if( !$pricenum )
                         {
                             $msg = (string) $bargain["title"] . "活动每天限购一单,超出后恢复原价";
                         }
@@ -811,9 +811,9 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                         $price = $option["price"];
                     }
 
-                    if( !$price_change && $bargain["available_goods_limit"] <= 0 && !in_array($goods_id, $bargain_has_goods) ) 
+                    if( !$price_change && $bargain["available_goods_limit"] <= 0 && !in_array($goods_id, $bargain_has_goods) )
                     {
-                        if( !$pricenum ) 
+                        if( !$pricenum )
                         {
                             $msg = (string) $bargain["title"] . "每单特价商品限购" . $bargain["goods_limit"] . "种,超出后恢复原价";
                         }
@@ -822,22 +822,22 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                         $price = $option["price"];
                     }
 
-                    if( !$price_change ) 
+                    if( !$price_change )
                     {
-                        if( !$pricenum && get_cart_goodsnum($goods_id, "-1", "discount_num", $cart_goods) == $bargain_goods["max_buy_limit"] ) 
+                        if( !$pricenum && get_cart_goodsnum($goods_id, "-1", "discount_num", $cart_goods) == $bargain_goods["max_buy_limit"] )
                         {
                             $msg = (string) $bargain["title"] . "每单特价商品限购" . $bargain_goods["max_buy_limit"] . "份,超出后恢复原价";
                         }
 
-                        if( $bargain_goods["available_buy_limit"] == 0 ) 
+                        if( $bargain_goods["available_buy_limit"] == 0 )
                         {
                             $price_change = 1;
                             $price = $option["price"];
                         }
 
-                        if( $bargain_goods["discount_available_total"] != -1 && $bargain_goods["discount_available_total"] == 0 ) 
+                        if( $bargain_goods["discount_available_total"] != -1 && $bargain_goods["discount_available_total"] == 0 )
                         {
-                            if( !$pricenum ) 
+                            if( !$pricenum )
                             {
                                 $msg = "活动库存不足,恢复原价购买";
                             }
@@ -848,7 +848,7 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
 
                     }
 
-                    if( !$price_change ) 
+                    if( !$price_change )
                     {
                         $price_change = 2;
                         $price = $bargain_goods["discount_price"];
@@ -857,14 +857,14 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
 
                 }
 
-                if( $price_change == 2 ) 
+                if( $price_change == 2 )
                 {
                     $cart_item["discount_num"]++;
                     $cart_item["bargain_id"] = $bargain["id"];
                     $cart_item["bargain_type"] = $bargain["type"];
                     $cart_item["discount_price"] = $bargain_goods["discount_price"];
                     $bargains[$goods_bargain_id]["goods"][$goods_id]["available_buy_limit"]--;
-                    if( 0 < $bargains[$goods_bargain_id]["goods"][$goods_id]["discount_available_total"] ) 
+                    if( 0 < $bargains[$goods_bargain_id]["goods"][$goods_id]["discount_available_total"] )
                     {
                         $bargains[$goods_bargain_id]["goods"][$goods_id]["discount_available_total"]--;
                     }
@@ -881,12 +881,12 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                 $cart_item["total_price"] = round($cart_item["num"] * $option["price"], 2);
                 $cart_item["total_price_show"] = $cart_item["total_price"];
                 $cart_item["total_discount_price_show"] = $cart_item["total_discount_price"];
-                if( $bargain["type"] == "huangou" ) 
+                if( $bargain["type"] == "huangou" )
                 {
                     $cart_item["total_huangou_price"] = round($cart_item["discount_num"] * $bargain_goods["discount_price"], 2);
                     $total_huangou_price = $total_huangou_price + $bargain_goods["discount_price"];
                     $cart_item["total_discount_price_show"] = $cart_item["total_discount_price"] - $cart_item["total_huangou_price"];
-                    if( $cart_item["discount_num"] == $cart_item["num"] ) 
+                    if( $cart_item["discount_num"] == $cart_item["num"] )
                     {
                         $cart_item["is_show"] = 0;
                     }
@@ -903,24 +903,24 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
         {
             $price_change = 0;
             $price = $option["price"];
-            if( in_array($goods_id, array_keys($bargain_goods_ids)) ) 
+            if( in_array($goods_id, array_keys($bargain_goods_ids)) )
             {
                 $goods_bargain_id = $bargain_goods_ids[$goods_id];
                 $bargain = $bargains[$goods_bargain_id];
                 $bargain_goods = $bargain["goods"][$goods_id];
-                if( $bargain["type"] == "huangou" ) 
+                if( $bargain["type"] == "huangou" )
                 {
-                    if( $bargain["available_goods_limit"] <= 0 && !in_array($goods_id, $bargain_has_goods) ) 
+                    if( $bargain["available_goods_limit"] <= 0 && !in_array($goods_id, $bargain_has_goods) )
                     {
                         return error(-1, "换购限" . $bargain["goods_limit"] . "种商品");
                     }
 
-                    if( $bargain_goods["available_buy_limit"] <= 0 ) 
+                    if( $bargain_goods["available_buy_limit"] <= 0 )
                     {
                         return error(-1, "换购商品限购" . $bargain_goods["max_buy_limit"] . "份");
                     }
 
-                    if( $bargain_goods["discount_available_total"] != -1 && $bargain_goods["discount_available_total"] == 0 ) 
+                    if( $bargain_goods["discount_available_total"] != -1 && $bargain_goods["discount_available_total"] == 0 )
                     {
                         return error(-1, "换购商品库存不足");
                     }
@@ -929,9 +929,9 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
 
                 $msg = "";
                 $pricenum = get_cart_goodsnum($goods_id, "-1", "price_num", $cart_goods);
-                if( $bargain_goods["poi_user_type"] == "new" && !$_W["member"]["is_store_newmember"] ) 
+                if( $bargain_goods["poi_user_type"] == "new" && !$_W["member"]["is_store_newmember"] )
                 {
-                    if( !$pricenum ) 
+                    if( !$pricenum )
                     {
                         $msg = "仅限门店新用户优惠";
                     }
@@ -940,9 +940,9 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                     $price = $option["price"];
                 }
 
-                if( !$price_change && $bargain["avaliable_order_limit"] <= 0 ) 
+                if( !$price_change && $bargain["avaliable_order_limit"] <= 0 )
                 {
-                    if( !$pricenum ) 
+                    if( !$pricenum )
                     {
                         $msg = (string) $bargain["title"] . "活动每天限购一单,超出后恢复原价";
                     }
@@ -951,9 +951,9 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                     $price = $option["price"];
                 }
 
-                if( !$price_change && $bargain["available_goods_limit"] <= 0 && !in_array($goods_id, $bargain_has_goods) ) 
+                if( !$price_change && $bargain["available_goods_limit"] <= 0 && !in_array($goods_id, $bargain_has_goods) )
                 {
-                    if( !$pricenum ) 
+                    if( !$pricenum )
                     {
                         $msg = (string) $bargain["title"] . "每单特价商品限购" . $bargain["goods_limit"] . "种,超出后恢复原价";
                     }
@@ -962,22 +962,22 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                     $price = $option["price"];
                 }
 
-                if( !$price_change ) 
+                if( !$price_change )
                 {
-                    if( !$pricenum && get_cart_goodsnum($goods_id, "-1", "discount_num", $cart_goods) == $bargain_goods["max_buy_limit"] ) 
+                    if( !$pricenum && get_cart_goodsnum($goods_id, "-1", "discount_num", $cart_goods) == $bargain_goods["max_buy_limit"] )
                     {
                         $msg = (string) $bargain["title"] . "每单特价商品限购" . $bargain_goods["max_buy_limit"] . "份,超出后恢复原价";
                     }
 
-                    if( $bargain_goods["available_buy_limit"] <= 0 ) 
+                    if( $bargain_goods["available_buy_limit"] <= 0 )
                     {
                         $price_change = 1;
                         $price = $option["price"];
                     }
 
-                    if( $bargain_goods["discount_available_total"] != -1 && $bargain_goods["discount_available_total"] == 0 ) 
+                    if( $bargain_goods["discount_available_total"] != -1 && $bargain_goods["discount_available_total"] == 0 )
                     {
-                        if( !$pricenum ) 
+                        if( !$pricenum )
                         {
                             $msg = "活动库存不足,恢复原价购买";
                         }
@@ -988,7 +988,7 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
 
                 }
 
-                if( !$price_change ) 
+                if( !$price_change )
                 {
                     $price_change = 2;
                     $price = $bargain_goods["discount_price"];
@@ -997,7 +997,7 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
 
             }
 
-            if( $price_change == 2 ) 
+            if( $price_change == 2 )
             {
                 $cart_item["discount_num"]++;
                 $cart_item["bargain_id"] = $bargain["id"];
@@ -1018,13 +1018,13 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
             $total_price = $total_price + $price;
             $cart_item["total_price_show"] = $cart_item["total_price"];
             $cart_item["total_discount_price_show"] = $cart_item["total_discount_price"];
-            if( $bargain["type"] == "huangou" ) 
+            if( $bargain["type"] == "huangou" )
             {
                 $cart_item["total_huangou_price"] = round($cart_item["discount_num"] * $bargain_goods["discount_price"], 2);
                 $total_huangou_price = $total_huangou_price + $bargain_goods["discount_price"];
                 $cart_item["total_price_show"] = round($option["price"] * ($cart_item["num"] - $cart_item["discount_num"]), 2);
                 $cart_item["total_discount_price_show"] = $cart_item["total_discount_price"] - $cart_item["total_huangou_price"];
-                if( $cart_item["discount_num"] == $cart_item["num"] ) 
+                if( $cart_item["discount_num"] == $cart_item["num"] )
                 {
                     $cart_item["is_show"] = 0;
                 }
@@ -1036,11 +1036,11 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
     }
     else
     {
-        if( !empty($cart_item) && 0 < $cart_item["num"] ) 
+        if( !empty($cart_item) && 0 < $cart_item["num"] )
         {
-            if( $cart_item["num"] <= $goods_item["unitnum"] ) 
+            if( $cart_item["num"] <= $goods_item["unitnum"] )
             {
-                if( $buy_huangou_goods == 1 && $cart_item["discount_num"] <= 0 ) 
+                if( $buy_huangou_goods == 1 && $cart_item["discount_num"] <= 0 )
                 {
                     return error(-1, "已经没有换购商品");
                 }
@@ -1055,19 +1055,19 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
             {
                 $cart_item["num"]--;
                 $price = $cart_item["price"];
-                if( empty($buy_huangou_goods) ) 
+                if( empty($buy_huangou_goods) )
                 {
-                    if( 0 < $cart_item["price_num"] ) 
+                    if( 0 < $cart_item["price_num"] )
                     {
                         $cart_item["price_num"]--;
                     }
                     else
                     {
-                        if( 0 < $cart_item["discount_num"] ) 
+                        if( 0 < $cart_item["discount_num"] )
                         {
                             $price = $cart_item["discount_price"];
                             $cart_item["discount_num"]--;
-                            if( $cart_item["discount_num"] <= 0 ) 
+                            if( $cart_item["discount_num"] <= 0 )
                             {
                                 $cart_item["bargain_id"] = 0;
                             }
@@ -1079,7 +1079,7 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                 }
                 else
                 {
-                    if( $cart_item["discount_num"] <= 0 ) 
+                    if( $cart_item["discount_num"] <= 0 )
                     {
                         return error(-1, "已经没有换购商品");
                     }
@@ -1088,7 +1088,7 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                     $cart_item["discount_num"]--;
                     $cart_item["total_huangou_price"] = round($cart_item["discount_num"] * $cart_item["discount_price"], 2);
                     $total_huangou_price = $total_huangou_price - $cart_item["discount_price"];
-                    if( $cart_item["discount_num"] <= 0 ) 
+                    if( $cart_item["discount_num"] <= 0 )
                     {
                         $cart_item["bargain_id"] = 0;
                     }
@@ -1103,11 +1103,11 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                 $total_price = $total_price - $price;
                 $cart_item["total_price_show"] = $cart_item["total_price"];
                 $cart_item["total_discount_price_show"] = $cart_item["total_discount_price"];
-                if( $buy_huangou_goods == 1 ) 
+                if( $buy_huangou_goods == 1 )
                 {
                     $cart_item["total_price_show"] = round($cart_item["price_num"] * $cart_item["price"], 2);
                     $cart_item["total_discount_price_show"] = $cart_item["total_discount_price"] - $cart_item["total_huangou_price"];
-                    if( $cart_item["discount_num"] == $cart_item["num"] ) 
+                    if( $cart_item["discount_num"] == $cart_item["num"] )
                     {
                         $cart_item["is_show"] = 0;
                     }
@@ -1121,30 +1121,30 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
     }
 
     $box_price_cn = store_get_data($sid, "cn.box_price");
-    if( 0 < $total_box_price && ORDER_TYPE != "tangshi" ) 
+    if( 0 < $total_box_price && ORDER_TYPE != "tangshi" )
     {
         $cart_goods["88888"] = array( array( "num" => 0, "title" => (empty($box_price_cn) ? "餐盒费" : $box_price_cn), "goods_id" => "88888", "discount_num" => 0, "price_num" => 0, "price_total" => $total_box_price, "total_discount_price" => $total_box_price ) );
     }
 
-    if( $sign ) 
+    if( $sign )
     {
         $cart_goods[$goods_id][$option_key] = $cart_item;
-        if( $sign == "-" ) 
+        if( $sign == "-" )
         {
             $buysvip = 0;
-            foreach( $cart_goods[$goods_id] as $key => &$item ) 
+            foreach( $cart_goods[$goods_id] as $key => &$item )
             {
-                if( !$item["num"] ) 
+                if( !$item["num"] )
                 {
                     unset($cart_goods[$goods_id][$key]);
                 }
 
             }
-            foreach( $cart_goods as $val ) 
+            foreach( $cart_goods as $val )
             {
-                foreach( $val as $v ) 
+                foreach( $val as $v )
                 {
-                    if( $v["buy_svip_status"] ) 
+                    if( $v["buy_svip_status"] )
                     {
                         $buysvip = 1;
                         break 2;
@@ -1153,7 +1153,7 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
                 }
             }
             $item_total_num = get_cart_goodsnum($goods_id, -1, "num", $cart_goods);
-            if( !$item_total_num ) 
+            if( !$item_total_num )
             {
                 unset($cart_goods[$goods_id]);
             }
@@ -1164,20 +1164,20 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
 
     $isexist = pdo_fetchcolumn("SELECT id FROM " . tablename("tiny_wmall_order_cart") . " WHERE uniacid = :aid AND sid = :sid AND uid = :uid", array( ":aid" => $_W["uniacid"], ":sid" => $sid, ":uid" => $_W["member"]["uid"] ));
     $cart_goods_original = array(  );
-    foreach( $cart_goods as $key => $row ) 
+    foreach( $cart_goods as $key => $row )
     {
         $cart_goods_original[$key] = array( "title" => $goods_info[$key]["title"], "goods_id" => $key, "options" => $row );
     }
     $data = array( "uniacid" => $_W["uniacid"], "sid" => $sid, "uid" => $_W["member"]["uid"], "groupid" => $_W["member"]["groupid"], "num" => $total_num, "price" => round($total_price, 2), "box_price" => round($total_box_price, 2), "data" => iserializer($cart_goods), "original_data" => iserializer($cart_goods_original), "addtime" => TIMESTAMP, "bargain_use_limit" => 0 );
-    if( !empty($cart_bargain) ) 
+    if( !empty($cart_bargain) )
     {
         $cart_bargain = array_unique($cart_bargain);
-        if( in_array(1, $cart_bargain) ) 
+        if( in_array(1, $cart_bargain) )
         {
             $data["bargain_use_limit"] = 1;
         }
 
-        if( in_array(2, $cart_bargain) ) 
+        if( in_array(2, $cart_bargain) )
         {
             $data["bargain_use_limit"] = 2;
         }
@@ -1185,12 +1185,12 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
     }
 
     $data["is_buysvip"] = $buysvip;
-    if( $_W["member"]["svip_status"] == 1 ) 
+    if( $_W["member"]["svip_status"] == 1 )
     {
         $data["is_buysvip"] = 0;
     }
 
-    if( empty($isexist) ) 
+    if( empty($isexist) )
     {
         pdo_insert("tiny_wmall_order_cart", $data);
         $data["id"] = pdo_insertid();
@@ -1201,39 +1201,39 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
         $data["id"] = $cart["id"];
     }
 
-    if( empty($bargain_has_goods) ) 
+    if( empty($bargain_has_goods) )
     {
         $discount_notice = array(  );
         $store_discount = pdo_get("tiny_wmall_store_activity", array( "uniacid" => $_W["uniacid"], "sid" => $sid, "type" => "discount", "status" => 1 ), array( "title", "data" ));
-        if( !empty($store_discount) ) 
+        if( !empty($store_discount) )
         {
             $discount_notice["note"] = $store_discount["title"];
-            if( 0 < $data["price"] ) 
+            if( 0 < $data["price"] )
             {
                 $discount_condition = iunserializer($store_discount["data"]);
                 $apply_price = array_keys($discount_condition);
                 sort($apply_price);
-                foreach( $apply_price as $key => $val ) 
+                foreach( $apply_price as $key => $val )
                 {
-                    if( $val < $data["price"] && $apply_price[$key + 1] ) 
+                    if( $val < $data["price"] && $apply_price[$key + 1] )
                     {
                         continue;
                     }
 
                     $dvalue = $val - $data["price"];
-                    if( $dvalue <= 5 || 0 < $key ) 
+                    if( $dvalue <= 5 || 0 < $key )
                     {
                         $discount_notice["leave_price"] = $dvalue;
                         $discount_notice["back_price"] = $discount_condition[$val]["back"];
                         $discount_notice["note"] = (0 < $dvalue ? "再买 " . $dvalue . " 元, 可减 " . $discount_notice["back_price"] . " 元" : "下单减 " . $discount_notice["back_price"] . " 元");
-                        if( 0 < $key && 0 < $dvalue ) 
+                        if( 0 < $key && 0 < $dvalue )
                         {
                             $discount_notice["note"] = "下单减 " . $discount_condition[$apply_price[$key - 1]]["back"] . " 元 " . $discount_notice["note"];
                         }
 
-                        if( $data["price"] < $apply_price[$key + 1] ) 
+                        if( $data["price"] < $apply_price[$key + 1] )
                         {
-                            if( $dvalue <= 0 ) 
+                            if( $dvalue <= 0 )
                             {
                                 $furdiscount = $apply_price[$key + 1] - $data["price"];
                                 $discount_notice["note"] .= ", 再买 " . $furdiscount . " 元可减 " . $discount_condition[$apply_price[$key + 1]]["back"];
@@ -1244,7 +1244,7 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
 
                     }
 
-                    if( 5 < $dvalue ) 
+                    if( 5 < $dvalue )
                     {
                         break;
                     }
@@ -1266,7 +1266,7 @@ function cart_data_init($sid, $goods_id = 0, $option_key = 0, $sign = "", $ignor
     $data["cart_price"] = round($data["price"] + $data["box_price"], 2);
     $category_limit = order_goods_category_limit_check($sid, $data);
     $data["is_category_limit"] = 0;
-    if( is_error($category_limit) ) 
+    if( is_error($category_limit) )
     {
         $data["is_category_limit"] = 1;
         $data["category_limit_cn"] = $category_limit["message"];
@@ -1282,11 +1282,11 @@ function order_insert_member_cart($sid, $ignore_bargain = false)
 {
     global $_W;
     global $_GPC;
-    if( !empty($_GPC["goods"]) ) 
+    if( !empty($_GPC["goods"]) )
     {
         $_GPC["goods"] = str_replace("&nbsp;", "#nbsp;", $_GPC["goods"]);
         $_GPC["goods"] = json_decode(str_replace("#nbsp;", "&nbsp;", html_entity_decode(urldecode($_GPC["goods"]))), true);
-        if( empty($_GPC["goods"]) ) 
+        if( empty($_GPC["goods"]) )
         {
             return array(  );
         }
@@ -1294,31 +1294,33 @@ function order_insert_member_cart($sid, $ignore_bargain = false)
         mload()->model("goods");
         $ids_str = implode(",", array_keys($_GPC["goods"]));
         $goods_info = pdo_fetchall("SELECT * FROM " . tablename("tiny_wmall_goods") . " WHERE uniacid = :uniacid AND sid = :sid AND id IN (" . $ids_str . ")", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid ), "id");
+        $goods_info = chooseLanguageData($goods_info ,  ['title' , 'unitname','label' ,'content' ,'description' , 'attrs','unitname_cn']) ;
         $options = pdo_fetchall("select * from " . tablename("tiny_wmall_goods_options") . " where uniacid = :uniacid and sid = :sid and goods_id in (" . $ids_str . ") ", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid ));
-        foreach( $options as $option ) 
+        $options = chooseLanguageData($options , ['name']) ;
+        foreach( $options as $option )
         {
             $goods_info[$option["goods_id"]]["options"][$option["id"]] = $option;
         }
-        if( !$ignore_bargain ) 
+        if( !$ignore_bargain )
         {
             mload()->model("activity");
             activity_store_cron($sid);
             $bargains = pdo_getall("tiny_wmall_activity_bargain", array( "uniacid" => $_W["uniacid"], "sid" => $sid, "status" => "1" ), array(  ), "id");
-            if( !empty($bargains) ) 
+            if( !empty($bargains) )
             {
                 $bargain_ids = implode(",", array_keys($bargains));
                 $bargain_goods = pdo_fetchall("select * from " . tablename("tiny_wmall_activity_bargain_goods") . " where uniacid = :uniacid and sid = :sid and bargain_id in (" . $bargain_ids . ")", array( ":uniacid" => $_W["uniacid"], ":sid" => $sid ));
                 $bargain_goods_group = array(  );
-                if( !empty($bargain_goods) ) 
+                if( !empty($bargain_goods) )
                 {
-                    foreach( $bargain_goods as &$row ) 
+                    foreach( $bargain_goods as &$row )
                     {
                         $row["available_buy_limit"] = $row["max_buy_limit"];
                         $bargain_goods_group[$row["bargain_id"]][$row["goods_id"]] = $row;
                     }
                 }
 
-                foreach( $bargains as &$row ) 
+                foreach( $bargains as &$row )
                 {
                     $row["available_goods_limit"] = $row["goods_limit"];
                     $row["goods"] = $bargain_goods_group[$row["id"]];
@@ -1336,42 +1338,42 @@ function order_insert_member_cart($sid, $ignore_bargain = false)
         $total_price = 0;
         $total_box_price = 0;
         $cart_bargain = array(  );
-        foreach( $_GPC["goods"] as $k => $v ) 
+        foreach( $_GPC["goods"] as $k => $v )
         {
             $k = intval($k);
-            if( ORDER_TYPE == "tangshi" ) 
+            if( ORDER_TYPE == "tangshi" )
             {
                 $goods_info[$k]["price"] = $goods_info[$k]["ts_price"];
             }
 
             $goods = $goods_info[$k];
-            if( empty($goods) || $k == "88888" ) 
+            if( empty($goods) || $k == "88888" )
             {
                 continue;
             }
 
             $goods["options_data"] = goods_build_options($goods);
             $goods_box_price = $goods["box_price"];
-            if( !$goods["is_options"] ) 
+            if( !$goods["is_options"] )
             {
                 $discount_num = 0;
-                foreach( $v["options"] as $key => $val ) 
+                foreach( $v["options"] as $key => $val )
                 {
                     $key = trim($key);
                     $option = $goods["options_data"][$key];
-                    if( empty($option) ) 
+                    if( empty($option) )
                     {
                         continue;
                     }
 
                     $num = intval($val["num"]);
-                    if( $num <= 0 ) 
+                    if( $num <= 0 )
                     {
                         continue;
                     }
 
                     $title = $goods_info[$k]["title"];
-                    if( !empty($key) ) 
+                    if( !empty($key) )
                     {
                         $title = (string) $title . "(" . $option["name"] . ")";
                     }
@@ -1379,9 +1381,9 @@ function order_insert_member_cart($sid, $ignore_bargain = false)
                     $cart_item = array( "title" => $title, "option_title" => $option["name"], "num" => $num, "price" => $goods_info[$k]["price"], "discount_price" => $goods_info[$k]["price"], "discount_num" => 0, "price_num" => $num, "total_price" => round($goods_info[$k]["price"] * $num, 2), "total_discount_price" => round($goods_info[$k]["price"] * $num, 2), "bargain_id" => 0 );
                     $bargain = $bargains[$val["bargain_id"]];
                     $bargain_goods = $bargain["goods"][$k];
-                    if( 0 < $val["bargain_id"] && 0 < $val["discount_num"] ) 
+                    if( 0 < $val["bargain_id"] && 0 < $val["discount_num"] )
                     {
-                        if( $bargain_goods["max_buy_limit"] < $val["discount_num"] ) 
+                        if( $bargain_goods["max_buy_limit"] < $val["discount_num"] )
                         {
                             $val["discount_num"] = $bargain_goods["max_buy_limit"];
                         }
@@ -1389,28 +1391,28 @@ function order_insert_member_cart($sid, $ignore_bargain = false)
                         $params = array( ":uniacid" => $_W["uniacid"], ":uid" => $_W["member"]["uid"], ":stat_day" => date("Ymd"), ":bargain_id" => $bargain["id"] );
                         $numed = pdo_fetchcolumn("select count(distinct(oid))  from " . tablename("tiny_wmall_order_stat") . " where uniacid = :uniacid and uid = :uid and bargain_id = :bargain_id and stat_day = :stat_day", $params);
                         $numed = intval($numed);
-                        if( $numed < $bargain["order_limit"] && 0 < $bargain["available_goods_limit"] && 0 < $bargain_goods["available_buy_limit"] ) 
+                        if( $numed < $bargain["order_limit"] && 0 < $bargain["available_goods_limit"] && 0 < $bargain_goods["available_buy_limit"] )
                         {
                             $i = 0;
-                            while( $i < $val["discount_num"] ) 
+                            while( $i < $val["discount_num"] )
                             {
-                                if( $bargain_goods["poi_user_type"] == "new" && empty($_W["member"]["is_store_newmember"]) ) 
+                                if( $bargain_goods["poi_user_type"] == "new" && empty($_W["member"]["is_store_newmember"]) )
                                 {
                                     break;
                                 }
 
-                                if( ($bargain_goods["discount_available_total"] == -1 || 0 < $bargain_goods["discount_available_total"]) && 0 < $bargain_goods["available_buy_limit"] ) 
+                                if( ($bargain_goods["discount_available_total"] == -1 || 0 < $bargain_goods["discount_available_total"]) && 0 < $bargain_goods["available_buy_limit"] )
                                 {
                                     $cart_item["discount_price"] = $bargain_goods["discount_price"];
                                     $cart_item["discount_num"]++;
                                     $cart_item["bargain_id"] = $bargain["id"];
                                     $cart_bargain[] = $bargain["use_limit"];
-                                    if( 0 < $cart_item["price_num"] ) 
+                                    if( 0 < $cart_item["price_num"] )
                                     {
                                         $cart_item["price_num"]--;
                                     }
 
-                                    if( 0 < $bargain_goods["discount_available_total"] ) 
+                                    if( 0 < $bargain_goods["discount_available_total"] )
                                     {
                                         $bargain_goods["discount_available_total"]--;
                                         $bargains[$val["bargain_id"]]["goods"][$k]["discount_available_total"]--;
@@ -1439,7 +1441,7 @@ function order_insert_member_cart($sid, $ignore_bargain = false)
                     $total_box_price += $goods_box_price * $num;
                     $cart_goods[$k][$key] = $cart_item;
                 }
-                if( 0 < $discount_num ) 
+                if( 0 < $discount_num )
                 {
                     $bargain["available_goods_limit"]--;
                     $bargains[$val["bargain_id"]]["goods"][$k]["available_goods_limit"]--;
@@ -1448,17 +1450,17 @@ function order_insert_member_cart($sid, $ignore_bargain = false)
             }
             else
             {
-                foreach( $v["options"] as $key => $val ) 
+                foreach( $v["options"] as $key => $val )
                 {
                     $key = trim($key);
                     $option = $goods["options_data"][$key];
-                    if( empty($option) ) 
+                    if( empty($option) )
                     {
                         continue;
                     }
 
                     $title = $goods_info[$k]["title"];
-                    if( !empty($key) ) 
+                    if( !empty($key) )
                     {
                         $title = (string) $title . "(" . $option["name"] . ")";
                     }
@@ -1474,22 +1476,22 @@ function order_insert_member_cart($sid, $ignore_bargain = false)
         }
         $isexist = pdo_fetchcolumn("SELECT id FROM " . tablename("tiny_wmall_order_cart") . " WHERE uniacid = :aid AND sid = :sid AND uid = :uid", array( ":aid" => $_W["uniacid"], ":sid" => $sid, ":uid" => $_W["member"]["uid"] ));
         $data = array( "uniacid" => $_W["uniacid"], "sid" => $sid, "uid" => $_W["member"]["uid"], "groupid" => $_W["member"]["groupid"], "num" => $total_num, "price" => round($total_price, 2), "box_price" => round($total_box_price, 2), "data" => iserializer($cart_goods), "original_data" => iserializer($_GPC["goods"]), "addtime" => TIMESTAMP, "bargain_use_limit" => 0 );
-        if( !empty($cart_bargain) ) 
+        if( !empty($cart_bargain) )
         {
             $cart_bargain = array_unique($cart_bargain);
-            if( in_array(1, $cart_bargain) ) 
+            if( in_array(1, $cart_bargain) )
             {
                 $data["bargain_use_limit"] = 1;
             }
 
-            if( in_array(2, $cart_bargain) ) 
+            if( in_array(2, $cart_bargain) )
             {
                 $data["bargain_use_limit"] = 2;
             }
 
         }
 
-        if( empty($isexist) ) 
+        if( empty($isexist) )
         {
             pdo_insert("tiny_wmall_order_cart", $data);
         }
@@ -1513,7 +1515,7 @@ function order_dispatch_analyse($id, $extra = array(  ))
 {
     global $_W;
     $order = order_fetch($id);
-    if( empty($order) ) 
+    if( empty($order) )
     {
         return error(-1, "订单不存在或已删除");
     }
@@ -1522,21 +1524,21 @@ function order_dispatch_analyse($id, $extra = array(  ))
     $store = pdo_get("tiny_wmall_store", array( "id" => $order["sid"] ), array( "location_x", "location_y" ));
     $order["store"] = $store;
     $filter = array( "over_max_collect_show" => 0 );
-    if( $extra["channel"] == "plateform_dispatch" ) 
+    if( $extra["channel"] == "plateform_dispatch" )
     {
         $filter = array( "over_max_collect_show" => 1 );
     }
 
     $deliveryers = deliveryer_fetchall(0, $filter);
-    if( empty($deliveryers) ) 
+    if( empty($deliveryers) )
     {
         return error(-1, "没有平台配送员，无法进行自动调度");
     }
 
-    foreach( $deliveryers as &$deliveryer ) 
+    foreach( $deliveryers as &$deliveryer )
     {
         $deliveryer["order_id"] = $id;
-        if( empty($order["location_x"]) || empty($order["location_y"]) || empty($deliveryer["location_y"]) || empty($deliveryer["location_x"]) ) 
+        if( empty($order["location_x"]) || empty($order["location_y"]) || empty($deliveryer["location_y"]) || empty($deliveryer["location_x"]) )
         {
             $deliveryer["store2deliveryer_distance"] = "未知";
             $deliveryer["store2user_distance"] = "未知";
@@ -1550,12 +1552,12 @@ function order_dispatch_analyse($id, $extra = array(  ))
         }
 
     }
-    if( empty($extra["sort"]) ) 
+    if( empty($extra["sort"]) )
     {
         $extra["sort"] = "store2deliveryer_distance";
     }
 
-    if( $extra["sort"] == "store2deliveryer_distance" ) 
+    if( $extra["sort"] == "store2deliveryer_distance" )
     {
         $deliveryers = array_sort($deliveryers, $extra["sort"]);
     }
@@ -1573,49 +1575,49 @@ function order_dispatch_analyse1($id, $extra = array(  ))
     global $_W;
     mload()->func("zuobiao");
     $order = order_fetch($id);
-    if( empty($order) ) 
+    if( empty($order) )
     {
         return error(-1, "订单不存在或已删除");
     }
 
-    if( 3 < $order["status"] ) 
+    if( 3 < $order["status"] )
     {
         return error(-1, "配送员已接单");
     }
 
     $_W["agentid"] = $order["agentid"];
     $filter = array( "over_max_collect_show" => 0 );
-    if( $extra["channel"] == "plateform_dispatch" ) 
+    if( $extra["channel"] == "plateform_dispatch" )
     {
         $filter = array( "over_max_collect_show" => 1 );
     }
 
     $deliveryers = deliveryer_fetchall(0, $filter);
-    if( empty($deliveryers) ) 
+    if( empty($deliveryers) )
     {
         return error(-1, "平台没有可用的配送员");
     }
 
     $limits = array( "max_takeout_num" => 5, "same_store_paytime_diff" => 600, "same_store_accept_distance_diff" => 1000, "order_paytime_before" => 600, "accept_distance_diff" => 3000 );
     $same_store_orders = pdo_fetchall("select id, location_x, location_y, delivery_status, deliveryer_id, paytime from" . tablename("tiny_wmall_order") . " where uniacid = :uniacid and sid = :sid and delivery_status = 7 group by deliveryer_id", array( ":uniacid" => $_W["uniacid"], ":sid" => $order["sid"] ));
-    if( !empty($same_store_orders) ) 
+    if( !empty($same_store_orders) )
     {
-        foreach( $same_store_orders as $val ) 
+        foreach( $same_store_orders as $val )
         {
             $deliveryer = $deliveryers[$val["deliveryer_id"]];
-            if( empty($deliveryer) || $limits["max_takeout_num"] <= $deliveryer["order_takeout_num"] ) 
+            if( empty($deliveryer) || $limits["max_takeout_num"] <= $deliveryer["order_takeout_num"] )
             {
                 continue;
             }
 
             $between_time = $order["paytime"] - $val["paytime"];
-            if( $between_time < $limits["same_store_paytime_diff"] ) 
+            if( $between_time < $limits["same_store_paytime_diff"] )
             {
                 $distance = distanceBetween($val["location_y"], $val["location_x"], $order["location_y"], $order["location_x"]);
-                if( $distance < $limits["same_store_accept_distance_diff"] ) 
+                if( $distance < $limits["same_store_accept_distance_diff"] )
                 {
                     $status = order_assign_deliveryer($id, $val["deliveryer_id"]);
-                    if( !is_error($status) ) 
+                    if( !is_error($status) )
                     {
                         return error(0, "已分配配送员");
                     }
@@ -1637,15 +1639,15 @@ function order_dispatch_analyse1($id, $extra = array(  ))
 
     $paytime_limit = TIMESTAMP - $limits["order_paytime_before"];
     $delivery_orders = pdo_fetchall("select sid, deliveryer_id, status, location_x, location_y, delivery_status, addtime, paytime, data from" . tablename("tiny_wmall_order") . " where uniacid = :uniacid and status = 4 and delivery_type = 2 and paytime > :paytime order by delivery_assign_time desc limit 100", array( ":uniacid" => $_W["uniacid"], ":paytime" => $paytime_limit ));
-    if( !empty($delivery_orders) ) 
+    if( !empty($delivery_orders) )
     {
         $deliveryers = array_sort($deliveryers, "order_takeout_num");
         $delivery_orders_sort = array(  );
-        foreach( $deliveryers as $deliveryer ) 
+        foreach( $deliveryers as $deliveryer )
         {
-            foreach( $delivery_orders as $val ) 
+            foreach( $delivery_orders as $val )
             {
-                if( $val["deliveryer_id"] == $deliveryer["id"] && empty($delivery_orders_sort[$deliveryer["id"]]) ) 
+                if( $val["deliveryer_id"] == $deliveryer["id"] && empty($delivery_orders_sort[$deliveryer["id"]]) )
                 {
                     $val["deliveryer"] = $deliveryer;
                     $delivery_orders_sort[$deliveryer["id"]] = $val;
@@ -1653,11 +1655,11 @@ function order_dispatch_analyse1($id, $extra = array(  ))
 
             }
         }
-        foreach( $delivery_orders_sort as $val ) 
+        foreach( $delivery_orders_sort as $val )
         {
             $val["data"] = iunserializer($val["data"]);
             $deliveryer = $val["deliveryer"];
-            if( empty($deliveryer) || $limits["max_takeout_num"] <= $deliveryer["order_takeout_num"] ) 
+            if( empty($deliveryer) || $limits["max_takeout_num"] <= $deliveryer["order_takeout_num"] )
             {
                 slog("takeoutdispatcherror", "分配配送员" . $deliveryer["title"] . "失败, 订单id:" . $order["id"], array(  ), "失败原因：" . $deliveryer["title"] . "手中订单超过" . $limits["max_takeout_num"] . "单");
                 continue;
@@ -1665,16 +1667,16 @@ function order_dispatch_analyse1($id, $extra = array(  ))
 
             $judged_vector = array( "destination" => array( $order["location_y"], $order["location_x"] ), "origin" => array( $order["data"]["store"]["location_y"], $order["data"]["store"]["location_x"] ) );
             $distance_accept = distanceBetween($val["location_y"], $val["location_x"], $order["location_y"], $order["location_x"]);
-            if( $distance_accept < $limits["accept_distance_diff"] ) 
+            if( $distance_accept < $limits["accept_distance_diff"] )
             {
-                if( $val["delivery_status"] == 7 ) 
+                if( $val["delivery_status"] == 7 )
                 {
                     $reference_vector = array( "destination" => array( $val["location_y"], $val["location_x"] ), "origin" => array( $val["data"]["store"]["location_y"], $val["data"]["store"]["location_x"] ) );
                     $in_identical_direction = is_in_identical_direction($reference_vector, $judged_vector);
-                    if( $in_identical_direction ) 
+                    if( $in_identical_direction )
                     {
                         $status = order_assign_deliveryer($id, $val["deliveryer_id"]);
-                        if( !is_error($status) ) 
+                        if( !is_error($status) )
                         {
                             return error(0, "已分配配送员");
                         }
@@ -1688,14 +1690,14 @@ function order_dispatch_analyse1($id, $extra = array(  ))
                 }
                 else
                 {
-                    if( $val["delivery_status"] == 8 ) 
+                    if( $val["delivery_status"] == 8 )
                     {
                         $reference_vector = array( "destination" => array( $val["location_y"], $val["location_x"] ), "origin" => array( $deliveryer["location_y"], $deliveryer["location_x"] ) );
                         $delivery_identical_direction = is_in_identical_direction($reference_vector, $judged_vector);
-                        if( $delivery_identical_direction ) 
+                        if( $delivery_identical_direction )
                         {
                             $status = order_assign_deliveryer($id, $val["deliveryer_id"]);
-                            if( !is_error($status) ) 
+                            if( !is_error($status) )
                             {
                                 return error(0, "已分配配送员");
                             }
@@ -1719,15 +1721,15 @@ function order_dispatch_analyse1($id, $extra = array(  ))
         }
     }
 
-    foreach( $deliveryers as $deliveryer ) 
+    foreach( $deliveryers as $deliveryer )
     {
-        if( $deliveryer["order_takeout_num"] == 0 ) 
+        if( $deliveryer["order_takeout_num"] == 0 )
         {
             $store2deliveryer_distance = distanceBetween($deliveryer["location_y"], $deliveryer["location_x"], $order["data"]["store"]["location_y"], $order["data"]["store"]["location_x"]);
-            if( 1 || $store2deliveryer_distance <= 1000 ) 
+            if( 1 || $store2deliveryer_distance <= 1000 )
             {
                 $status = order_assign_deliveryer($id, $deliveryer["id"]);
-                if( !is_error($status) ) 
+                if( !is_error($status) )
                 {
                     return error(0, "已分配配送员");
                 }
@@ -1748,17 +1750,17 @@ function deliveryer_fetchall($sid = 0, $filter = array(  ))
 {
     global $_W;
     global $_GPC;
-    if( !isset($filter["over_max_collect_show"]) ) 
+    if( !isset($filter["over_max_collect_show"]) )
     {
         $filter["over_max_collect_show"] = 1;
     }
 
     $where = "where uniacid = :uniacid ";
     $params = array( ":uniacid" => $_W["uniacid"] );
-    if( !isset($filter["agentid"]) || $filter["agentid"] != -1 ) 
+    if( !isset($filter["agentid"]) || $filter["agentid"] != -1 )
     {
         $where .= " and agentid = :agentid";
-        if( 0 < $_GPC["agentid"] ) 
+        if( 0 < $_GPC["agentid"] )
         {
             $_W["agentid"] = $_GPC["agentid"];
         }
@@ -1767,37 +1769,37 @@ function deliveryer_fetchall($sid = 0, $filter = array(  ))
     }
 
     $status = (intval($filter["status"]) ? intval($filter["status"]) : 1);
-    if( 0 < $status ) 
+    if( 0 < $status )
     {
         $where .= " and status = :status ";
         $params[":status"] = 1;
     }
 
-    if( !isset($filter["work_status"]) ) 
+    if( !isset($filter["work_status"]) )
     {
         $filter["work_status"] = 1;
     }
     else
     {
-        if( $filter["work_status"] == -1 ) 
+        if( $filter["work_status"] == -1 )
         {
             unset($filter["work_status"]);
         }
 
     }
 
-    if( isset($filter["work_status"]) ) 
+    if( isset($filter["work_status"]) )
     {
         $where .= " and work_status = :work_status";
         $params[":work_status"] = $filter["work_status"];
     }
 
-    if( 0 < $sid ) 
+    if( 0 < $sid )
     {
         $condition = " where uniacid = :uniacid and sid = :sid";
         $params_store = array( ":uniacid" => $_W["uniacid"], ":sid" => $sid );
         $data = pdo_fetchall("SELECT id,sid,deliveryer_id FROM " . tablename("tiny_wmall_store_deliveryer") . $condition, $params_store, "deliveryer_id");
-        if( empty($data) ) 
+        if( empty($data) )
         {
             return array(  );
         }
@@ -1806,7 +1808,7 @@ function deliveryer_fetchall($sid = 0, $filter = array(  ))
     }
     else
     {
-        if( empty($filter["order_type"]) ) 
+        if( empty($filter["order_type"]) )
         {
             $filter["order_type"] = "is_takeout";
         }
@@ -1814,21 +1816,21 @@ function deliveryer_fetchall($sid = 0, $filter = array(  ))
         $where .= " and " . $filter["order_type"] . " = 1";
     }
 
-    if( !empty($filter["deliveryer_ids"]) ) 
+    if( !empty($filter["deliveryer_ids"]) )
     {
         $where .= " and id in (" . $filter["deliveryer_ids"] . ")";
     }
 
     $deliveryers = pdo_fetchall("SELECT * FROM " . tablename("tiny_wmall_deliveryer") . $where, $params, "id");
-    if( !empty($deliveryers) ) 
+    if( !empty($deliveryers) )
     {
-        foreach( $deliveryers as &$da ) 
+        foreach( $deliveryers as &$da )
         {
-            if( $filter["over_max_collect_show"] == 0 ) 
+            if( $filter["over_max_collect_show"] == 0 )
             {
-                if( $filter["order_type"] == "is_takeout" ) 
+                if( $filter["order_type"] == "is_takeout" )
                 {
-                    if( 0 < $da["collect_max_takeout"] && $da["collect_max_takeout"] <= $da["order_takeout_num"] ) 
+                    if( 0 < $da["collect_max_takeout"] && $da["collect_max_takeout"] <= $da["order_takeout_num"] )
                     {
                         unset($deliveryers[$da["id"]]);
                         continue;
@@ -1837,7 +1839,7 @@ function deliveryer_fetchall($sid = 0, $filter = array(  ))
                 }
                 else
                 {
-                    if( $filter["order_type"] == "is_errander" && 0 < $da["collect_max_errander"] && $da["collect_max_errander"] <= $da["order_errander_num"] ) 
+                    if( $filter["order_type"] == "is_errander" && 0 < $da["collect_max_errander"] && $da["collect_max_errander"] <= $da["order_errander_num"] )
                     {
                         unset($deliveryers[$da["id"]]);
                         continue;
@@ -1848,7 +1850,7 @@ function deliveryer_fetchall($sid = 0, $filter = array(  ))
             }
 
             $da["extra"] = iunserializer($da["extra"]);
-            if( empty($da["extra"]) ) 
+            if( empty($da["extra"]) )
             {
                 $da["extra"] = array( "accept_wechat_notice" => 1, "accept_voice_notice" => 1 );
             }
@@ -1866,15 +1868,15 @@ function activity_getall($sid, $status = -1)
     global $_W;
     activity_store_cron($sid);
     $params = array( "uniacid" => $_W["uniacid"], "sid" => $sid );
-    if( 0 <= $status ) 
+    if( 0 <= $status )
     {
         $params["status"] = $status;
     }
 
     $activity = pdo_getall("tiny_wmall_store_activity", $params, array(  ), "type");
-    if( !empty($activity) ) 
+    if( !empty($activity) )
     {
-        foreach( $activity as &$row ) 
+        foreach( $activity as &$row )
         {
             $row["data"] = iunserializer($row["data"]);
         }
@@ -1885,7 +1887,7 @@ function activity_getall($sid, $status = -1)
 
 function order_is_reach_storesendprice($sendprice, $cartprice)
 {
-    if( $cartprice < $sendprice ) 
+    if( $cartprice < $sendprice )
     {
         return false;
     }
