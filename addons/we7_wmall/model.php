@@ -1890,14 +1890,26 @@ function getcash_channels($type = "", $key = "all")
 
 function language($key = '' , $params = [] , $force_language=''){
     global $_W;
-    //session_start() ;
+    session_start() ;
     $language = empty($force_language) ? $_W['language'] :  $force_language;
-    $filename = IA_ROOT . "/addons/we7_wmall/language/" . $language . ".php";
-    if(!is_file($filename)){
-        return $key ;
+    $languageData = $_SESSION['languageData_' . $language] ;
+    $languageArr = [] ;
+    if(!empty($languageData)) {
+        $languageData = unserialize($languageData) ;
+        if($languageData['expire_time'] > time()) {
+            $languageArr = $languageData['datas'] ;
+        }
     }
+    if(empty($languageArr)){
+        $filename = IA_ROOT . "/addons/we7_wmall/language/" . $language . ".php";
+        if(!is_file($filename)){
+            return $key ;
+        }
+        include($filename) ;
+        $sessionData = ['expire_time'=>time() + 600 , 'datas'=>$languageArr] ;
+        $_SESSION['languageData_' . $language] = serialize($sessionData) ;
 
-    include($filename) ;
+    }
 
     if(isset($languageArr[$key])){
         $str = $languageArr[$key]  ;
