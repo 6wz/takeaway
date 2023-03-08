@@ -84,7 +84,8 @@ else
         }
 
         $query = array( "input" => $key, "key" => "37bb6a3b1656ba7d7dc8946e7e26f39b" ,'language'=>$language);
-        if( !empty($config["takeout"]["range"]["city"]) && !$_W["is_agent"] )
+        $query = array( "input" => $key, "inputtype"=> 'textquery ' , "key" => "37bb6a3b1656ba7d7dc8946e7e26f39b" ,'language'=>$language , 'fields' => 'name,geometry,formatted_address');
+       /* if( !empty($config["takeout"]["range"]["city"]) && !$_W["is_agent"] )
         {
             $query["city"] = $config["takeout"]["range"]["city"];
         }
@@ -93,41 +94,31 @@ else
         if( !empty($city) )
         {
             $query["city"] = $city;
-        }
+        }*/
 
         $query = http_build_query($query);
-        $result = ihttp_get("https://maps.googleapis.com/maps/api/place/autocomplete/json?" . $query);
+        $result = ihttp_get("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?" . $query);
         if($result['status'] != 'OK ') {
             imessage(error(-1, $result['error_message']), "", "ajax");
         }
 
 
-        $result = @json_decode($result["predictions"], true);
+        $result = @json_decode($result["candidates"], true);
         $rt = [] ;
         if( !empty($result) )
         {
             $distance_sort = 0;
             foreach( $result as $key => $val )
             {
-                $palce_id = $val['place_id'] ;
-                $params = [
-                    'place_id' => $palce_id ,
-                    'fields' => 'name,geometry,formatted_address'
-                ];
-                $params = http_build_query($params);
-                $result2 =  ihttp_get("https://maps.googleapis.com/maps/api/place/details/json?" . $params);
-                if($result2['status'] == 'OK') {
-                    $result2 = @json_decode($result2['result']  , true) ;
-                    $data = [] ;
-                    $data["distance"] = 10000000;
-                    $data["distance_available"] = 0;
-                    $data["address_available"] = 1;
-                    $data["address"] = $result2['formatted_address'] ;
-                    $data['lng'] = $result2['geometry']['location']['lng'] ;
-                    $data['lat'] = $result2['geometry']['location']['lat'] ;
-                    $data['name'] = $result2['name'] ;
-                    $rt[] = $data ;
-                }
+                $data = [] ;
+                $data["distance"] = 10000000;
+                $data["distance_available"] = 0;
+                $data["address_available"] = 1;
+                $data["address"] = $result['formatted_address'] ;
+                $data['lng'] = $result['geometry']['location']['lng'] ;
+                $data['lat'] = $result['geometry']['location']['lat'] ;
+                $data['name'] = $result['name'] ;
+                $rt[] = $data ;
             }
         }
 
