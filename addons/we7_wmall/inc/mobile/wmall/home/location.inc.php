@@ -21,7 +21,7 @@ else
         load()->func("communication");
         $key = trim($_GPC["key"]);
         $config = $_W["we7_wmall"]["config"];
-        $query = array( "keywords" => $key, "city" => language("全国"), "output" => "json", "key" => "37bb6a3b1656ba7d7dc8946e7e26f39b", "citylimit" => "true" );
+        $query = array( "keywords" => $key, "city" => "全国", "output" => "json", "key" => "37bb6a3b1656ba7d7dc8946e7e26f39b", "citylimit" => "true" );
         if( !empty($config["takeout"]["range"]["city"]) && !$_W["is_agent"] )
         {
             $query["city"] = $config["takeout"]["range"]["city"];
@@ -71,6 +71,67 @@ else
         }
 
         imessage(error(0, $result["tips"]), "", "ajax");
+    }else if($ta == 'google_suggestion') {
+        load()->func("communication");
+        $key = trim($_GPC["key"]);
+        $config = $_W["we7_wmall"]["config"];
+        if(strpos($_W['language'] , 'zh') !== false) {
+            $language = 'zh-CN' ;
+        }else if(strpos($_W['language'] , 'th') !== false){
+            $language = 'th' ;
+        }else{
+            $language = 'zh-CN' ;
+        }
+
+        $query = array( "input" => $key, "key" => "37bb6a3b1656ba7d7dc8946e7e26f39b" ,'language'=>$language);
+        if( !empty($config["takeout"]["range"]["city"]) && !$_W["is_agent"] )
+        {
+            $query["city"] = $config["takeout"]["range"]["city"];
+        }
+
+        $city = trim($_GPC["city"]);
+        if( !empty($city) )
+        {
+            $query["city"] = $city;
+        }
+
+        $query = http_build_query($query);
+        $result = ihttp_get("https://maps.googleapis.com/maps/api/place/autocomplete/json?" . $query);
+        if($result['status'] != 'OK ') {
+            imessage(error(-1, $result['error_message']), "", "ajax");
+        }
+
+
+        $result = @json_decode($result["predictions"], true);
+        $rt = [] ;
+        if( !empty($result) )
+        {
+            $distance_sort = 0;
+            foreach( $result as $key => $val )
+            {
+                $palce_id = $val['place_id'] ;
+                $params = [
+                    'place_id' => $palce_id ,
+                    'fields' => 'name,geometry,formatted_address'
+                ];
+                $params = http_build_query($params);
+                $result2 =  ihttp_get("https://maps.googleapis.com/maps/api/place/details/json?" . $params);
+                if($result2['status'] == 'OK') {
+                    $result2 = @json_decode($result2['result']  , true) ;
+                    $data = [] ;
+                    $data["distance"] = 10000000;
+                    $data["distance_available"] = 0;
+                    $data["address_available"] = 1;
+                    $data["address"] = $result2['formatted_address'] ;
+                    $data['lng'] = $result2['geometry']['location']['lng'] ;
+                    $data['lat'] = $result2['geometry']['location']['lat'] ;
+                    $data['name'] = $result2['name'] ;
+                    $rt[] = $data ;
+                }
+            }
+        }
+
+        imessage(error(0, $rt), "", "ajax");
     }
     else
     {

@@ -18,7 +18,7 @@
 		<div class="position-container">
 			<div id="position"><span class="icon icon-focus"></span> <span class="position-status">{php echo language('定位到当前地址');}</span></div>
 		</div>
-		
+
 		{if !empty($addresses)}
 		<div class="content-block-title">
 			<i class="icon icon-location"></i> {php echo language('我的收货地址');}
@@ -64,7 +64,31 @@
 <script type="text/javascript" src="//webapi.amap.com/maps?v=1.4.1&key=550a3bf0cb6d96c3b43d330fb7d86950"></script>
 <script>
 require(['tiny'], function(tiny){
+
 	function getLocation() {
+		if (navigator.geolocation) {
+			//获取当前地理位置
+			navigator.geolocation.getCurrentPosition(function (position) {
+				var coords = position.coords;
+				$('#js-lat').html(coords.latitude);
+				$('#js-lng').html(coords.longitude);
+
+				var address = '暂时写死' ;
+				$('#position').html(address);
+				var params = '&lat='+coords.latitude+'&lng='+coords.longitude+'&address='+address;
+				location.href = "{php echo imurl('wmall/home/index', array('d' => 1))}"+params;
+			},
+			function (error) {
+				alert("定位出错,请手动搜索地址");
+				$('.position-status').html("{php echo language('定位出错');}");
+			});
+		} else {
+			alert("定位出错,请手动搜索地址");
+			$('.position-status').html("{php echo language('定位出错');}");
+		}
+	}
+
+	function getLocationBck() {
 		var map, geolocation;
 		map = new AMap.Map('allmap');
 		map.plugin('AMap.Geolocation', function() {
@@ -128,7 +152,7 @@ require(['tiny'], function(tiny){
 		if(!key) {
 			return false;
 		}
-		$.post("{php echo imurl('wmall/home/location/suggestion');}", {key: key}, function(data){
+		$.post("{php echo imurl('wmall/home/location/google_suggestion');}", {key: key}, function(data){
 			var result = $.parseJSON(data);
 			if(result.message.error != -1) {
 				getAdress(result.message.message);
