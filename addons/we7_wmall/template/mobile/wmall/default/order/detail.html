@@ -104,7 +104,7 @@
 										{if $good['bargain_id'] > 0}
 											<span class="color-muted text-line-through">¥{$good['goods_original_price']}</span>
 										{/if}
-										￥{$good['goods_price']}
+										{$_W['currency_symbol']}{$good['goods_price']}
 									</div>
 								</div>
 							{/loop}
@@ -114,7 +114,7 @@
 										<div class="col-60">
 											{$extra_fee['name']}
 										</div>
-										<div class="col-40 text-right">￥{$extra_fee['fee']}</div>
+										<div class="col-40 text-right">{$_W['currency_symbol']}{$extra_fee['fee']}</div>
 									</div>
 								{/loop}
 							{/if}
@@ -123,21 +123,21 @@
 							{if $order['box_price'] > 0}
 								<div class="row no-gutter">
 									<div class="col-80">{php echo language('餐盒费');}</div>
-									<div class="col-20 text-right color-black">￥{$order['box_price']}</div>
+									<div class="col-20 text-right color-black">{$_W['currency_symbol']}{$order['box_price']}</div>
 								</div>
 							{/if}
 							<div class="row no-gutter">
 								<div class="col-80">{php echo language('包装费');}</div>
-								<div class="col-20 text-right color-black">￥{$order['pack_fee']}</div>
+								<div class="col-20 text-right color-black">{$_W['currency_symbol']}{$order['pack_fee']}</div>
 							</div>
 							<div class="row no-gutter">
 								<div class="col-80">{php echo language('配送费');}</div>
-								<div class="col-20 text-right color-black">￥{$order['delivery_fee']}</div>
+								<div class="col-20 text-right color-black">{$_W['currency_symbol']}{$order['delivery_fee']}</div>
 							</div>
 							{if $order['order_type'] == 3}
 								<div class="row no-gutter">
 									<div class="col-80">{php echo language('服务费');}</div>
-									<div class="col-20 text-right color-black">￥{$order['serve_fee']}</div>
+									<div class="col-20 text-right color-black">{$_W['currency_symbol']}{$order['serve_fee']}</div>
 								</div>
 							{/if}
 						</div>
@@ -156,9 +156,9 @@
 						{/if}
 						<div class="inner-con">
 							<div class="row no-gutter">
-								<div class="col-60 color-muted">{php echo language('订单');} <span class="color-black">￥{$order['total_fee']}</span> - {php echo language('优惠');}<span class="color-black">￥{$order['discount_fee']}</span></div>
+								<div class="col-60 color-muted">{php echo language('订单');} <span class="color-black">{$_W['currency_symbol']}{$order['total_fee']}</span> - {php echo language('优惠');}<span class="color-black">{$_W['currency_symbol']}{$order['discount_fee']}</span></div>
 								<div class="col-20 text-right color-muted">{php echo language('总计');}</div>
-								<div class="col-20 text-right color-black">￥{$order['final_fee']}</div>
+								<div class="col-20 text-right color-black">{$_W['currency_symbol']}{$order['final_fee']}</div>
 							</div>
 						</div>
 					</div>

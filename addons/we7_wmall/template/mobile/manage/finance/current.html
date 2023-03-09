@@ -92,11 +92,11 @@
 		</div>
 		<div class="row no-gutter border-1px-b">
 			<div class="col-20 color-gray">余额变动</div>
-			<div class="col-80 text-right {if $current['fee'] > 0}color-success{else}color-danger{/if}">￥{$current['fee']}</div>
+			<div class="col-80 text-right {if $current['fee'] > 0}color-success{else}color-danger{/if}">{$_W['currency_symbol']}{$current['fee']}</div>
 		</div>
 		<div class="row no-gutter border-1px-b">
 			<div class="col-20 color-gray">变动后账户余额</div>
-			<div class="col-80 text-right">￥{$current['amount']}</div>
+			<div class="col-80 text-right">{$_W['currency_symbol']}{$current['amount']}</div>
 		</div>
 		{if $current['trade_type'] == 2}
 			<div class="row no-gutter border-1px-b">
@@ -105,15 +105,15 @@
 			</div>
 			<div class="row no-gutter border-1px-b">
 				<div class="col-20 color-gray">提现金额</div>
-				<div class="col-80 text-right color-black">￥{$getcash_log['get_fee']}</div>
+				<div class="col-80 text-right color-black">{$_W['currency_symbol']}{$getcash_log['get_fee']}</div>
 			</div>
 			<div class="row no-gutter border-1px-b">
 				<div class="col-20 color-gray">手续费</div>
-				<div class="col-80 text-right color-black">￥{$getcash_log['take_fee']}</div>
+				<div class="col-80 text-right color-black">{$_W['currency_symbol']}{$getcash_log['take_fee']}</div>
 			</div>
 			<div class="row no-gutter border-1px-b">
 				<div class="col-20  color-gray">实际到账</div>
-				<div class="col-80 text-right color-black">￥{$getcash_log['final_fee']}</div>
+				<div class="col-80 text-right color-black">{$_W['currency_symbol']}{$getcash_log['final_fee']}</div>
 			</div>
 			<div class="row no-gutter border-1px-b">
 				<div class="col-20 color-gray">提现人</div>

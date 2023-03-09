@@ -17,10 +17,10 @@
 					<span class="icon icon-cart"></span>
 					<span class="badge bg-warning" id="cartNum">0</span>
 				</span>
-				共<span class="sum">￥<span id="totalPrice">0</span>元</span>
+				共<span class="sum">{$_W['currency_symbol']}<span id="totalPrice">0</span>元</span>
 			</div>
-			<div class="right text-center bg-grey" id="categoryCondition">还差￥0起送</div>
-			<div class="right text-center bg-grey">还差￥<span id="sendCondition">{$store['send_price']}</span>起送</div>
+			<div class="right text-center bg-grey" id="categoryCondition">还差{$_W['currency_symbol']}0起送</div>
+			<div class="right text-center bg-grey">还差{$_W['currency_symbol']}<span id="sendCondition">{$store['send_price']}</span>起送</div>
 			{if !$store['is_in_business_hours']}
 				<div class="right text-center bg-grey hide" id="btnSubmit">休息中</div>
 			{else}
@@ -73,7 +73,7 @@
 				<div class="coupon-show-container">
 					<div class="coupon-show">
 						<div class="coupon-sum">
-							<span>￥</span>{$token_price}
+							<span>{$_W['currency_symbol']}</span>{$token_price}
 						</div>
 						<div class="division">
 							<img src="{WE7_WMALL_TPL_URL}static/img/division.png" alt="" />
@@ -123,9 +123,9 @@
 															{/if}
 														</div>
 														<div class="price">
-															<span class="fee">￥{$ds['discount_price']}</span>
+															<span class="fee">{$_W['currency_symbol']}{$ds['discount_price']}</span>
 															{if !empty($ds['bargain_id'])}
-																<span class="original-fee">￥{$ds['price']}</span>
+																<span class="original-fee">{$_W['currency_symbol']}{$ds['price']}</span>
 															{/if}
 														</div>
 													</div>

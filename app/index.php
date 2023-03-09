@@ -47,11 +47,12 @@ if(!isset($_COOKIE['language'])){
 }
 //设置货币单位
 if(!isset($_COOKIE['currency'])){
-    setcookie('currency' , 'RMB') ;
-    $_W['currency'] = 'RMB' ;
+    setcookie('currency' , 'CNY') ;
+    $_W['currency'] = 'CNY' ;
 }else{
     $_W['currency']  = $_COOKIE['currency'] ;
 }
+$_W['currency_symbol'] = $_W['currency'] == 'THB' ? '฿' : '￥' ;
 
 if(!empty($template) && !empty($style)) {
 	$sql = "SELECT `variable`, `content` FROM " . tablename('site_styles_vars') . " WHERE `uniacid`=:uniacid AND `styleid`=:styleid";

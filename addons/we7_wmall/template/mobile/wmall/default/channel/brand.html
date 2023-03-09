@@ -42,9 +42,9 @@
 								<span>{$store['title']}</span>
 							</div>
 							<div class="item-min-delivery">
-								<span>{php echo language('起送价');}<span class="item-min-price">￥{$store['send_price']}</span></span>
+								<span>{php echo language('起送价');}<span class="item-min-price">{$_W['currency_symbol']}{$store['send_price']}</span></span>
 								<span class="devide-span">|</span>
-								<span>{php echo language('配送费');}<span class="item-min-price">￥{$store['delivery_price']}</span></span>
+								<span>{php echo language('配送费');}<span class="item-min-price">{$_W['currency_symbol']}{$store['delivery_price']}</span></span>
 								<button class="item-btn"><a href="{php echo imurl('wmall/store/goods', array('op'=> 'index', 'sid' => $store['id']));}">{php echo language('进店');}</a></button>
 							</div>
 							{if !empty($store['activity']['items']['discount'])}

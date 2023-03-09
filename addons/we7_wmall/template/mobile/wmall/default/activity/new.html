@@ -13,7 +13,7 @@
 	.page-index .slide-wrap a{width: 100%; max-height: 100%; display: inline-block;}
 	.page-index .slide-wrap img{display: inline-block; width: 100%; height: 100%;}
 	.page-index .slide-wrap .radius-bg{position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; height: .8rem;}
-	
+
 	.page-index .fiexd-searchbar{display: none; position: fixed; top: 0; left: 0; right: 0;  z-index: 3; text-align: center; background-color: #ff2d4b; padding: .2rem .8rem;}
 	.page-index .fiexd-searchbar .searchbar{display: block; width: 100%; height: 1.7rem; margin: .2rem 0; text-align: center; border-radius: .96rem; font-size: .6rem; outline: none; border: none; color: #333;}
 
@@ -70,7 +70,7 @@
     .page-index .bargain-activity .activity-goods .goods-item .goods-img img{width: 100%; height: 4rem;}
     .page-index .bargain-activity .activity-goods .goods-item .goods-title{font-size: .6rem; color: #333; height: .9rem; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: .9rem;}
     .page-index .bargain-activity .activity-goods .goods-item .goods-price .now-price{font-size: .7rem; color: #f6383a;}
-    .page-index .bargain-activity .activity-goods .goods-item .goods-price .old-price{color: #999; text-decoration: line-through; font-weight: bold; font-size: .5rem;} 
+    .page-index .bargain-activity .activity-goods .goods-item .goods-price .old-price{color: #999; text-decoration: line-through; font-weight: bold; font-size: .5rem;}
     .page-index .bargain-activity .activity-goods .load-more{width: 1.2rem; height: auto; background-color: #fff; margin-left: -1%; color: #666; display: inline-block; position: absolute; top: 20%;}
     .page-index .bargain-activity .activity-goods .load-more .icon{position: absolute; top: 38%; left: 0;}
     .page-index .bargain-activity .activity-goods .load-more .inner{text-align: right;}
@@ -84,7 +84,7 @@
 	.page-index .selective .selective-store .selective-item{text-align: center; margin-top: .5rem; display: inline-block; width: 32.5%; max-height: 5rem;}
 	.page-index .selective .selective-store .selective-item img{display: inline-block; border: 1px solid #efefef; width: 5rem; height: 4rem; max-width: 100%;}
 	.page-index .selective .selective-store .selective-item .selective-title{margin: 0; color: #333; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .6rem; font-weight: bold; height: 1rem; line-height: 1rem;}
-	
+
 
 	.page-index .nearby-store{background-color: #fff;}
 	.page-index .nearby-store .nearby-title{text-align: center; color: #333; font-size: .7rem; font-weight: bold; padding-top: .7rem; padding-bottom: .2rem; position: relative;}
@@ -108,7 +108,7 @@
 	.page-index .nearby-store .nearby-store-item .content-right .time-distance{max-width: 33%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; position: absolute; right: 0; bottom: .1rem; font-size: .5rem; float: right; height: .8rem; line-height: .8rem;}
 	.page-index .nearby-store .nearby-store-item .content-right .time-distance .avg_graphic_time{display: inline-block; max-width: 50%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 	.page-index .nearby-store .nearby-store-item .content-right .time-distance .item-distance{display: inline-block; max-width: 50%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
-	.page-index .nearby-store .nearby-store-item .content-right .time-distance .line{display: inline-block; margin: 0 .06rem; color: #e4e4e4; font-size: .1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;} 
+	.page-index .nearby-store .nearby-store-item .content-right .time-distance .line{display: inline-block; margin: 0 .06rem; color: #e4e4e4; font-size: .1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 	.page-index .nearby-store .nearby-store-item .content-right .item-min-delivery{font-size: .6rem; color: #3d4145; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; position: relative; height: .9rem; line-height: 1.2rem;}
 	.page-index .nearby-store .nearby-store-item .content-right .item-min-delivery>.price{color: #f6383a; margin-left: -.15rem;}
 	.page-index .nearby-store .nearby-store-item .content-right .item-min-delivery>div{display: inline-block; position: absolute; right: 0; bottom: 0;  height: .7rem; line-height: .8rem; text-align: center; background-color: #FB4E44; color: #fff; border-radius: .4rem 0 .4rem 0;  text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 25%; padding: 0 .3rem; font-size: .5rem}
@@ -146,7 +146,7 @@
 				<input type="text">
 			</div>
 		</header>
-		
+
 		{if !empty($slides)}
 			<div class="slide-wrap swiper-container" data-space-between="0" data-pagination=".swiper-slide-pagination" data-autoplay="5000">
 				<div class="swiper-wrapper">
@@ -244,7 +244,7 @@
 				{/loop}
 			</div>
 		{/if}
-		
+
 		{if !empty($bargains)}
 			<div class="bargain-activity">
 				<div class="activity-header">
@@ -261,8 +261,8 @@
 								</div>
 								<div class="goods-title">{$bargain['title']}</div>
 								<div class="goods-price">
-									<span class="now-price">￥{$bargain['discount_price']}</span>
-									<span class="old-price">￥{$bargain['price']}</span>
+									<span class="now-price">{$_W['currency_symbol']}{$bargain['discount_price']}</span>
+									<span class="old-price">{$_W['currency_symbol']}{$bargain['price']}</span>
 								</div>
 							</a>
 						</div>
@@ -279,7 +279,7 @@
 				</div>
 			</div>
 		{/if}
-		
+
 		{if !empty($recommends)}
 			<div class="selective">
 				<div class="selective-tab">

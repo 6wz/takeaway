@@ -189,7 +189,7 @@
 									<{# } }>
 								</div>
 								<div class="delivery-conditions">
-									{php echo language('起送');}<span class="color-danger">￥<{_stores[i].send_price}></span><span class="pipe">|</span>{php echo language('配送');}<span class="color-danger">￥<{_stores[i].delivery_price}></span><span class="pipe">|</span>{php echo language('约');}<span class="color-danger"><{_stores[i].delivery_time}>{php echo language('分钟');}</span>
+									{php echo language('起送');}<span class="color-danger">{$_W['currency_symbol']}<{_stores[i].send_price}></span><span class="pipe">|</span>{php echo language('配送');}<span class="color-danger">{$_W['currency_symbol']}<{_stores[i].delivery_price}></span><span class="pipe">|</span>{php echo language('约');}<span class="color-danger"><{_stores[i].delivery_time}>{php echo language('分钟');}</span>
 									<div class="distance <{#if(!_stores[i].distance) {}>hide<{# } }>" data-in-business-hours="<{# if(_stores[i].is_in_business_hours){ }>1<{# } else { }>100000000<{# } }>"><i class="icon icon-lbs"></i><{_stores[i].distance}>km</div>
 								</div>
 							</div>

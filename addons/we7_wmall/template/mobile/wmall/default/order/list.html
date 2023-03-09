@@ -49,7 +49,7 @@
 									<div class="date">{php echo date('Y-m-d H:i', $order['addtime']);}</div>
 								</div>
 								<div class="col-25 text-right">
-									<div class="price">￥{$order['final_fee']}</div>
+									<div class="price">{$_W['currency_symbol']}{$order['final_fee']}</div>
 									<div class="status no-pay">{$order_status[$order['status']]['text']}</div>
 								</div>
 							</a>
@@ -136,7 +136,7 @@
 					<div class="date"><{d[i].addtime_cn}></div>
 				</div>
 				<div class="col-25 text-right">
-					<div class="price">￥<{d[i].final_fee}></div>
+					<div class="price">{$_W['currency_symbol']}<{d[i].final_fee}></div>
 					<div class="status no-pay"><{d[i].status_cn}></div>
 				</div>
 			</a>

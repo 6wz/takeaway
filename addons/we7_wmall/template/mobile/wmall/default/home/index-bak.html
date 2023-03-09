@@ -67,7 +67,7 @@
 				<div class="swiper-pagination swiper-slide-pagination"></div>
 			</div>
 		{/if}
-		
+
 		{if !empty($categorys_chunk)}
 			<div class="swiper-container category" data-space-between='0' data-pagination='.swiper-category-pagination' data-autoplay="0">
 				<div class="swiper-wrapper">
@@ -154,7 +154,7 @@
 								</div>
 								<div class="goods-title">{$bargain['title']}</div>
 								<div class="price">
-									<i>￥</i><span class="now-price">{$bargain['discount_price']}</span>&nbsp;<span class="original-price">￥{$bargain['price']}</span>
+									<i>{$_W['currency_symbol']}</i><span class="now-price">{$bargain['discount_price']}</span>&nbsp;<span class="original-price">￥{$bargain['price']}</span>
 								</div>
 							</a>
 						</div>

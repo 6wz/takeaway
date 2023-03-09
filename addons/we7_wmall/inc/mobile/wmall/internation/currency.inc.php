@@ -6,13 +6,14 @@ $ta = (trim($_GPC["ta"]) ? trim($_GPC["ta"]) : "switch");
 
 if($ta == 'switch'){
     $oldCurrency = $_W['currency'] ;
-    if($oldCurrency == 'RMB') {
+    if($oldCurrency == 'CNY') {
         $newCurrency = 'THB' ;
     }else{
-        $newCurrency = 'RMB' ;
+        $newCurrency = 'CNY' ;
     }
     setcookie('currency' , $newCurrency) ;
     $_W['currency'] = $newCurrency ;
+    $_W['currency_symbol'] = $_W['currency'] == 'THB' ? '฿' : '￥' ;
     imessage(error(0, "success"), "", "ajax");
 }
 

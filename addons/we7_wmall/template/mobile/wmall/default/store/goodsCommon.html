@@ -138,7 +138,7 @@
 			<div class="sell-info">{php echo language('已售');}<{d.sailed}>&nbsp;&nbsp;{php echo language('好评');}<{d.comment_good}></div>
 			<{# if(d.is_options == 0 && d.is_attrs == 0){ }>
 				<div class="row no-gutter goods-num">
-					<div class="col-50 price">￥<span class="fee"><{d.price}></span></div>
+					<div class="col-50 price">{$_W['currency_symbol']}<span class="fee"><{d.price}></span></div>
 					<div class="col-50 text-right operate-num {if !$store['is_in_business_hours']}hide{/if}">
 						<span class="minus hide">
 							<span class="icon icon-minus goods-detail-minus" data-goods-id="<{d.id}>" data-option-id="0"></span>
@@ -153,7 +153,7 @@
 				</div>
 			<{# } else { }>
 				<div class="row no-gutter goods-num">
-					<div class="col-50 price">￥<span class="fee"><{d.price}></span></div>
+					<div class="col-50 price">{$_W['currency_symbol']}<span class="fee"><{d.price}></span></div>
 					<div class="col-50 text-right operate-num {if !$store['is_in_business_hours']}hide{/if}">
 						<div class="operate-goods">
 							<{# if(d.is_sail_now == 1){ }>
@@ -213,7 +213,7 @@
 				<{# } }>
 			</div>
 			<div class="row no-gutter goods-num">
-				<div class="col-50 price">￥<{d.price}></div>
+				<div class="col-50 price">{$_W['currency_symbol']}<{d.price}></div>
 				<div class="col-50 text-right operate-num">
 					<span class="minus <{# if(d.num == 0){ }>hide<{# } }>">
 						<span class="icon icon-minus from-goods-option" data-goods-id="<{d.id}>"></span>
@@ -251,7 +251,7 @@
 									</span>
 								<{# } }>
 							</div>
-							<div class="col-25 color-orange text-right goods-price <{# if(d[i].goods_id == 0){ }>box-price<{# } }>">￥<{d[i]['options'][j]['price_total']}></div>
+							<div class="col-25 color-orange text-right goods-price <{# if(d[i].goods_id == 0){ }>box-price<{# } }>">{$_W['currency_symbol']}<{d[i]['options'][j]['price_total']}></div>
 							<div class="col-33 text-right">
 								<{# if(d[i].goods_id != 0){ }>
 									<div class="operate-num">
@@ -287,7 +287,7 @@
 				</div>
 				<div class="item-text">
 					<div class="sell-info">{php echo language('已售');}<{d[i].sailed}><{d[i].unitname}>&nbsp;&nbsp; {php echo language('好评');}<{d[i].comment_good}></div>
-					<div class="price">￥<span class="fee"><{d[i].price}></span></div>
+					<div class="price">{$_W['currency_symbol']}<span class="fee"><{d[i].price}></span></div>
 				</div>
 			</div>
 		</a>
@@ -564,7 +564,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 
 		var option_id = getOptionid(item, $(this));
 		var price = item['options_data'][option_id]['price'];
-		$('.goods-option .no-gutter .price').html('¥ ' + price);
+		$('.goods-option .no-gutter .price').html("{$_W['currency_symbol']}" + price);
 
 		var num = goodsNum(goods_id, option_id);
 		$('.goods-option .no-gutter .num').html(num);
@@ -598,7 +598,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 		var from_goods_cart = $(this).hasClass('from-goods-cart');
 		if(from_goods_cart) {
 			var price = cart_new[goods_id]['options'][option_id]['price_total'];
-			$('#shop-cart-list-item-' + goods_id + '-' + option_id + ' .goods-price').html('￥' + price);
+			$('#shop-cart-list-item-' + goods_id + '-' + option_id + ' .goods-price').html("{$_W['currency_symbol']}" + price);
 		}
 		if(flag) {
 			return false;
@@ -645,7 +645,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 		var from_goods_cart = $(this).hasClass('from-goods-cart');
 		if(from_goods_cart) {
 			var price = cart_new[goods_id]['options'][option_id]['price_total'];
-			$('#shop-cart-list-item-' + goods_id + '-' + option_id + ' .goods-price').html('￥' + price);
+			$('#shop-cart-list-item-' + goods_id + '-' + option_id + ' .goods-price').html("{$_W['currency_symbol']}" + price);
 		}
 		var num = goodsNum(goods_id, option_id);
 		if(num < 1) {

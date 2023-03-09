@@ -46,7 +46,7 @@
 							<{# } }>
 						</div>
 						<div class="delivery-conditions">
-							起送<span class="color-danger">￥<{d[i].send_price}></span><span class="pipe">|</span>配送<span class="color-danger">￥<{d[i].delivery_price}></span><span class="pipe">|</span>约<span class="color-danger"><{d[i].delivery_time}>分钟</span>
+							起送<span class="color-danger">{$_W['currency_symbol']}<{d[i].send_price}></span><span class="pipe">|</span>配送<span class="color-danger">{$_W['currency_symbol']}<{d[i].delivery_price}></span><span class="pipe">|</span>约<span class="color-danger"><{d[i].delivery_time}>分钟</span>
 							<div class="distance <{#if(!d[i].distance) {}>hide<{# } }>" data-in-business-hours="<{# if(d[i].is_in_business_hours){ }>1<{# } else { }>100000000<{# } }>"><i class="icon icon-lbs"></i><{d[i].distance}>km</div>
 						</div>
 					</div>
