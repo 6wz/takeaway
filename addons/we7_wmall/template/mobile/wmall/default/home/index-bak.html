@@ -154,7 +154,7 @@
 								</div>
 								<div class="goods-title">{$bargain['title']}</div>
 								<div class="price">
-									<i>￥</i><span class="now-price">{$bargain['discount_price']}</span>&nbsp;<span class="original-price">￥{$bargain['price']}</span>
+									<i>￥</i><span class="now-price">{$bargain['discount_price']}</span>&nbsp;<span class="original-price">￥{php echo exchange($bargain['price']);}</span>
 								</div>
 							</a>
 						</div>

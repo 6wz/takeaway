@@ -364,6 +364,8 @@
 <!--<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyB062x7b2UUvRIMLRIHJ8rFaZXGSkca89c&language=zh-cn"></script>-->
 <script>
 require(['tiny'], function(tiny){
+	//TODO 暂时写死
+	rate = 100 ;
 	$('.content').on("scroll", function(){
 		$('.content').scrollTop() >= 100 ? $('.fiexd-searchbar').show() : $('.fiexd-searchbar').hide();
 		$('.content').scrollTop() >= 800 ? $('.fixed-select-tab').css('display', '-webkit-box') : $('.fixed-select-tab').css('display',' none');
@@ -422,6 +424,15 @@ require(['tiny'], function(tiny){
 
 		$.post("{php echo imurl('wmall/home/index/data')}", params, function(data){
 			var result = $.parseJSON(data);
+			for(var i in result.message.message.stores){
+				result.message.message.stores[i]['send_price'] = result.message.message.stores[i]['send_price'] * rate ;
+				result.message.message.stores[i]['delivery_price'] = result.message.message.stores[i]['delivery_price'] * rate ;
+			}
+
+			for(var j in result.message.message.bargains){
+				result.message.message.bargains[j]['price'] = result.message.message.bargains[j]['price'] * rate ;
+			}
+			console.log(result) ;
 			if(result.message.error != 0) {
 				$.toast(result.message.message);
 				return false;
