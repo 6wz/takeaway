@@ -35,7 +35,7 @@
 									</div>
 									<div class="rel-info">
 										<div class="row delivery-conditions">
-											<div class="col-60">{php echo language('起送');}<span>{$_W['currency_symbol']}{$store['send_price']}</span><span class="pipe">|</span>{php echo language('配送');}<span>{$_W['currency_symbol']}{$store['delivery_price']}</span></div>
+											<div class="col-60">{php echo language('起送');}<span>{$_W['currency_symbol']}{php echo exchange($store['send_price']);}</span><span class="pipe">|</span>{php echo language('配送');}<span>{$_W['currency_symbol']}{php echo exchange($store['delivery_price']);}</span></div>
 											<div class="col-40 textright color-danger">{$store['delivery_time']}{php echo language('分钟');}</div>
 										</div>
 										{if !empty($store['activity']['items']['discount'])}
@@ -79,7 +79,7 @@
 								</div>
 								<div class="rel-info">
 									<div class="row delivery-conditions">
-										<div class="col-60">{php echo language('起送');}<span>{$_W['currency_symbol']}{$store['send_price']}</span><span class="pipe">|</span>{php echo language('配送');}<span>{$_W['currency_symbol']}{$store['delivery_price']}</span></div>
+										<div class="col-60">{php echo language('起送');}<span>{$_W['currency_symbol']}{$store['send_price']}</span><span class="pipe">|</span>{php echo language('配送');}<span>{$_W['currency_symbol']}{php echo exchange($store['delivery_price']);}</span></div>
 										<div class="col-40 textright color-danger">{$store['delivery_time']}{php echo language('分钟');}</div>
 									</div>
 									{if !empty($store['activity']['discount_status'])}

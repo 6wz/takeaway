@@ -1929,7 +1929,6 @@ function language($key = '' , $params = [] , $force_language=''){
 
 function chooseLanguageData($datas = [] , $params = []  , $force_language='') {
     global $_W;
-    //session_start() ;
     $language = empty($force_language) ? $_W['language'] :  $force_language;
     if($language == 'zh-cn' || empty($params)){
 
@@ -1954,6 +1953,23 @@ function chooseLanguageData($datas = [] , $params = []  , $force_language='') {
         }
     }
     return $datas ;
+
+}
+
+function exchange($value = 0 , $force_currency = ''){
+    global $_W;
+    if($value != 0 ) {
+        $currency = empty($force_currency) ? $_W['currency'] : $force_currency ;
+        if($currency == 'CNY') {
+            return $value ;
+        }else{
+            $config = $_W["we7_wmall"]["config"]['currency_info'] ;
+            $rate = !empty($config['rate']) ? 1 : $config['rate'];
+            $value = round($value * $rate , 2) ;
+        }
+    }
+    return $value ;
+
 
 }
 ?>

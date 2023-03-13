@@ -87,7 +87,7 @@
 														{/if}
 													</div>
 													<div class="delivery-conditions">
-														{php echo language('起送');}<span class="color-danger">{$_W['currency_symbol']}{$stores[$mark['sid']]['send_price']}</span><span class="pipe">|</span>{php echo language('配送');}<span class="color-danger">{$_W['currency_symbol']}{$stores[$mark['sid']]['delivery_price']}</span><span class="pipe">|</span>{php echo language('约');}<span class="color-danger">{$stores[$mark['sid']]['delivery_time']}{php echo language('分钟');}</span>
+														{php echo language('起送');}<span class="color-danger">{$_W['currency_symbol']}{php echo exchange($stores[$mark['sid']]['send_price']);}</span><span class="pipe">|</span>{php echo language('配送');}<span class="color-danger">{$_W['currency_symbol']}{php echo exchange($stores[$mark['sid']]['delivery_price']);}</span><span class="pipe">|</span>{php echo language('约');}<span class="color-danger">{$stores[$mark['sid']]['delivery_time']}{php echo language('分钟');}</span>
 														<div class="distance {if empty($stores[$mark['sid']]['distance'])} hide {/if}" data-in-business-hours="{$stores[$mark['sid']]['is_in_business_hours']}"><i class="icon icon-lbs"></i>{$stores[$mark['sid']]['distance']}km</div>
 													</div>
 												</div>
