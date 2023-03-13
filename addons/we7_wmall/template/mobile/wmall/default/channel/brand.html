@@ -65,7 +65,7 @@
 											<a href="{php echo imurl('wmall/store/goods', array('sid' => $store['id'], 'goods_id' => $good['id']));}"><img src="{php echo tomedia($good['thumb']);}" alt=""></a>
 										</div>
 										<div class="goods-name">{$good['title']}</div>
-										<div class="goods-price"><span>¥{$good['price']}</span></div>
+										<div class="goods-price"><span>{$_W['currency_symbol']}{php echo exchange($good['price']);}</span></div>
 									</div>
 								{/loop}
 								<div class="clearfix"></div>

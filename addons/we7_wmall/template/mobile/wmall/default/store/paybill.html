@@ -59,7 +59,7 @@
 							<div class="item-title label">{php echo language('实付金额');}</div>
 							<div class="item-input align-right">
 								<span class="price">
-									¥<span id="price">0.00</span>
+									{$_W['currency_symbol']}<span id="price">0.00</span>
 								</span>
 							</div>
 						</div>
@@ -124,7 +124,7 @@
 						</div>
 						<div class="right">
 							<div class="price">
-								<span>¥</span><(item.discount)>
+								<span>{$_W['currency_symbol']}</span><(item.discount)>
 							</div>
 							<div class="condition">满<(item.condition)>元可用</div>
 						</div>

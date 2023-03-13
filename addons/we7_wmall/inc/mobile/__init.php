@@ -94,6 +94,12 @@ if(empty($_W["we7_wmall"]["config"]['currency_info']) || $_W["we7_wmall"]["confi
     set_system_config('currency_info' , $_currency_info) ;
     $_W["we7_wmall"]["config"]['currency_info'] = $_currency_info ;
 }
+if($_W['currency'] == 'CNY') {
+    $_W["currency_rate"] = 1 ;
+}else{
+    $_W["currency_rate"] = $_W["we7_wmall"]["config"]['currency_info']['rate'] ;
+}
+
 $_W["we7_wmall"]["config"]["mall"]["address_type"] = 0;
 $_config_mall = $_W["we7_wmall"]["config"]["mall"];
 if( empty($_config_mall["delivery_title"]) ) 

@@ -57,7 +57,7 @@
 										{/if}
 									</div>
 									<div class="delivery-conditions">
-										{php echo language('起送');}{$_W['currency_symbol']}{$store['send_price']}<span class="pipe">|</span>{php echo language('配送');}{$_W['currency_symbol']}{$store['delivery_price']}<span class="pipe">|</span>{php echo language('约');}{$store['delivery_time']}{php echo language('分钟');}
+										{php echo language('起送');}{$_W['currency_symbol']}{php echo exchange($store['send_price']);}<span class="pipe">|</span>{php echo language('配送');}{$_W['currency_symbol']}{php echo exchange($store['delivery_price']);}<span class="pipe">|</span>{php echo language('约');}{php echo exchange($store['delivery_time']);}{php echo language('分钟');}
 									</div>
 								</div>
 							</div>

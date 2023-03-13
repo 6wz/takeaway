@@ -451,7 +451,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 
 		var option_id = getOptionid(item, $(this));
 		var price = item['options_data'][option_id]['price'];
-		$('.goods-option .no-gutter .price').html('¥ ' + price);
+		$('.goods-option .no-gutter .price').html("{$_W['currency_symbol']}" + " " + price);
 
 		var num = goodsNum(goods_id, option_id);
 		$('.goods-option .no-gutter .num').html(num);

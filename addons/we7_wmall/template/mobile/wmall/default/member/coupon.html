@@ -39,9 +39,9 @@
 								</div>
 								<div class="right">
 									<div class="price">
-										<span>¥</span>{$coupon['discount']}
+										<span>{$_W['currency_symbol']}</span>{php echo exchange($coupon['discount']);}
 									</div>
-									<div class="condition"><?php echo language('满{price}元可用' ,['price'=>$coupon['condition']]); ?> </div>
+									<div class="condition"><?php echo language('满{price}元可用' ,['price'=>exchange($coupon['condition'])]); ?> </div>
 								</div>
 							</div>
 						</a>
@@ -86,7 +86,7 @@
 				</div>
 				<div class="right">
 					<div class="price">
-						<span>¥</span><{d[i].discount}>
+						<span>{$_W['currency_symbol']}</span><{d[i].discount}>
 					</div>
 					<div class="condition">满<{d[i].condition}>元可用</div>
 				</div>

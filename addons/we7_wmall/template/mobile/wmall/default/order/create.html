@@ -9,11 +9,11 @@
 		<div class="left">
 			<span class="pull-left">
 				{php echo language('已优惠');}
-				<span class="activity-price">{$_W['currency_symbol']}{$activity_price}</span>
+				<span class="activity-price">{$_W['currency_symbol']}{php echo exchange($activity_price);}</span>
 			</span>
 			<span class="pull-right">
 				{php echo language('还需付');}
-				<span class="sum"><span class="wait-price">{$_W['currency_symbol']}{$waitprice}</span></span>
+				<span class="sum"><span class="wait-price">{$_W['currency_symbol']}{php echo exchange($waitprice);}</span></span>
 			</span>
 		</div>
 		<div class="right text-center bg-danger" id="order-submit">{php echo language('确认下单');}</div>
@@ -21,7 +21,7 @@
 	{if !empty($activityed['list']['vip_delivery'])}
 		<nav class="bar bar-tab info-bar">
 			<img src="{WE7_WMALL_TPL_URL}static/img/vip_effective.png" alt="">
-			{php echo language('尊贵的会员, 已为您节省');} {$_W['currency_symbol']}<span class="delivery-activity-price">{$activityed['list']['vip_delivery']['value']}</span>
+			{php echo language('尊贵的会员, 已为您节省');} {$_W['currency_symbol']}<span class="delivery-activity-price">{php echo exchange($activityed['list']['vip_delivery']['value']);}</span>
 		</nav>
 	{/if}
 	<div class="content">
@@ -136,7 +136,7 @@
 							<div class="item-inner">
 								<div class="item-title">
 									{php echo language('余额抵扣');}
-									<span class="color-danger"> {$_W['currency_symbol']}{$_W['member']['credit2']}</span>
+									<span class="color-danger"> {$_W['currency_symbol']}{php echo exchange($_W['member']['credit2']);}</span>
 								</div>
 								<div class="item-after">
 									<label class="label-switch switch-sm">
@@ -261,9 +261,9 @@
 										<div class="col-10 text-right color-muted">×{$val1['num']}</div>
 										<div class="col-40 text-right">
 											{if $val1['bargain_id'] > 0}
-												<span class="color-muted text-line-through">{$_W['currency_symbol']}{$val1['total_price']}</span>
+												<span class="color-muted text-line-through">{$_W['currency_symbol']}{php echo exchange($val1['total_price']);}</span>
 											{/if}
-											<span class="color-black">{$_W['currency_symbol']}{$val1['total_discount_price']}</span>
+											<span class="color-black">{$_W['currency_symbol']}{php echo exchange($val1['total_discount_price']);}</span>
 										</div>
 									</div>
 								{/loop}
@@ -275,12 +275,12 @@
 							{if $cart['box_price'] > 0}
 								<div class="row no-gutter">
 									<div class="col-50">{php echo language('餐盒费');}</div>
-									<div class="col-50 text-right color-black">{$_W['currency_symbol']}{$cart['box_price']}</div>
+									<div class="col-50 text-right color-black">{$_W['currency_symbol']}{php echo exchange($cart['box_price']);}</div>
 								</div>
 							{/if}
 							<div class="row no-gutter">
 								<div class="col-50">{php echo language('包装费');}</div>
-								<div class="col-50 text-right color-black">{$_W['currency_symbol']}{$store['pack_price']}</div>
+								<div class="col-50 text-right color-black">{$_W['currency_symbol']}{php echo exchange($store['pack_price']);}</div>
 							</div>
 							{if $distance > 0}
 								<div class="row no-gutter row-distance">
@@ -294,13 +294,13 @@
 								{else}
 									<div class="col-50">{php echo language('配送费');}</div>
 								{/if}
-								<div class="col-50 text-right color-black">{$_W['currency_symbol']}<span id="delivery-price">{$delivery_price}</span></div>
+								<div class="col-50 text-right color-black">{$_W['currency_symbol']}<span id="delivery-price">{php echo exchange($delivery_price);}</span></div>
 							</div>
 							{if $extra_fee > 0}
 								{loop $store['data']['extra_fee'] $item}
 									<div class="row no-gutter extra-fee">
 										<div class="col-50">{$item['name']}</div>
-										<div class="col-50 text-right color-black">{$_W['currency_symbol']}{$item['fee']}</div>
+										<div class="col-50 text-right color-black">{$_W['currency_symbol']}{php echo exchange($item['fee']);}</div>
 									</div>
 								{/loop}
 							{/if}
@@ -330,9 +330,9 @@
 					<li class="order-list">
 						<div class="inner-con">
 							<div class="row no-gutter">
-								<div class="col-60 color-muted">{php echo language('订单');} <span class="color-black total-price">{$_W['currency_symbol']}{php echo $cart['price'] + $cart['box_price'] + $store['pack_price'] + $delivery_price + $extra_fee}</span> - {php echo language('优惠');} <span class="color-black activity-price">{$_W['currency_symbol']}{$activity_price}</span></div>
+								<div class="col-60 color-muted">{php echo language('订单');} <span class="color-black total-price">{$_W['currency_symbol']}{php echo php echo exchange( $cart['price'] + $cart['box_price'] + $store['pack_price'] + $delivery_price + $extra_fee) ;}</span> - {php echo language('优惠');} <span class="color-black activity-price">{$_W['currency_symbol']}{php echo exchange($activity_price);}</span></div>
 								<div class="col-20 text-right color-muted">{php echo language('总计');}</div>
-								<div class="col-20 text-right color-black"><span class="wait-price">{$_W['currency_symbol']}{$waitprice}</span></div>
+								<div class="col-20 text-right color-black"><span class="wait-price">{$_W['currency_symbol']}{php echo exchange($waitprice);}</span></div>
 							</div>
 						</div>
 					</li>
@@ -422,7 +422,7 @@
 								<span class="redPacket-title">{$redPacket['title']}</span>
 							</div>
 							<div class="col-50 text-right">
-								<div class="price">{$_W['currency_symbol']}<span class="price-num">{$redPacket['discount']}</span></div>
+								<div class="price">{$_W['currency_symbol']}<span class="price-num">{php echo exchange($redPacket['discount']);}</span></div>
 							</div>
 						</div>
 						<div class="redPacket-use-limit row">
@@ -487,10 +487,10 @@
 						</div>
 						<div class="right">
 							<div class="price">
-								<span>¥</span>{$coupon['discount']}
+								<span>{$_W['currency_symbol']}</span>{php echo exchange($coupon['discount']);}
 							</div>
 							<div class="condition">
-								<?php echo language('满{price}元可用' , [ 'price'=> $coupon['condition'] ]  ); ?>
+								<?php echo language('满{price}元可用' , [ 'price'=> exchange($coupon['condition']) ]  ); ?>
 							</div>
 						</div>
 					</label>
@@ -519,7 +519,7 @@
 				<?php echo language('{start_km}千米以上，每增加1千米，多收取{price}元' , ['start_km'=> $store['delivery_price_extra']['start_km'] , 'price'=> $store['delivery_price_extra']['pre_km_fee'] ]  )?>
 
 				<div id="delivery-predict-price" class="{if empty($delivery_time['times'][$predict_index]['fee'])}hide{/if}">
-					{php echo language('特殊时间段配送附加费');} {$_W['currency_symbol']}{$delivery_time['times'][$predict_index]['fee']}
+					{php echo language('特殊时间段配送附加费');} {$_W['currency_symbol']}{php echo exchange($delivery_time['times'][$predict_index]['fee']);}
 				</div>
 			</div>
 			<a href="javascript:;" onclick="$.icloseModal('.modal-notice', true);" class="button button-big button-fill button-danger close-modal">{php echo language('我知道了');}</a>
@@ -630,15 +630,15 @@ $(function(){
 		});
 	});
 
-	var delivery_price = "{$delivery_price}";
-	var delivery_price_basic = "{$delivery_price_basic}";
-	var waitprice = "{$waitprice}";
-	var cartprice = "{$cart['price']}";
-	var totalprice = {php echo $cart['price'] + $cart['box_price'] + $store['pack_price'] + $delivery_price + $extra_fee};
-	var delivery_activity_price = "{$delivery_activity_price}";
-	var self_delivery_activity_price = "{$self_delivery_activity_price}";
-	var activity_price = "{$activity_price}";
-	var activity_notSelfDelivery_price = "{$activity_notSelfDelivery_price}";
+	var delivery_price = "{php echo exchange($delivery_price);}";
+	var delivery_price_basic = "{php echo exchange($delivery_price_basic);}";
+	var waitprice = "{php echo exchange($waitprice);}";
+	var cartprice = "{php echo exchange($cart['price']);}";
+	var totalprice = "{php echo exchange($cart['price'] + $cart['box_price'] + $store['pack_price'] + $delivery_price + $extra_fee);}";
+	var delivery_activity_price = "{php echo exchange($delivery_activity_price);}";
+	var self_delivery_activity_price = "{php echo exchange($self_delivery_activity_price);}";
+	var activity_price = "{php echo exchange($activity_price);}";
+	var activity_notSelfDelivery_price = "{php echo exchange($activity_notSelfDelivery_price);}";
 
 	{if $send_diff > 0}
 		function send_tips() {

@@ -261,8 +261,8 @@
 								</div>
 								<div class="goods-title">{$bargain['title']}</div>
 								<div class="goods-price">
-									<span class="now-price">{$_W['currency_symbol']}{$bargain['discount_price']}</span>
-									<span class="old-price">{$_W['currency_symbol']}{$bargain['price']}</span>
+									<span class="now-price">{$_W['currency_symbol']}{php echo exchange($bargain['discount_price']);}</span>
+									<span class="old-price">{$_W['currency_symbol']}{php echo exchange($bargain['price']);}</span>
 								</div>
 							</a>
 						</div>

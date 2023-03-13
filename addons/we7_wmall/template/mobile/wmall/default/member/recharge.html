@@ -10,7 +10,7 @@
 		<div class="recharge-list row">
 			{loop $recharges $recharge}
 				<div class="col-33 recharge-item" data-recharge="{$recharge['charge']}">
-					<div class="recharge-num">{$_W['currency_symbol']}<span>{$recharge['charge']}</span></div>
+					<div class="recharge-num">{$_W['currency_symbol']}<span>{php echo exchange($recharge['charge']);}</span></div>
 					<div class="back-num" data-back="{$recharge['back']}" data-type="{$recharge['type']}">
 						{php echo language('送');}{$recharge['back']}{if $recharge['type'] == 'credit1'}{php echo language('积分');}{else}{php echo language('元');}{/if}
 					</div>
@@ -40,7 +40,9 @@
 </div>
 <script>
 $(function() {
+	rate = "{$_W['currency_rate']}" ;
 	$(document).on('click', '.recharge-item', function() {
+
 		$('#inputpay').addClass('hide');
 		$('.recharge-item').removeClass('selected');
 		$(this).addClass('selected');
@@ -49,14 +51,14 @@ $(function() {
 			$('#inputpay').removeClass('hide').focus();
 			recharge = $('#inputpay').val() ? $('#inputpay').val() : 0;
 		};
-		$('.pay-num').html("{$_W['currency_symbol']}" +recharge );
+		$('.pay-num').html("{$_W['currency_symbol']}" + (recharge*rate) );
 		$('.pay-num').attr('data-charge', recharge);
 	});
 
 	$('#inputpay').bind('input propertchange', function() {
 		$('.recharge-item').removeClass('selected');
 		var recharge = $('#inputpay').val();
-		$('.pay-num').text("{$_W['currency_symbol']}" + recharge );
+		$('.pay-num').text("{$_W['currency_symbol']}" + (recharge*rate) );
 		$('.pay-num').attr('data-charge', recharge);
 	});
 

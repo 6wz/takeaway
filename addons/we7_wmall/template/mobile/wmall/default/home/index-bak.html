@@ -154,7 +154,7 @@
 								</div>
 								<div class="goods-title">{$bargain['title']}</div>
 								<div class="price">
-									<i>{$_W['currency_symbol']}</i><span class="now-price">{$bargain['discount_price']}</span>&nbsp;<span class="original-price">{$_W['currency_symbol']}{php echo exchange($bargain['price']);}</span>
+									<i>{$_W['currency_symbol']}</i><span class="now-price">{php echo exchange($bargain['discount_price']);}</span>&nbsp;<span class="original-price">{$_W['currency_symbol']}{php echo exchange($bargain['price']);}</span>
 								</div>
 							</a>
 						</div>
@@ -233,6 +233,8 @@
 <script type="text/javascript" src="//webapi.amap.com/maps?v=1.4.1&key=550a3bf0cb6d96c3b43d330fb7d86950"></script>
 <script>
 require(['tiny'], function(tiny){
+
+	rate = "{$_W['currency_rate']}" ;
 	$('.content').on("scroll", function(){
 		$('.content').scrollTop() >= 100 ? $('.fiexd-searchbar').show() : $('.fiexd-searchbar').hide();
 		$('.content').scrollTop() >= 800 ? $('.fixed-select-tab').css('display', '-webkit-box') : $('.fixed-select-tab').css('display',' none');
@@ -307,6 +309,13 @@ require(['tiny'], function(tiny){
 				$.toast(result.message.message);
 				return false;
 			}
+
+			for(var i in result.message.message){
+				result.message.message[i]['send_price'] = result.message.message[i]['send_price'] * rate ;
+				result.message.message[i]['delivery_price'] = result.message.message[i]['delivery_price'] * rate ;
+			}
+
+
 			if(result.message.message.length == 0) {
 				$('#store-list').addClass('store-empty');
 				$('#store-list .common-no-con').find('p').html('附近没有符合条件的商户');

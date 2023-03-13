@@ -102,9 +102,9 @@
 									<div class="col-10 text-right color-muted">×{$good['goods_num']}</div>
 									<div class="col-35 text-right color-black">
 										{if $good['bargain_id'] > 0}
-											<span class="color-muted text-line-through">¥{$good['goods_original_price']}</span>
+											<span class="color-muted text-line-through">{$_W['currency_symbol']}{php echo exchange($good['goods_original_price']);}</span>
 										{/if}
-										{$_W['currency_symbol']}{$good['goods_price']}
+										{$_W['currency_symbol']}{php echo exchange($good['goods_price']);}
 									</div>
 								</div>
 							{/loop}
@@ -114,7 +114,7 @@
 										<div class="col-60">
 											{$extra_fee['name']}
 										</div>
-										<div class="col-40 text-right">{$_W['currency_symbol']}{$extra_fee['fee']}</div>
+										<div class="col-40 text-right">{$_W['currency_symbol']}{php echo exchange($extra_fee['fee']);}</div>
 									</div>
 								{/loop}
 							{/if}
@@ -123,21 +123,21 @@
 							{if $order['box_price'] > 0}
 								<div class="row no-gutter">
 									<div class="col-80">{php echo language('餐盒费');}</div>
-									<div class="col-20 text-right color-black">{$_W['currency_symbol']}{$order['box_price']}</div>
+									<div class="col-20 text-right color-black">{$_W['currency_symbol']}{php echo exchange($order['box_price']);}</div>
 								</div>
 							{/if}
 							<div class="row no-gutter">
 								<div class="col-80">{php echo language('包装费');}</div>
-								<div class="col-20 text-right color-black">{$_W['currency_symbol']}{$order['pack_fee']}</div>
+								<div class="col-20 text-right color-black">{$_W['currency_symbol']}{php echo exchange($order['pack_fee']);}</div>
 							</div>
 							<div class="row no-gutter">
 								<div class="col-80">{php echo language('配送费');}</div>
-								<div class="col-20 text-right color-black">{$_W['currency_symbol']}{$order['delivery_fee']}</div>
+								<div class="col-20 text-right color-black">{$_W['currency_symbol']}{php echo exchange($order['delivery_fee']);}</div>
 							</div>
 							{if $order['order_type'] == 3}
 								<div class="row no-gutter">
 									<div class="col-80">{php echo language('服务费');}</div>
-									<div class="col-20 text-right color-black">{$_W['currency_symbol']}{$order['serve_fee']}</div>
+									<div class="col-20 text-right color-black">{$_W['currency_symbol']}{php echo exchange($order['serve_fee']);}</div>
 								</div>
 							{/if}
 						</div>
@@ -156,9 +156,9 @@
 						{/if}
 						<div class="inner-con">
 							<div class="row no-gutter">
-								<div class="col-60 color-muted">{php echo language('订单');} <span class="color-black">{$_W['currency_symbol']}{$order['total_fee']}</span> - {php echo language('优惠');}<span class="color-black">{$_W['currency_symbol']}{$order['discount_fee']}</span></div>
+								<div class="col-60 color-muted">{php echo language('订单');} <span class="color-black">{$_W['currency_symbol']}{php echo exchange($order['total_fee']);}</span> - {php echo language('优惠');}<span class="color-black">{$_W['currency_symbol']}{php echo exchange($order['discount_fee']);}</span></div>
 								<div class="col-20 text-right color-muted">{php echo language('总计');}</div>
-								<div class="col-20 text-right color-black">{$_W['currency_symbol']}{$order['final_fee']}</div>
+								<div class="col-20 text-right color-black">{$_W['currency_symbol']}{php echo exchange($order['final_fee']);}</div>
 							</div>
 						</div>
 					</div>
@@ -321,7 +321,7 @@
 			<div id="order-refund" class="tab">
 				<div class="refund-detail">
 					<div class="row no-gutter refund-de-title">
-						<div class="col-60">{php echo language('退款金额');}<span class="color-danger">¥{$refund['fee']}</span></div>
+						<div class="col-60">{php echo language('退款金额');}<span class="color-danger">{$_W['currency_symbol']}{php echo exchange($refund['fee']);}</span></div>
 						<div class="col-40"><span>{$refund['status_cn']}</span></div>
 					</div>
 					<div class="refund-detail-con">
