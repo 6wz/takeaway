@@ -366,7 +366,6 @@
 require(['tiny'], function(tiny){
 
 	rate = "{$_W['currency_rate']}" ;
-
 	$('.content').on("scroll", function(){
 		$('.content').scrollTop() >= 100 ? $('.fiexd-searchbar').show() : $('.fiexd-searchbar').hide();
 		$('.content').scrollTop() >= 800 ? $('.fixed-select-tab').css('display', '-webkit-box') : $('.fixed-select-tab').css('display',' none');
@@ -426,12 +425,12 @@ require(['tiny'], function(tiny){
 		$.post("{php echo imurl('wmall/home/index/data')}", params, function(data){
 			var result = $.parseJSON(data);
 			for(var i in result.message.message.stores){
-				result.message.message.stores[i]['send_price'] = result.message.message.stores[i]['send_price'] * rate ;
-				result.message.message.stores[i]['delivery_price'] = result.message.message.stores[i]['delivery_price'] * rate ;
+				result.message.message.stores[i]['send_price'] = (result.message.message.stores[i]['send_price'] * rate).toFixed(2)  ;
+				result.message.message.stores[i]['delivery_price'] = (result.message.message.stores[i]['delivery_price'] * rate).toFixed(2)  ;
 			}
 
 			for(var j in result.message.message.bargains){
-				result.message.message.bargains[j]['price'] = result.message.message.bargains[j]['price'] * rate ;
+				result.message.message.bargains[j]['price'] = (result.message.message.bargains[j]['price'] * rate).toFixed(2)  ;
 			}
 
 			if(result.message.error != 0) {

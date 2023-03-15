@@ -19,7 +19,7 @@
 			</span>
 				{php echo language('共');}<span class="sum">{$_W['currency_symbol']}<span id="totalPrice">0</span>元</span>
 			</div>
-			<div class="right text-center bg-grey">{php echo language('还差');}{$_W['currency_symbol']}<span id="sendCondition">{$category['limit_price']}</span>{php echo language('起送');}</div>
+			<div class="right text-center bg-grey">{php echo language('还差');}{$_W['currency_symbol']}<span id="sendCondition">{php echo exchange($category['limit_price']);}</span>{php echo language('起送');}</div>
 			<div class="right text-center bg-danger hide" id="btnSubmit">{php echo language('选好了');}</div>
 		</div>
 	</nav>
@@ -76,7 +76,7 @@
 			<div class="coupon-show-container">
 				<div class="coupon-show">
 					<div class="coupon-sum">
-						<span>{$_W['currency_symbol']}</span>{$token_price}
+						<span>{$_W['currency_symbol']}</span>{php echo exchange($token_price);}
 					</div>
 					<div class="division">
 						<img src="{WE7_WMALL_TPL_URL}static/img/division.png" alt="" />
@@ -124,7 +124,7 @@
 													{/if}
 													<div class="sell-info">{php echo language('已售');}{$ds['sailed']}{$ds['unitname']}&nbsp;&nbsp; {php echo language('好评');}{$ds['comment_good']}</div>
 													<div class="price">
-														<span class="fee">{$_W['currency_symbol']}{$ds['discount_price']}</span>
+														<span class="fee">{$_W['currency_symbol']}{php echo exchange($ds['discount_price']);}</span>
 													</div>
 												</div>
 											</div>

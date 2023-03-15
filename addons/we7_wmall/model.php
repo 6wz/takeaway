@@ -1963,8 +1963,8 @@ function exchange($value = 0 , $force_currency = ''){
         if($currency == 'CNY') {
             return $value ;
         }else{
-            $config = $_W["we7_wmall"]["config"]['currency_info'] ;
-            $rate = !empty($config['rate']) ? 1 : $config['rate'];
+            $config = $_W["we7_wmall"]["config"]["mall"] ;
+            $rate = !empty($config['currency_rate']) ? 1 : $config['currency_rate'];
             $value = round($value * $rate , 2) ;
         }
     }

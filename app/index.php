@@ -47,8 +47,8 @@ if(!isset($_COOKIE['language'])){
 }
 //设置货币单位
 if(!isset($_COOKIE['currency'])){
-    setcookie('currency' , 'CNY') ;
-    $_W['currency'] = 'CNY' ;
+    setcookie('currency' , 'THB') ;
+    $_W['currency'] = 'THB' ;
 }else{
     $_W['currency']  = $_COOKIE['currency'] ;
 }

@@ -219,6 +219,7 @@
 <script type="text/javascript" src="//webapi.amap.com/maps?v=1.4.1&key=550a3bf0cb6d96c3b43d330fb7d86950"></script>
 <script>
 $(function(){
+	rate = "{$_W['currency_rate']}" ;
 	$(document).on('click', '.swiper-slide, .discount-item', function(){
 		var url = $(this).data('link');
 		if(!url) {
@@ -283,6 +284,11 @@ $(function(){
 					$.toast(result.message.message);
 					return false;
 				}
+				for(var i in result.message.message.stores){
+					result.message.message.stores[i]['send_price'] = (result.message.message.stores[i]['send_price'] * rate).toFixed(2) ;
+					result.message.message.stores[i]['delivery_price'] = (result.message.message.stores[i]['delivery_price'] * rate).toFixed(2) ;
+				}
+
 				require(['laytpl', 'tiny', 'jquery.lazyload'], function(laytpl, tiny){
 					var tplHome = $('#tpl-search').html();
 					laytpl(tplHome).render(result.message.message, function(html){

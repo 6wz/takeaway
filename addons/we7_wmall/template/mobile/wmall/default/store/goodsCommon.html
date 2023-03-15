@@ -314,6 +314,8 @@
 <script>
 $.modal.prototype.defaults.closePrevious = false;
 require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
+
+	rate = "{$_W['currency_rate']}" ;
 	member.initFavorite();
 	var categorys_limit_status = {$categorys_limit_status};
 	var categorys_limit = {php echo json_encode($categorys_limit);};
@@ -344,7 +346,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 				$.toast(result.message.message);
 				return false;
 			} else {
-				var send_price = "{$store['send_price']}";
+				var send_price = "{php echo exchange($store['send_price']);}";
 				cart_new = {};
 				bargain_goods= {};
 				categorys_limit = categorys_limit_temp;
@@ -563,7 +565,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 		$(this).addClass('selected');
 
 		var option_id = getOptionid(item, $(this));
-		var price = item['options_data'][option_id]['price'];
+		var price = (item['options_data'][option_id]['price']*rate).toFixed(2);
 		$('.goods-option .no-gutter .price').html("{$_W['currency_symbol']}" + price);
 
 		var num = goodsNum(goods_id, option_id);
@@ -597,7 +599,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 		}
 		var from_goods_cart = $(this).hasClass('from-goods-cart');
 		if(from_goods_cart) {
-			var price = cart_new[goods_id]['options'][option_id]['price_total'];
+			var price = (cart_new[goods_id]['options'][option_id]['price_total']*rate).toFixed(2);
 			$('#shop-cart-list-item-' + goods_id + '-' + option_id + ' .goods-price').html("{$_W['currency_symbol']}" + price);
 		}
 		if(flag) {
@@ -644,7 +646,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 		$('#goods-' + goods_id + ' .minus .num').text(curNum);
 		var from_goods_cart = $(this).hasClass('from-goods-cart');
 		if(from_goods_cart) {
-			var price = cart_new[goods_id]['options'][option_id]['price_total'];
+			var price = (cart_new[goods_id]['options'][option_id]['price_total']*rate).toFixed(2);
 			$('#shop-cart-list-item-' + goods_id + '-' + option_id + ' .goods-price').html("{$_W['currency_symbol']}" + price);
 		}
 		var num = goodsNum(goods_id, option_id);
@@ -678,12 +680,12 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 			var curNum = cart_item['options'][option_id]['num'];
 		}
 		var price = goods_item['price'];
-		var original_price = goods_item['price'];
-		var discount_price = goods_item['discount_price'];
+		var original_price = (goods_item['price']*rate).toFixed(2);
+		var discount_price = (goods_item['discount_price']*rate).toFixed(2);
 		if(goods_option_id != 0) {
-			price = goods_item['options'][goods_option_id]['price'];
-			original_price = goods_item['options'][goods_option_id]['price'];
-			discount_price = goods_item['options'][goods_option_id]['discount_price'];
+			price = (goods_item['options'][goods_option_id]['price']*rate).toFixed(2);
+			original_price = (goods_item['options'][goods_option_id]['price']*rate).toFixed(2);
+			discount_price = (goods_item['options'][goods_option_id]['discount_price']*rate).toFixed(2);
 		}
 		var price_change = 0;
 		if(sign == '+') {
@@ -841,7 +843,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 			}
 			curNum = option['num'];
 		}
-		var goods_box_price = parseFloat(goods_item['box_price']);
+		var goods_box_price = parseFloat(goods_item['box_price']*rate).toFixed(2);
 		if(goods_box_price > 0) {
 			var box_price_item = cart_new['88888'];
 			if(!box_price_item) {
@@ -870,7 +872,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 		}
 		var params = {
 			price: price,
-			box_price: goods_item['box_price'] ? goods_item['box_price']: 0,
+			box_price: goods_item['box_price'] ? (goods_item['box_price']*rate).toFixed(2) : 0,
 			cid: goods_item['cid']
 		};
 
@@ -946,10 +948,10 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 			$cartNum = $('#cartNum'),
 			$cartEmpty = $('#cartEmpty'),
 			$cartNotEmpty = $('#cartNotEmpty'),
-			sendCondition = parseFloat($condition.text()).toFixed(3),
+			sendCondition = parseFloat($condition.text()*rate).toFixed(3),
 			totalPrice = parseFloat($total.text()) || 0,
-			disPrice = parseFloat(sign + 1) * parseFloat(goods['price']),
-			boxPrice = parseFloat(sign + 1) * parseFloat(goods['box_price']),
+			disPrice = parseFloat(sign + 1) * parseFloat(goods['price']*rate),
+			boxPrice = parseFloat(sign + 1) * parseFloat(goods['box_price']*rate),
 			price = totalPrice + disPrice + boxPrice,
 			price = parseFloat(price.toFixed(3)),
 			number = $cartNum.text() == '' ? 0 : parseInt($cartNum.text()),

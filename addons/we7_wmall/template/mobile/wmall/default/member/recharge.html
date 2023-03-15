@@ -51,14 +51,14 @@ $(function() {
 			$('#inputpay').removeClass('hide').focus();
 			recharge = $('#inputpay').val() ? $('#inputpay').val() : 0;
 		};
-		$('.pay-num').html("{$_W['currency_symbol']}" + (recharge*rate) );
-		$('.pay-num').attr('data-charge', recharge);
+		$('.pay-num').html("{$_W['currency_symbol']}" + (recharge*rate).toFixed(2) );
+		$('.pay-num').attr('data-charge',recharge);
 	});
 
 	$('#inputpay').bind('input propertchange', function() {
 		$('.recharge-item').removeClass('selected');
 		var recharge = $('#inputpay').val();
-		$('.pay-num').text("{$_W['currency_symbol']}" + (recharge*rate) );
+		$('.pay-num').text("{$_W['currency_symbol']}" + (recharge*rate).toFixed(2) );
 		$('.pay-num').attr('data-charge', recharge);
 	});
 

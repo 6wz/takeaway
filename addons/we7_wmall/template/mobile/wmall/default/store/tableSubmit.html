@@ -8,11 +8,11 @@
 		<div class="left open-popup open-shop-cart" data-popup=".popup-shop-cart">
 			<span class="pull-left">
 				{php echo language('已优惠');}
-				<span>{$_W['currency_symbol']}{$activityed['total']}</span>
+				<span>{$_W['currency_symbol']}{php echo exchange($activityed['total']);}</span>
 			</span>
 			<span class="pull-right">
 				{php echo language('还需付');}
-				<span class="sum">{$_W['currency_symbol']}<span class="wait-price">{$waitprice}</span></span>
+				<span class="sum">{$_W['currency_symbol']}<span class="wait-price">{php echo exchange($waitprice);}</span></span>
 			</span>
 		</div>
 		<div class="right text-center bg-danger" id="order-submit">{php echo language('确认下单');}</div>
@@ -137,7 +137,7 @@
 									<div class="row no-gutter">
 										<div class="col-60">{$val1['title']}</div>
 										<div class="col-20 text-right color-muted">×{$val1['num']}</div>
-										<div class="col-20 text-right color-black">{$_W['currency_symbol']}{$val1['price']}</div>
+										<div class="col-20 text-right color-black">{$_W['currency_symbol']}{php echo exchange($val1['price'])}</div>
 									</div>
 								{/loop}
 							{/loop}
@@ -148,7 +148,7 @@
 							<div class="inner-con border-1px-b">
 								<div class="row no-gutter">
 									<div class="col-80">{php echo language('服务费');}</div>
-									<div class="col-20 text-right color-black">{$_W['currency_symbol']}{$serve_fee}</div>
+									<div class="col-20 text-right color-black">{$_W['currency_symbol']}{php echo exchange($serve_fee);}</div>
 								</div>
 							</div>
 						</li>
@@ -168,9 +168,9 @@
 					<li class="order-list">
 						<div class="inner-con border-1px-b">
 							<div class="row no-gutter">
-								<div class="col-60 color-muted">{php echo language('订单');} <span class="color-black">{$_W['currency_symbol']}{$cart['price']}</span> - {php echo language('优惠');}<span class="color-black">{$_W['currency_symbol']}{$activityed['total']}</span></div>
+								<div class="col-60 color-muted">{php echo language('订单');} <span class="color-black">{$_W['currency_symbol']}{php echo exchange($cart['price']);}</span> - {php echo language('优惠');}<span class="color-black">{$_W['currency_symbol']}{php echo exchange($activityed['total']);}</span></div>
 								<div class="col-20 text-right color-muted">{php echo language('总计');}</div>
-								<div class="col-20 text-right color-black">{$_W['currency_symbol']}<span class="wait-price">{$waitprice}</span></div>
+								<div class="col-20 text-right color-black">{$_W['currency_symbol']}<span class="wait-price">{php echo exchange($waitprice);}</span></div>
 							</div>
 						</div>
 					</li>
@@ -220,8 +220,8 @@
 							<div class="item-inner">
 								<div class="row no-gutter">
 									<div class="col-40 text-center">
-										<div class="price"><span>{$_W['currency_symbol']}</span>{$coupon['discount']}</div>
-										<div class="condition">{php echo language('满{price}元可用' , ['price'=>$coupon['condition']]) ; } </div>
+										<div class="price"><span>{$_W['currency_symbol']}</span>{php echo exchange($coupon['discount']);}</div>
+										<div class="condition">{php echo language('满{price}元可用' , ['price'=>exchange($coupon['condition'])]) ; } </div>
 									</div>
 									<div class="col-60">
 										<div class="store-title">{$coupon['title']}</div>

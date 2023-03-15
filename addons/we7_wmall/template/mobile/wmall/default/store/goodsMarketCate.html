@@ -19,7 +19,7 @@
 				{php echo language('共');}<span class="sum">{$_W['currency_symbol']}<span id="totalPrice">0</span></span>
 			</div>
 			<div class="right text-center bg-grey" id="categoryCondition">{php echo language('还差');}{$_W['currency_symbol']}0 {php echo language('起送');}</div>
-			<div class="right text-center bg-grey">{php echo language('还差');}{$_W['currency_symbol']}<span id="sendCondition">{$store['send_price']}</span>{php echo language('起送');}</div>
+			<div class="right text-center bg-grey">{php echo language('还差');}{$_W['currency_symbol']}<span id="sendCondition">{php echo exchange($store['send_price']);}</span>{php echo language('起送');}</div>
 			{if !$store['is_in_business_hours']}
 				<div class="right text-center bg-grey hide" id="btnSubmit">{php echo language('休息中');}</div>
 			{else}
@@ -73,9 +73,9 @@
 						<div class="goods-title">{$ds['title']}</div>
 						<div class="sales">{php echo language('月售');}{$ds['sailed']}{$ds['unitname']}</div>
 						<div class="price">
-						<span class="fee"><span>{$_W['currency_symbol']}</span>{$ds['discount_price']}</span><span>{$ds['unitname_cn']}</span>
+						<span class="fee"><span>{$_W['currency_symbol']}</span>{php echo exchange($ds['discount_price']);}</span><span>{$ds['unitname_cn']}</span>
 							{if !empty($ds['bargain_id'])}
-								<span class="original-fee">{$_W['currency_symbol']}{$ds['price']}</span>
+								<span class="original-fee">{$_W['currency_symbol']}{php echo exchange($ds['price']);}</span>
 							{/if}
 						</div>
 					</a>

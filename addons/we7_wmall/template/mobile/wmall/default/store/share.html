@@ -18,8 +18,8 @@
 						<span class="customer-score">&nbsp;{$store['score']}</span>
 					</div>
 					<div class="delivery-info">
-						{php echo language('起送价');}{$_W['currency_symbol']}{$store['send_price']}
-						&nbsp;&nbsp;|&nbsp;&nbsp;{php echo language('配送费');}{$_W['currency_symbol']}{$store['delivery_price']}
+						{php echo language('起送价');}{$_W['currency_symbol']}{php echo exchange($store['send_price']);}
+						&nbsp;&nbsp;|&nbsp;&nbsp;{php echo language('配送费');}{$_W['currency_symbol']}{php echo exchange($store['delivery_price']);}
 						&nbsp;&nbsp;|&nbsp;&nbsp;{$store['delivery_time']}{php echo language('分钟');}
 					</div>
 				</div>
@@ -69,7 +69,7 @@
 										</div>
 										<span class="seller-item-name">{$hot['title']}</span>
 										<span class="seller-item-sale">{php echo language('已售');}{$hot['sailed']}</span>
-										<div class="seller-item-price">{$_W['currency_symbol']}<span class="price">{$hot['price']}</span></div>
+										<div class="seller-item-price">{$_W['currency_symbol']}<span class="price">{php echo exchange($hot['price']);}</span></div>
 									</a>
 								</li>
 							{/loop}

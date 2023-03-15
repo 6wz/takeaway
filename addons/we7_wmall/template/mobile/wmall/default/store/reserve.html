@@ -42,7 +42,7 @@
 			{loop $categorys $category}
 				<section>
 					<h5>{$category['title']}</h5>
-					<p>{php echo language('最低消费');} {$_W['currency_symbol']}{$category['reservation_price']}</p>
+					<p>{php echo language('最低消费');} {$_W['currency_symbol']}{php echo exchange($category['reservation_price']);}</p>
 					<ul>
 						{loop $reserves[$category['id']] $row}
 							<li class="border-red time-point {if strtotime($row) < time()}time-disabled{/if}" data-value="{$row}" data-cid="{$category['id']}" data-flag="{if strtotime($row) < time()}0{else}1{/if}">

@@ -87,25 +87,18 @@ if( $_W["is_agent"] )
 }
 
 $_W["we7_wmall"]["config"] = get_system_config();
-
-if(empty($_W["we7_wmall"]["config"]['currency_info']) || $_W["we7_wmall"]["config"]['currency_info']['expire_time'] < time() ) {
-    //TODO 暂时写死 ， 获取汇率
-    $_currency_info = ['rate'=> 100 , 'expire_time'=> time() + 3600] ;
-    set_system_config('currency_info' , $_currency_info) ;
-    $_W["we7_wmall"]["config"]['currency_info'] = $_currency_info ;
-}
-if($_W['currency'] == 'CNY') {
-    $_W["currency_rate"] = 1 ;
-}else{
-    $_W["currency_rate"] = $_W["we7_wmall"]["config"]['currency_info']['rate'] ;
-}
-
 $_W["we7_wmall"]["config"]["mall"]["address_type"] = 0;
 $_config_mall = $_W["we7_wmall"]["config"]["mall"];
 if( empty($_config_mall["delivery_title"]) ) 
 {
     $_config_mall["delivery_title"] = language("平台专送");
 }
+if($_W['currency'] == 'CNY') {
+    $_W["currency_rate"] = 1;
+}else{
+    $_W["currency_rate"] = $_config_mall['currency_rate'] ;
+}
+
 
 $mobile_template = $_config_mall["template_mobile"];
 if( empty($mobile_template) || $mobile_template == "template" ) 

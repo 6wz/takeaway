@@ -20,7 +20,7 @@
 				{php echo language('共');}<span class="sum">{$_W['currency_symbol']}<span id="totalPrice">0</span></span>
 			</div>
 			<div class="right text-center bg-grey" id="categoryCondition">{php echo language('还差');}{$_W['currency_symbol']}0{php echo language('起送');}</div>
-			<div class="right text-center bg-grey">{php echo language('还差');}{$_W['currency_symbol']}<span id="sendCondition">{$store['send_price']}</span>{php echo language('起送');}</div>
+			<div class="right text-center bg-grey">{php echo language('还差');}{$_W['currency_symbol']}<span id="sendCondition">{php echo exchange($store['send_price']);}</span>{php echo language('起送');}</div>
 			<div class="right text-center bg-danger hide" id="btnSubmit">{php echo language('选好了');}</div>
 		</div>
 	</nav>
@@ -88,7 +88,7 @@
 				<div class="coupon-show-container">
 					<div class="coupon-show">
 						<div class="coupon-sum">
-							<span>{$_W['currency_symbol']}</span>{$token_price}
+							<span>{$_W['currency_symbol']}</span>{php echo exchange($token_price);}
 						</div>
 						<div class="division">
 							<img src="{WE7_WMALL_TPL_URL}static/img/division.png" alt="" />
@@ -115,7 +115,7 @@
 					{loop $categorys $cate_row}
 						{if !empty($cate_goods[$cate_row['id']])}
 						<div class="children-category-wrapper">
-							<div class="heading"><span>{$cate_row['title']}</span> {if $cate_row['min_fee'] > 0}<small>{php echo language('最低消费');}{$_W['currency_symbol']}{$cate_row['min_fee']}</small>{/if}</div>
+							<div class="heading"><span>{$cate_row['title']}</span> {if $cate_row['min_fee'] > 0}<small>{php echo language('最低消费');}{$_W['currency_symbol']}{php echo exchange($cate_row['min_fee']);}</small>{/if}</div>
 							<ul class="list-block media-list goods-new-index">
 								{loop $cate_goods[$cate_row['id']] $ds}
 									<li id="goods-{$ds['id']}" {if $_GPC['goods_id'] == $ds['id']}class="active"{/if}>
@@ -131,9 +131,9 @@
 												<div class="item-subtitle">{$ds['title']}</div>
 												<div class="item-text">{$ds['content']}</div>
 												<div class="price">
-													<span class="fee"><span>{$_W['currency_symbol']}</span>{$ds['discount_price']}</span>
+													<span class="fee"><span>{$_W['currency_symbol']}</span>{php echo exchange($ds['discount_price']);}</span>
 													{if !empty($ds['bargain_id'])}
-														<span class="original-fee">{$_W['currency_symbol']}{$ds['price']}</span>
+														<span class="original-fee">{$_W['currency_symbol']}{php echo exchange($ds['price']);}</span>
 													{/if}
 												</div>
 												{if !empty($ds['discount'])}
