@@ -9,7 +9,7 @@
 				</span>
 				{php echo language('购物车是空的');}
 			</div>
-			<div class="right text-center bg-grey">{php echo language('起送价');} {$store['send_price']}</div>
+			<div class="right text-center bg-grey">{php echo language('起送价');} {php echo exchange($store['send_price'])}</div>
 		</div>
 		<div class="hide" id="cartNotEmpty">
 			<div class="left">

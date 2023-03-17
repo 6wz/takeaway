@@ -513,6 +513,10 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 				$.toast(result.message.message);
 			} else {
 				var goods = result.message.message;
+				goods.box_price = (goods.box_price*rate).toFixed(2) ;
+				goods.price = (goods.price*rate).toFixed(2) ;
+				goods.svip_price = (goods.svip_price*rate).toFixed(2) ;
+				goods.ts_price = (goods.ts_price*rate).toFixed(2) ;
 				if(goods['is_options'] == 1 || goods['is_attrs'] == 1) {
 					goods['num'] = goodsNum(id, goods['option_id']);
 				} else {
@@ -576,6 +580,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 	});
 
 	$(document).on('click', '.icon-plus', function(){
+
 		$("#beep-one")[0].play();
 		var goods_id = $(this).data('goods-id');
 		var item = goods[goods_id];
@@ -670,6 +675,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 
 	var goodsCartNew = function(goods_id, option_id, sign) {
 		var goods_item = goods[goods_id];
+
 		if(!goods_item) {
 			return false;
 		}
@@ -679,7 +685,7 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 		if(cart_item && cart_item['options'] && cart_item['options'][option_id]) {
 			var curNum = cart_item['options'][option_id]['num'];
 		}
-		var price = goods_item['price'];
+		var price = (goods_item['price']*rate).toFixed(2);
 		var original_price = (goods_item['price']*rate).toFixed(2);
 		var discount_price = (goods_item['discount_price']*rate).toFixed(2);
 		if(goods_option_id != 0) {
@@ -948,10 +954,10 @@ require(['laytpl', 'member', 'jquery.fly'], function(laytpl, member){
 			$cartNum = $('#cartNum'),
 			$cartEmpty = $('#cartEmpty'),
 			$cartNotEmpty = $('#cartNotEmpty'),
-			sendCondition = parseFloat($condition.text()*rate).toFixed(3),
+			sendCondition = parseFloat($condition.text()).toFixed(3),
 			totalPrice = parseFloat($total.text()) || 0,
-			disPrice = parseFloat(sign + 1) * parseFloat(goods['price']*rate),
-			boxPrice = parseFloat(sign + 1) * parseFloat(goods['box_price']*rate),
+			disPrice = parseFloat(sign + 1) * parseFloat(goods['price']),
+			boxPrice = parseFloat(sign + 1) * parseFloat(goods['box_price']),
 			price = totalPrice + disPrice + boxPrice,
 			price = parseFloat(price.toFixed(3)),
 			number = $cartNum.text() == '' ? 0 : parseInt($cartNum.text()),

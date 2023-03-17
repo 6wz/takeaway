@@ -250,7 +250,7 @@ else
             {
                 if( $_W["member"]["credit2"] < $ps["fee"] ) 
                 {
-                    imessage("余额不足以支付, 需要 " . $ps["fee"] . ", 当前 " . $_W["member"]["credit2"] . " 元", referer(), "error");
+                    imessage(language('余额不足以支付, 需要 {fee}, 当前 {cash}' ,['fee'=>exchange($ps["fee"]) , 'cash'=>exchange($_W["member"]["credit2"])] ), referer(), "error");
                 }
 
                 $fee = floatval($ps["fee"]);

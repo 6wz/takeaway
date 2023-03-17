@@ -218,7 +218,7 @@ if( $ta == "index" )
 
     $recordid = intval($_GPC["recordid"]);
     $redPacket_id = intval($_GPC["redPacket_id"]);
-    $activityed = order_count_activity($sid, $cart, $recordid, $redPacket_id, $delivery_price, $delivery_free_price);
+    $activityed = order_count_activity($sid, $cart, $recordid, $redPacket_id, $delivery_price, $delivery_free_price,'' , 1);
     if( !empty($activityed["list"]["token"]) )
     {
         $coupon_text =language("{money}元券" , ['money'=>(string) $activityed["list"]["token"]["value"]]);
@@ -226,7 +226,7 @@ if( $ta == "index" )
 
     if( !empty($activityed["list"]["redPacket"]) )
     {
-        $redPacket_text = "-￥" . $activityed["list"]["redPacket"]["value"];
+        $redPacket_text = "-" .$_W['currency_symbol'] . $activityed["list"]["redPacket"]["value"];
         $redPacket = $activityed["redPacket"];
     }
 

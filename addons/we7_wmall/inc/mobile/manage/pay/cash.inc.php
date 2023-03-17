@@ -130,7 +130,7 @@ if( !empty($pay_type) )
                 {
                     if( $_W["we7_wmall"]["store"]["account"]["amount"] < $ps["fee"] ) 
                     {
-                        imessage("余额不足以支付, 需要 " . $ps["fee"] . ", 当前 " . $_W["store"]["account"]["amount"] . " 元", referer(), "error");
+                        imessage("余额不足以支付, 需要 " . exchange($ps["fee"]) . ", 当前 " . exchange($_W["store"]["account"]["amount"]) . " 元", referer(), "error");
                     }
 
                     $fee = floatval($ps["fee"]);

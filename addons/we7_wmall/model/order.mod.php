@@ -2195,7 +2195,7 @@ function order_amount_stat($sid) {
 	return $stat;
 }
 
-function order_count_activity($sid, $cart, $recordid = 0, $redPacket_id = 0, $delivery_price = 0, $delivery_free_price = 0, $order_type = '') {
+function order_count_activity($sid, $cart, $recordid = 0, $redPacket_id = 0, $delivery_price = 0, $delivery_free_price = 0, $order_type = '' ,$exchangeTips = 0) {
 	global $_W, $_GPC;
 	$activityed = array('list' => '', 'total' => 0, 'activity' => 0, 'token' => 0, 'store_discount_fee' => 0, 'agent_discount_fee' => 0, 'plateform_discount_fee' => 0);
 	$store = store_fetch($sid, array('delivery_mode', 'delivery_fee_mode', 'delivery_extra', 'delivery_free_price', 'cid'));
@@ -2232,16 +2232,30 @@ function order_count_activity($sid, $cart, $recordid = 0, $redPacket_id = 0, $de
 					}
 				}
 			}
-			$activityed['list']['delivery'] = array(
-				'text' => "-￥{$delivery_price}",
-				'value' => $delivery_price,
-				'type' => 'delivery',
-				'name' => "满{$store['delivery_free_price']}元免配送费",
-				'icon' => 'mian_b.png',
-				'plateform_discount_fee' => $plateform_discount_fee,
-				'store_discount_fee' => $store_discount_fee,
-				'agent_discount_fee' => $agent_discount_fee
-			);
+			if($exchangeTips == 1){
+                $activityed['list']['delivery'] = array(
+                    'text' => "-".$_W['currency_symbol'] . exchange($delivery_price),
+                    'value' => $delivery_price,
+                    'type' => 'delivery',
+                    'name' => language('满{delivery_free_price}免配送费' , ['delivery_free_price'=>exchange($store['delivery_free_price'])]) ,
+                    'icon' => 'mian_b.png',
+                    'plateform_discount_fee' => exchange($plateform_discount_fee),
+                    'store_discount_fee' => exchange($store_discount_fee),
+                    'agent_discount_fee' => exchange($agent_discount_fee)
+                );
+            }else{
+                $activityed['list']['delivery'] = array(
+                    'text' => "-￥{$delivery_price}",
+                    'value' => $delivery_price,
+                    'type' => 'delivery',
+                    'name' => "满{$store['delivery_free_price']}元免配送费",
+                    'icon' => 'mian_b.png',
+                    'plateform_discount_fee' => $plateform_discount_fee,
+                    'store_discount_fee' => $store_discount_fee,
+                    'agent_discount_fee' => $agent_discount_fee
+                );
+            }
+
 			$activityed['total'] += $delivery_price;
 			$activityed['activity'] += $delivery_price;
 			$activityed['store_discount_fee'] += $store_discount_fee;
