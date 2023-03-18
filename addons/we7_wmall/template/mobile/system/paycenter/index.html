@@ -2,7 +2,7 @@
 <div class="page page-paycenter">
 	<header class="bar bar-nav">
 		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
-		<h1 class="title">支付订单</h1>
+		<h1 class="title">{php echo language('支付订单');}</h1>
 	</header>
 	<div class="content">
 		{if !empty($slides)}
@@ -19,7 +19,7 @@
 		{/if}
 		{if $params['pay_endtime'] > 0}
 			<div class="remaining-time border-1px-t">
-				<div>支付剩余时间</div>
+				<div>{php echo language('支付剩余时间');}</div>
 				<div class="in-clock">
 					<span class="in-num" id="minute_0">-</span>
 					<span class="in-num" id="minute_1">-</span>
@@ -34,11 +34,11 @@
 				<img src="{php echo tomedia($logo);}" alt="">
 			</div>
 			<div class="col-70">
-				<div class="cell-ellipsis"><span class="in-order-fee in-bottom-line">¥{$params['fee']}</span></div>
+				<div class="cell-ellipsis"><span class="in-order-fee in-bottom-line">{$_W['currency_symbol']}{php echo exchange($params['fee']);}  </span></div>
 				<div class="cell-ellipsis"><span class="in-order-title in-bottom-line">{$title}</span></div>
 			</div>
 		</div>
-		<div class="content-block-title">选择支付方式</div>
+		<div class="content-block-title">{php echo language('选择支付方式');}</div>
 		<div class="list-block media-list in-pay-type border-1px-t">
 			<ul>
 				{if in_array('wechat', $payment)}
@@ -100,7 +100,7 @@
 							</div>
 							<div class="item-inner">
 								<div class="item-title-row"><div class="item-title">余额支付</div></div>
-								<div class="item-subtitle">当前账户余额: <span class="money">￥{php echo sprintf('%.2f', $_W['member']['credit2']);}</span></div>
+								<div class="item-subtitle">当前账户余额: <span class="money">{$_W['currency_symbol']}{php echo sprintf('%.2f', exchange($_W['member']['credit2']));}</span></div>
 							</div>
 						</a>
 					</li>
@@ -143,7 +143,7 @@
 		$('.js-wechat-pay').removeClass('disabled');
 		$('#wetitle').html('微信支付');
 	});
-	require(['tiny'], function(tiny){
+	require(['tiny' ,'language'], function(tiny , language){
 		var credit2 = parseFloat("{$_W['member']['credit2']}");
 		var fee = parseFloat("{$params['fee']}");
 		$(document).on('click', '.js-pay', function() {
@@ -153,7 +153,7 @@
 				return false;
 			}
 			if(type == 'credit' && credit2 < fee) {
-				$.toast('余额不足,请使用其他方式支付');
+				$.toast(language.translation('余额不足,请使用其他方式支付'));
 				return false;
 			}
 			$(this).find('form').submit();

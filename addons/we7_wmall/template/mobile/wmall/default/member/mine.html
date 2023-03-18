@@ -56,7 +56,7 @@
 				</div>
 				<div class="table-cell">
 					<a href="{php echo imurl('wmall/member/recharge');}">
-						<div class="count">{php echo floatval($user['credit2'])}</div>
+						<div class="count">{php echo floatval(exchange($user['credit2']))}</div>
 						<div class="">{php echo language('余额');}</div>
 					</a>
 				</div>

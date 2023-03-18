@@ -46,6 +46,7 @@ if( $type == "takeout" )
 {
     store_business_hours_init($order["sid"]);
     $store = pdo_get("tiny_wmall_store", array( "uniacid" => $_W["uniacid"], "id" => $order["sid"] ), array( "title", "logo", "is_rest" ));
+    $store = chooseLanguageData($store , ['title']) ;
     if( $store["is_rest"] == 1 ) 
     {
         imessage(array( "title" => "门店已打烊,换个店铺下单哇！", "btn_text" => "看看其他店铺" ), imurl("wmall/home/index"), "info");

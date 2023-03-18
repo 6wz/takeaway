@@ -434,7 +434,7 @@
 	<div class="modal-inner border-1px-b">
 		<div class="modal-text">
 			<img src="{WE7_WMALL_TPL_URL}static/img/wv.png" alt=""/>
-			<div class="get_repackets_nums">{php echo language('恭喜获得{num}个红包' , [ 'num'=> $superRedpacket['packet_total']  ])}</div>
+			<div class="get_repackets_nums"><?php echo language('恭喜获得{num}个红包',['num'=> $superRedpacket['packet_total']]); ?></div>
 			<div class="go-to-share">{php echo language('分享给小伙伴，大家一起抢。');}</div>
 		</div>
 	</div>
