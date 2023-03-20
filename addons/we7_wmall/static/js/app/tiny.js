@@ -78,7 +78,7 @@ define(["laytpl"], function (a) {
                             location_x: coords.latitude,
                             location_y: coords.longitude
                         })
-                       /* $.ajax({
+                       $.ajax({
                             type: "get",
                             async:false,
                             url: c.getUrl('system/common/google'),
@@ -91,7 +91,7 @@ define(["laytpl"], function (a) {
                                 console.log(error);
                             }
                         });
-                        console.log(string) ;*/
+                        console.log(string) ;
                     },
                     function (error) {
                         alert("获取地址失败");
