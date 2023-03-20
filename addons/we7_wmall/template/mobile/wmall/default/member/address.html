@@ -324,72 +324,26 @@ $(function(){
 <script type="text/javascript" src="//webapi.amap.com/maps?v=1.4.1&key=550a3bf0cb6d96c3b43d330fb7d86950"></script>
 <script>
 	$(function(){
-		var redirect_type = "{$redirect_type}";
-		var order_address_limit = {$order_address_limit};
-		var serve_radius = {$store['serve_radius']};
-		var map_config = {php echo json_encode($map);};
-		var polygons = {};
-		var map = new AMap.Map('allmap', {
-			resizeEnable: true,
-			center: [map_config.center.location_y, map_config.center.location_x],
-			zoom: 17
-		});
-		require(['tiny'], function(tiny){
-			tiny.getLocation(function(location) {
-				map.panTo([location.lng, location.lat]);
-				getPositionInfo(location.lat, location.lng);
-				$('#lat').val(location.lat);
-				$('#lng').val(location.lng);
-			}, '', function(){
-				$.toast("{php echo language('请拖动地图搜索');}");
-			});
-		});
 
-		if(order_address_limit == 4) {
-			var delivery_areas = {php echo json_encode($store['delivery_areas'])};
-			$.each(delivery_areas, function(k, v){
-				var polygon = new AMap.Polygon({
-					map: map,
-					path: v.path,
-					strokeColor: v.strokeColor, //线颜色
-					strokeOpacity: 0.2, //线透明度
-					strokeWeight: 3,    //线宽
-					fillColor: v.fillColor, //填充色
-					fillOpacity: 0.35//填充透明度
-				});
-				polygons[k] = polygon;
-			});
-		}
-
-		AMap.event.addListener(map, "dragend", function(){
-			var center = map.getCenter();
-			$('#lat').val(center.lat);
-			$('#lng').val(center.lng);
-			getPositionInfo(center.lat, center.lng);
-		});
-
+		$('#search-list').removeClass('hide');
 		$('#search').bind('input', function(){
 			var key = $.trim($(this).val());
 			if(!key) {
 				return false;
 			}
-			$('#search-list').removeClass('hide');
-			$.post("{php echo imurl('wmall/home/location/suggestion');}", {key: key, type: redirect_type}, function(data){
+
+			$.post("{php echo imurl('system/common/google');}", {key: key,ta:'google_suggestion'}, function(data){
 				var result = $.parseJSON(data);
 				if(result.message.error != -1) {
-					getAdress(result.message.message, '#search-list');
+					getAdress(result.message.message ,"#search-list");
 				}
 			});
+
 		});
 
 		$(document).on('click', '#locate-back', function() {
 			var href = $(this).data('href');
-			if(!$('#search-list').hasClass('hide')) {
-				$('#search-list').html('').addClass('hide');
-				$('#search').val('');
-			} else {
-				location.href = href;
-			}
+			location.href = href;
 		});
 
 		$(document).on('click', '.buttons-tab .button', function() {
@@ -403,7 +357,7 @@ $(function(){
 			var lng = $(this).data('lng');
 			var lat = $(this).data('lat');
 			var wait = 0;
-			if(order_address_limit > 1) {
+			/*if(order_address_limit > 1) {
 				if(order_address_limit == 2) {
 					var lnglat = new AMap.LngLat("{$store['location_y']}", "{$store['location_x']}");
 					var dist = ((lnglat.distance([lng, lat])) / 1000).toFixed(2);
@@ -431,7 +385,7 @@ $(function(){
 						wait = 1500;
 					}
 				}
-			}
+			}*/
 			var url = "{php echo imurl('wmall/member/address/post', array('id' => $_GPC['id'], 'sid' => $_GPC['sid'], 'd' => 1, 'r' => $_GPC['r'], 'redirect_type' => $_GPC['redirect_type'], 'redirect_input' => $_GPC['redirect_input'],  'recordid' => $_GPC['recordid']));}";
 			url += '&address=' + $(this).data('name') + '&lng=' + $(this).data('lng') + '&lat=' + $(this).data('lat');
 			setTimeout(function(){

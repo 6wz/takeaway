@@ -61,7 +61,7 @@
 	<{# }}>
 </script>
 
-<script type="text/javascript" src="//webapi.amap.com/maps?v=1.4.1&key=550a3bf0cb6d96c3b43d330fb7d86950"></script>
+
 <script>
 require(['tiny'], function(tiny){
 
@@ -73,17 +73,29 @@ require(['tiny'], function(tiny){
 				$('#js-lat').html(coords.latitude);
 				$('#js-lng').html(coords.longitude);
 
-				var address = '暂时写死' ;
-				$('#position').html(address);
-				var params = '&lat='+coords.latitude+'&lng='+coords.longitude+'&address='+address;
-				location.href = "{php echo imurl('wmall/home/index', array('d' => 1))}"+params;
+				$.post("{php echo imurl('system/common/google');}", {lat: coords.latitude,lng:coords.longitude, ta:'getAddressByLngLat'}, function(data){
+					var result = $.parseJSON(data);
+					if(result.message.error != -1) {
+						if(typeof(result.message.message.address)!= 'undefined') {
+							var address = result.message.message.address ;
+						}else{
+							var address = '' ;
+						}
+						$('#position').html(address);
+						var params = '&lat='+coords.latitude+'&lng='+coords.longitude+'&address='+address;
+						location.href = "{php echo imurl('wmall/home/index', array('d' => 1))}"+params;
+					}else{
+						var address = '' ;
+						$('#position').html(address);
+						var params = '&lat='+coords.latitude+'&lng='+coords.longitude+'&address='+address;
+						location.href = "{php echo imurl('wmall/home/index', array('d' => 1))}"+params;
+					}
+				});
 			},
 			function (error) {
-				alert("定位出错,请手动搜索地址");
 				$('.position-status').html("{php echo language('定位出错');}");
 			});
 		} else {
-			alert("定位出错,请手动搜索地址");
 			$('.position-status').html("{php echo language('定位出错');}");
 		}
 	}
@@ -152,7 +164,7 @@ require(['tiny'], function(tiny){
 		if(!key) {
 			return false;
 		}
-		$.post("{php echo imurl('wmall/home/location/google_suggestion');}", {key: key}, function(data){
+		$.post("{php echo imurl('system/common/google');}", {key: key,ta:'google_suggestion'}, function(data){
 			var result = $.parseJSON(data);
 			if(result.message.error != -1) {
 				getAdress(result.message.message);

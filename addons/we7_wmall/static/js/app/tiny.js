@@ -30,38 +30,15 @@ define(["laytpl"], function (a) {
             wx.getLocation({
                 type: "gcj02", success: function (d) {
                     var e = {lat: d.latitude, lng: d.longitude, location_x: d.latitude, location_y: d.longitude};
-                    $.isFunction(a) && a(e), $.isFunction(b) && $.post(c.getUrl("system/common/map/regeo"), {
-                        latitude: d.latitude,
-                        longitude: d.longitude
-                    }, function (a) {
-                        var a = $.parseJSON(a);
-                        a = a.message, a.errno || b(a.message)
+                    $.isFunction(a) && a(e), $.isFunction(b) && $.post(c.getUrl("system/common/google"), {
+                        lat: d.latitude,
+                        lng: d.longitude,
+                        ta:'getAddressByLngLat'
+                    }, function (rt) {
+                        var rt = $.parseJSON(rt);
+                        rt = rt.message, rt.errno || b(rt.message)
                     })
                 }, fail: function (c) {
-                    var e, f;
-                    e = new AMap.Map("allmap"), e.plugin("AMap.Geolocation", function () {
-                        f = new AMap.Geolocation({enableHighAccuracy: !0}), f.getCurrentPosition(), AMap.event.addListener(f, "complete", function (c) {
-                            var d = c.position, f = {lat: d.lat, lng: d.lng};
-                            a(f);
-                            var g = [d.lng, d.lat];
-                            e.plugin("AMap.Geocoder", function () {
-                                (new AMap.Geocoder).getAddress(g, function (a, c) {
-                                    if ("complete" === a && "OK" === c.info) {
-                                        var e = c.regeocode.addressComponent, f = c.regeocode.formattedAddress;
-                                        f = f.replace(e.province, ""), f = f.replace(e.district, ""), f = f.replace(e.city, ""), $.isFunction(b) && b({
-                                            address: f,
-                                            lat: d.lat,
-                                            lng: d.lng,
-                                            location_x: d.lat,
-                                            location_y: d.lng
-                                        })
-                                    }
-                                })
-                            })
-                        }), AMap.event.addListener(f, "error", function (a) {
-                            $.isFunction(d) && d()
-                        })
-                    })
                 }
             })
         }); else {
@@ -71,27 +48,15 @@ define(["laytpl"], function (a) {
                         var coords = position.coords;
                         console.log(coords) ;
                         a({ lat: coords.latitude, lng: coords.longitude});
-                        $.isFunction(b) && b({
-                            address: '暂时地址显示',
+
+                        $.post(c.getUrl("system/common/google"), {
                             lat: coords.latitude,
-                            lng: coords.longitude,
-                            location_x: coords.latitude,
-                            location_y: coords.longitude
+                            lng: coords.longitude ,
+                            ta:'getAddressByLngLat'
+                        }, function (rt) {
+                            var rt = $.parseJSON(rt);
+                            rt = rt.message, rt.errno || b(rt.message)
                         })
-                       $.ajax({
-                            type: "get",
-                            async:false,
-                            url: c.getUrl('system/common/google'),
-                            contentType: "application/json;charset=utf-8",
-                            dataType: "json",
-                            data:{'ta':'getAddressByLngLat' , 'lat':coords.latitude , 'lng':coords.longitude} ,
-                            success: function (data) {
-                                string =    data
-                            }, error: function (error) {
-                                console.log(error);
-                            }
-                        });
-                        console.log(string) ;
                     },
                     function (error) {
                         alert("获取地址失败");
@@ -99,35 +64,6 @@ define(["laytpl"], function (a) {
             } else {
                 alert("获取地址失败");
             }
-
-
-            /*var e, f;
-            链接：String url = "https://maps.googleapis.com/maps/api/geocode/json?language=en&sensor=false"
-        + "&latlng=" + latlng.latitude + "," + latlng.longitude
-        + "&key=AIzaSyCplevbKeVEhmtFNMN7ICHUuLRdhmVrZm4";
-            e = new AMap.Map("allmap"), e.plugin("AMap.Geolocation", function () {
-                f = new AMap.Geolocation({enableHighAccuracy: !0}), f.getCurrentPosition(), AMap.event.addListener(f, "complete", function (c) {
-                    var d = c.position, f = {lat: d.lat, lng: d.lng};
-                    a(f);
-                    var g = [d.lng, d.lat];
-                    e.plugin("AMap.Geocoder", function () {
-                        (new AMap.Geocoder).getAddress(g, function (a, c) {
-                            if ("complete" === a && "OK" === c.info) {
-                                var e = c.regeocode.addressComponent, f = c.regeocode.formattedAddress;
-                                f = f.replace(e.province, ""), f = f.replace(e.district, ""), f = f.replace(e.city, ""), $.isFunction(b) && b({
-                                    address: f,
-                                    lat: d.lat,
-                                    lng: d.lng,
-                                    location_x: d.lat,
-                                    location_y: d.lng
-                                })
-                            }
-                        })
-                    })
-                }), AMap.event.addListener(f, "error", function (a) {
-                    $.isFunction(d) && d()
-                })
-            })*/
         }
     }, c.image = function (a, b, d) {
         var e = {fileNum: 1, channel: "wap"}, d = $.extend({}, e, d), f = $(a);

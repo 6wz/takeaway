@@ -1,0 +1,615 @@
+{
+  "plus_code" : {
+    "compound_code" : "G4PR+CM7 中国福建省厦门市湖里区",
+    "global_code" : "7PPWG4PR+CM7"
+  },
+  "results" : [
+    {
+      "address_components" : [
+        {
+          "long_name" : "222-4",
+          "short_name" : "222-4",
+          "types" : [ "street_number" ]
+        },
+        {
+          "long_name" : "高崎南五路",
+          "short_name" : "高崎南五路",
+          "types" : [ "route" ]
+        },
+        {
+          "long_name" : "湖里区",
+          "short_name" : "湖里区",
+          "types" : [ "political", "sublocality", "sublocality_level_1" ]
+        },
+        {
+          "long_name" : "厦门市",
+          "short_name" : "厦门市",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "福建省",
+          "short_name" : "福建省",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "中国",
+          "short_name" : "CN",
+          "types" : [ "country", "political" ]
+        },
+        {
+          "long_name" : "361015",
+          "short_name" : "361015",
+          "types" : [ "postal_code" ]
+        }
+      ],
+      "formatted_address" : "中国福建省厦门市湖里区高崎南五路222-4号 邮政编码: 361015",
+      "geometry" : {
+        "location" : {
+          "lat" : 24.5359,
+          "lng" : 118.14199
+        },
+        "location_type" : "ROOFTOP",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 24.5372489802915,
+            "lng" : 118.1433389802915
+          },
+          "southwest" : {
+            "lat" : 24.53455101970849,
+            "lng" : 118.1406410197085
+          }
+        }
+      },
+      "place_id" : "ChIJZ7vPfHGQFDQRiJZ4WQQM4so",
+      "plus_code" : {
+        "compound_code" : "G4PR+9Q 中国福建省厦门市湖里区",
+        "global_code" : "7PPWG4PR+9Q"
+      },
+      "types" : [ "street_address" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "中国",
+          "short_name" : "CN",
+          "types" : [ "country", "political" ]
+        },
+        {
+          "long_name" : "湖里区",
+          "short_name" : "湖里区",
+          "types" : [ "political", "sublocality", "sublocality_level_1" ]
+        },
+        {
+          "long_name" : "厦门市",
+          "short_name" : "厦门市",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "361015",
+          "short_name" : "361015",
+          "types" : [ "postal_code" ]
+        }
+      ],
+      "formatted_address" : "中国厦门市湖里区CN 福建省 厦门市 湖里区 高崎南五路 222 222号之4航空商务广场4号楼4F405 邮政编码: 361015",
+      "geometry" : {
+        "location" : {
+          "lat" : 24.53583,
+          "lng" : 118.14184
+        },
+        "location_type" : "GEOMETRIC_CENTER",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 24.5371789802915,
+            "lng" : 118.1431889802915
+          },
+          "southwest" : {
+            "lat" : 24.53448101970849,
+            "lng" : 118.1404910197085
+          }
+        }
+      },
+      "place_id" : "ChIJnz9NY3GQFDQReDS282AmvgY",
+      "plus_code" : {
+        "compound_code" : "G4PR+8P 中国福建省厦门市湖里区",
+        "global_code" : "7PPWG4PR+8P"
+      },
+      "types" : [ "establishment", "gym", "health", "point_of_interest" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "航空商务广场４号楼",
+          "short_name" : "航空商务广场４号楼",
+          "types" : [ "premise" ]
+        },
+        {
+          "long_name" : "集美学村",
+          "short_name" : "集美学村",
+          "types" : [ "neighborhood", "political" ]
+        },
+        {
+          "long_name" : "湖里区",
+          "short_name" : "湖里区",
+          "types" : [ "political", "sublocality", "sublocality_level_1" ]
+        },
+        {
+          "long_name" : "厦门市",
+          "short_name" : "厦门市",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "福建省",
+          "short_name" : "福建省",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "中国",
+          "short_name" : "CN",
+          "types" : [ "country", "political" ]
+        },
+        {
+          "long_name" : "361015",
+          "short_name" : "361015",
+          "types" : [ "postal_code" ]
+        }
+      ],
+      "formatted_address" : "中国福建省厦门市湖里区集美学村航空商务广场４号楼 邮政编码: 361015",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 24.5361799,
+            "lng" : 118.1423309
+          },
+          "southwest" : {
+            "lat" : 24.535708,
+            "lng" : 118.141749
+          }
+        },
+        "location" : {
+          "lat" : 24.5359239,
+          "lng" : 118.1420289
+        },
+        "location_type" : "ROOFTOP",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 24.5372929302915,
+            "lng" : 118.1433889302915
+          },
+          "southwest" : {
+            "lat" : 24.5345949697085,
+            "lng" : 118.1406909697085
+          }
+        }
+      },
+      "place_id" : "ChIJAzATe3GQFDQR16i5UxdGBd8",
+      "types" : [ "premise" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "G4PR+CM",
+          "short_name" : "G4PR+CM",
+          "types" : [ "plus_code" ]
+        },
+        {
+          "long_name" : "湖里区",
+          "short_name" : "湖里区",
+          "types" : [ "political", "sublocality", "sublocality_level_1" ]
+        },
+        {
+          "long_name" : "厦门市",
+          "short_name" : "厦门市",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "福建省",
+          "short_name" : "福建省",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "中国",
+          "short_name" : "CN",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "G4PR+CM 中国福建省厦门市湖里区",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 24.536125,
+            "lng" : 118.14175
+          },
+          "southwest" : {
+            "lat" : 24.536,
+            "lng" : 118.141625
+          }
+        },
+        "location" : {
+          "lat" : 24.536026,
+          "lng" : 118.141678
+        },
+        "location_type" : "GEOMETRIC_CENTER",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 24.5374114802915,
+            "lng" : 118.1430364802915
+          },
+          "southwest" : {
+            "lat" : 24.53471351970849,
+            "lng" : 118.1403385197085
+          }
+        }
+      },
+      "place_id" : "GhIJQs77_ziJOEARAySaQBGJXUA",
+      "plus_code" : {
+        "compound_code" : "G4PR+CM 中国福建省厦门市湖里区",
+        "global_code" : "7PPWG4PR+CM"
+      },
+      "types" : [ "plus_code" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "未命名的道路",
+          "short_name" : "未命名的道路",
+          "types" : [ "route" ]
+        },
+        {
+          "long_name" : "湖里区",
+          "short_name" : "湖里区",
+          "types" : [ "political", "sublocality", "sublocality_level_1" ]
+        },
+        {
+          "long_name" : "厦门市",
+          "short_name" : "厦门市",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "福建省",
+          "short_name" : "福建省",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "中国",
+          "short_name" : "CN",
+          "types" : [ "country", "political" ]
+        },
+        {
+          "long_name" : "361015",
+          "short_name" : "361015",
+          "types" : [ "postal_code" ]
+        }
+      ],
+      "formatted_address" : "中国福建省厦门市湖里区未命名的道路 邮政编码: 361015",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 24.5361998,
+            "lng" : 118.1420736
+          },
+          "southwest" : {
+            "lat" : 24.5358168,
+            "lng" : 118.1416673
+          }
+        },
+        "location" : {
+          "lat" : 24.5359951,
+          "lng" : 118.1419132
+        },
+        "location_type" : "GEOMETRIC_CENTER",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 24.5373572802915,
+            "lng" : 118.1432194302915
+          },
+          "southwest" : {
+            "lat" : 24.5346593197085,
+            "lng" : 118.1405214697085
+          }
+        }
+      },
+      "place_id" : "ChIJLXx-fHGQFDQRkoiWBFwMQe0",
+      "types" : [ "route" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "厦门高崎国际机场T4航站楼",
+          "short_name" : "厦门高崎国际机场T4航站楼",
+          "types" : [ "airport", "establishment", "point_of_interest" ]
+        },
+        {
+          "long_name" : "高崎南八路",
+          "short_name" : "高崎南八路",
+          "types" : [ "route" ]
+        },
+        {
+          "long_name" : "湖里区",
+          "short_name" : "湖里区",
+          "types" : [ "political", "sublocality", "sublocality_level_1" ]
+        },
+        {
+          "long_name" : "厦门市",
+          "short_name" : "厦门市",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "福建省",
+          "short_name" : "福建省",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "中国",
+          "short_name" : "CN",
+          "types" : [ "country", "political" ]
+        },
+        {
+          "long_name" : "361015",
+          "short_name" : "361015",
+          "types" : [ "postal_code" ]
+        }
+      ],
+      "formatted_address" : "中国福建省厦门市湖里区高崎南八路厦门高崎国际机场T4航站楼 邮政编码: 361015",
+      "geometry" : {
+        "location" : {
+          "lat" : 24.545129,
+          "lng" : 118.147518
+        },
+        "location_type" : "GEOMETRIC_CENTER",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 24.54647798029151,
+            "lng" : 118.1488669802915
+          },
+          "southwest" : {
+            "lat" : 24.5437800197085,
+            "lng" : 118.1461690197085
+          }
+        }
+      },
+      "place_id" : "ChIJmcPnIGaQFDQRCJY5Ki3Mqus",
+      "types" : [ "airport", "establishment", "point_of_interest" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "361015",
+          "short_name" : "361015",
+          "types" : [ "postal_code" ]
+        },
+        {
+          "long_name" : "湖里区",
+          "short_name" : "湖里区",
+          "types" : [ "political", "sublocality", "sublocality_level_1" ]
+        },
+        {
+          "long_name" : "厦门市",
+          "short_name" : "厦门市",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "中国",
+          "short_name" : "CN",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "湖里区厦门市中国361015",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 24.5513519,
+            "lng" : 118.1590787
+          },
+          "southwest" : {
+            "lat" : 24.5078565,
+            "lng" : 118.1122679
+          }
+        },
+        "location" : {
+          "lat" : 24.5168799,
+          "lng" : 118.1309999
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 24.5513519,
+            "lng" : 118.1590787
+          },
+          "southwest" : {
+            "lat" : 24.5078565,
+            "lng" : 118.1122679
+          }
+        }
+      },
+      "place_id" : "ChIJNQLrYbyaFDQRIYfIWV1S7Lk",
+      "types" : [ "postal_code" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "湖里区",
+          "short_name" : "湖里区",
+          "types" : [ "political", "sublocality", "sublocality_level_1" ]
+        },
+        {
+          "long_name" : "厦门市",
+          "short_name" : "厦门市",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "福建省",
+          "short_name" : "福建省",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "中国",
+          "short_name" : "CN",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "中国福建省厦门市湖里区",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 24.5650798,
+            "lng" : 118.23279
+          },
+          "southwest" : {
+            "lat" : 24.4763099,
+            "lng" : 118.06875
+          }
+        },
+        "location" : {
+          "lat" : 24.5117999,
+          "lng" : 118.14577
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 24.5650798,
+            "lng" : 118.23279
+          },
+          "southwest" : {
+            "lat" : 24.4763099,
+            "lng" : 118.06875
+          }
+        }
+      },
+      "place_id" : "ChIJ18uG25yaFDQRVjrGqQRF5_M",
+      "types" : [ "political", "sublocality", "sublocality_level_1" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "厦门市",
+          "short_name" : "厦门市",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "福建省",
+          "short_name" : "福建省",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "中国",
+          "short_name" : "CN",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "中国福建省厦门市",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 24.9073399,
+            "lng" : 118.45399
+          },
+          "southwest" : {
+            "lat" : 24.38413,
+            "lng" : 117.88601
+          }
+        },
+        "location" : {
+          "lat" : 24.4795099,
+          "lng" : 118.0894799
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 24.9073399,
+            "lng" : 118.45399
+          },
+          "southwest" : {
+            "lat" : 24.38413,
+            "lng" : 117.88601
+          }
+        }
+      },
+      "place_id" : "ChIJJ-u_5XmDFDQRVtBolgpnoCg",
+      "types" : [ "locality", "political" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "福建省",
+          "short_name" : "福建省",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "中国",
+          "short_name" : "CN",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "中国福建省",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 28.3128999,
+            "lng" : 120.7450864
+          },
+          "southwest" : {
+            "lat" : 23.54915,
+            "lng" : 115.8534401
+          }
+        },
+        "location" : {
+          "lat" : 26.0998199,
+          "lng" : 119.2965899
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 28.3128999,
+            "lng" : 120.7450864
+          },
+          "southwest" : {
+            "lat" : 23.54915,
+            "lng" : 115.8534401
+          }
+        }
+      },
+      "place_id" : "ChIJ2_lEcNNUFTQR6FDb5LQ07k4",
+      "types" : [ "administrative_area_level_1", "political" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "中国",
+          "short_name" : "CN",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "中国",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 53.5609739,
+            "lng" : 134.7754563
+          },
+          "southwest" : {
+            "lat" : 17.9996,
+            "lng" : 73.4994136
+          }
+        },
+        "location" : {
+          "lat" : 35.86166,
+          "lng" : 104.195397
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 53.5609739,
+            "lng" : 134.7754563
+          },
+          "southwest" : {
+            "lat" : 17.9996,
+            "lng" : 73.4994136
+          }
+        }
+      },
+      "place_id" : "ChIJwULG5WSOUDERbzafNHyqHZU",
+      "types" : [ "country", "political" ]
+    }
+  ],
+  "status" : "OK"
+}
